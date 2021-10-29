@@ -14,8 +14,8 @@ typedef struct s_cmd
 t_cmd *go;
 
 char	**split(char const *s, char c, t_cmd *d);
-int		check_cmd(char *str, t_cmd *d);
+int		check_cmd(char *str, t_cmd *d, char **envp);
 void	exit_func(t_cmd *d);
-
+void	do_env(char **envp);
 
 #endif
