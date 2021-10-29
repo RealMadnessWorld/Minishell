@@ -2,18 +2,17 @@
 
 int	main(void)
 {
+	t_cmd	cmd;
 	char	*str;
-	char	**cml;
 	int		i;
 
-	cml = NULL;
-	str = readline("What is your command?\t\n");
-	i = split(str, ' ', cml);
-	printf("hi\n");
-	while(i > 0)
+	while (1)
 	{
-		printf("%s\n", cml[i]);
-		i--;
+		str = readline("What is your command?\t\n");
+		cmd.cmdline = split(str, ' ', &cmd);
+		i = 0;
+		while(i < cmd.i)
+			check_cmd(cmd.cmdline[i++], &cmd);
+		free(cmd.cmdline);
 	}
-	free(cml);
 }
