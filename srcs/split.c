@@ -25,6 +25,20 @@ static int	ft_isset(char *s, char c)
 		return (aux + 2);
 }
 
+static void	ft_be_free_like_a_bird(char **to_free)
+{
+	int		i;
+
+	i = 0;
+	while (to_free[i])
+		i++;
+	while (i >= 0)
+	{
+		free(to_free[i]);
+		i--;
+	}
+}
+
 static int	ft_set_mem(char **to_return, int size, char *s, char c, t_cmd *d)
 {
 	int		start;
@@ -43,7 +57,10 @@ static int	ft_set_mem(char **to_return, int size, char *s, char c, t_cmd *d)
 				end++;
 			to_return[aux] = ft_substr(s, start, end);
 			if (!to_return[aux])
+			{
+				ft_be_free_like_a_bird(to_return);
 				return (0);
+			}
 			aux++;
 			start += end;
 		}
@@ -51,21 +68,8 @@ static int	ft_set_mem(char **to_return, int size, char *s, char c, t_cmd *d)
 			start++;
 	}
 	d->i = aux;
+	ft_be_free_like_a_bird(to_return);
  	return (1);
-}
-
-static void	ft_be_free_like_a_bird(char **to_free)
-{
-	int		i;
-
-	i = 0;
-	while (to_free[i])
-		i++;
-	while (i >= 0)
-	{
-		free(to_free[i]);
-		i--;
-	}
 }
 
 char	**split(char const *s, char c, t_cmd *d)
