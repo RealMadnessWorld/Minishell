@@ -11,6 +11,7 @@ int	main(int ac, char ** av, char **envp)
 	while (1)
 	{
 		str = readline("What is your command?\t\n");
+		add_history(str);
 		cmd.cmdline = split(str, ' ', &cmd);
 		i = 0;
 		while(i < cmd.i)
