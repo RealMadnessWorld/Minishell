@@ -12,7 +12,7 @@ OBJDIR	= ./objs/
 
 # files
 SRCS	= minishell.c split.c utils.c check_cmd.c
-HEADER	= minishell.h
+HEADER	= minishell.h tokens.h
 OBJ		= $((addprefix $(OBJDIR)/,SRCS:.c=.o))
 
 # libft

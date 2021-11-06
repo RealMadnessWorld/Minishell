@@ -18,3 +18,4 @@ int	check_cmd(char *str, t_cmd *d, char **envp)
 		exit_func(d);
 	return (0);
 }
+

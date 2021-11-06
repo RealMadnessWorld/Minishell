@@ -2,17 +2,22 @@
 # define MINISHELL_H
 
 # include "./../libft/includes/libft.h"
+# include "tokens.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct s_tokens
+{
+	char			*str;
+	struct s_tokens	*next
+}			t_tokens;
+
 typedef struct s_cmd
 {
-	char	**cmdline;
-	char	*str;
-	int		i;
+	char			**cmdline;
+	char			*str;
+	int				i;
 }			t_cmd;
-
-t_cmd *go;
 
 char	**split(char const *s, char c, t_cmd *d);
 int		check_cmd(char *str, t_cmd *d, char **envp);
