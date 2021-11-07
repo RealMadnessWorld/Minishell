@@ -14,7 +14,11 @@ int	main(int ac, char ** av, char **envp)
 		cmd.cmdline = split(cmd.str, ' ', &cmd);
 		i = 0;
 		while(i < cmd.i)
+		{
 			check_cmd(cmd.cmdline[i++], &cmd, envp);
+			printf("cmd = %s\n", cmd.cmdline[i]);
+		}
+		token_creater(&cmd);
 		free(cmd.cmdline);
 		free(cmd.str);
 	}

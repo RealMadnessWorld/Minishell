@@ -11,8 +11,8 @@ INCDIR	= ./includes/
 OBJDIR	= ./objs/
 
 # files
-SRCS	= minishell.c split.c utils.c check_cmd.c
-HEADER	= minishell.h tokens.h
+SRCS	= minishell.c split.c utils.c parsing/check_cmd.c tokens/token.c tokens/checkers.c
+HEADER	= minishell.h tokens.h structs.h
 OBJ		= $((addprefix $(OBJDIR)/,SRCS:.c=.o))
 
 # libft
