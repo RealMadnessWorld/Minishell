@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "./../libft/includes/libft.h"
+# include "tokens.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -18,18 +19,19 @@ typedef struct s_cmd
 	int		i;
 }			t_cmd;
 
-typedef	struct s_elist
+typedef	struct s_evars
 {
 	char			*key;
 	char			*value;
-	struct s_elist	*next;
-}			t_elist;
+	struct s_evars	*next;
+}			t_evars;
 
 typedef struct s_data
 {
-	t_bool	has_pipe;
-	t_cmd	cmd;
-	t_elist *env_list;
+	t_bool		has_pipe;
+	t_cmd		cmd;
+	t_evars		*evars_list;
+	t_tokens	*token_list;
 }			t_data;
 
 //SPLIT
@@ -43,7 +45,7 @@ void	exit_func(t_cmd *d);
 
 //ENV
 void	do_env(char **envp);
-t_elist	*set_env_list(char **envp);
+t_evars	*set_evars_list(char **envp);
 //void	check_quotes(char **str, t_env *env);
 
 #endif

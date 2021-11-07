@@ -1,8 +1,8 @@
 #include "../includes/minishell.h"
 
-static void	printlist(t_elist *lst)
+static void	printlist(t_evars *lst)
 {
-	t_elist *curr;
+	t_evars *curr;
 
 	curr = lst;
 	while (curr)
@@ -10,7 +10,6 @@ static void	printlist(t_elist *lst)
 		printf("%s%s\n", curr->key, curr->value);
 		curr = curr->next;
 	}
-
 }
 
 int	main(int ac, char **av, char **envp)
@@ -21,11 +20,10 @@ int	main(int ac, char **av, char **envp)
 	data = malloc(sizeof(t_data));
 	(void)ac;
 	(void)av;
-	(void)envp;
 	i = 0;
-	data->env_list = NULL;
-	data->env_list = set_env_list(envp);
-	printlist(data->env_list);
+	data->evars_list = NULL;
+	data->evars_list = set_evars_list(envp);
+	printlist(data->evars_list);
 	while (1)
 	{
 		data->cmd.str = readline("% ");

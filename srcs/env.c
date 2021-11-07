@@ -8,11 +8,11 @@ void	do_env(char **envp)
 		printf("%s\n", envp[i++]);
 }
 
-static t_elist *add_node(char **line)
+static t_evars *add_node(char **line)
 {
-	t_elist *node;
+	t_evars *node;
 
-	node = (t_elist *)malloc(sizeof(t_elist));
+	node = (t_evars *)malloc(sizeof(t_evars));
 	if (line)
 	{
 			node->key = ft_strdup(line[0]);
@@ -38,13 +38,13 @@ static char	**set_line(char *envl)
 	return (line);
 }
 
-t_elist	*set_env_list(char **envp)
+t_evars	*set_evars_list(char **envp)
 {
-	t_elist *list;
-	t_elist	*curr;
+	t_evars *list;
+	t_evars	*curr;
 	char	**line;
 	int		i;
-	t_elist	*prev;
+	t_evars	*prev;
 
 	i = 0;
 	curr = NULL;
