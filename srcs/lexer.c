@@ -1,7 +1,5 @@
 #include "../includes/minishell.h"
 
-
-
 // void check_quotes(char **str, t_data *data)
 // {
 // 	int	i;
