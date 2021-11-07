@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int	ft_isset(char *s, char c)
 {
@@ -67,7 +67,8 @@ static int	ft_set_mem(char **to_return, int size, char *s, char c, t_cmd *d)
 		if (s[start])
 			start++;
 	}
-	d->i = aux;
+	if (d)
+		d->i = aux;
 	ft_be_free_like_a_bird(to_return);
  	return (1);
 }

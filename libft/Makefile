@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jarsenio <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 18:48:01 by jarsenio          #+#    #+#              #
-#    Updated: 2021/03/09 17:13:17 by jarsenio         ###   ########.fr        #
+#    Updated: 2021/11/07 02:10:40 by fmeira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,34 +39,23 @@ BONUS		=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 
 BONUS_OBJS	= $(BONUS:.c=.o)
 
-# printf
-PRINTF_PATH = ./ft_printf
-PRINTF		= ./ft_printf/libftprintf.a
-INCPRINTF	= -I ./ft_printf
-
 all:	$(NAME)
 
 $(NAME):	$(OBJS) $(HEADER)
-				@make -C $(PRINTF_PATH)
 				@ar rcs $(NAME) $(OBJS)
-				@echo "LIBFT COMPILED"
 				@rm -rf $(OBJDIR)
-				@make clean -C $(PRINTF_PATH)
 				@$(RM) $(OBJS) $(BONUS_OBJS)
 				@rm -f *.o
 
-%.o:$(SRCDIR)/%.c 
+%.o:$(SRCDIR)/%.c
 				@$(CC) $(CFLAGS) -I $(INCDIR) $(INCPRINTF) -o $@ -c $<
-				
 
 clean:
 				@rm -rf $(OBJDIR)
-				@make clean -C $(PRINTF_PATH)
 				@$(RM) $(OBJS) $(BONUS_OBJS)
 
 fclean:		clean
 				@$(RM) $(NAME)
-				@make fclean -C $(PRINTF_PATH)
 
 re:			fclean $(NAME)
 

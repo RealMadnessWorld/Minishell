@@ -1,21 +1,40 @@
 #include "../includes/minishell.h"
 
-int	main(int ac, char ** av, char **envp)
+static void	printlist(t_elist *lst)
 {
-	t_cmd	cmd;
+	t_elist *curr;
+
+	curr = lst;
+	while (curr)
+	{
+		printf("%s%s\n", curr->key, curr->value);
+		curr = curr->next;
+	}
+
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_data	*data;
 	int		i;
 
+	data = malloc(sizeof(t_data));
 	(void)ac;
 	(void)av;
+	(void)envp;
+	i = 0;
+	data->env_list = NULL;
+	data->env_list = set_env_list(envp);
+	printlist(data->env_list);
 	while (1)
 	{
-		cmd.str = readline("What is your command?\t\n");
-		add_history(cmd.str);
-		cmd.cmdline = split(cmd.str, ' ', &cmd);
+		data->cmd.str = readline("% ");
+		add_history(data->cmd.str);
+		data->cmd.cmdline = split(data->cmd.str, ' ', &data->cmd);
 		i = 0;
-		while(i < cmd.i)
-			check_cmd(cmd.cmdline[i++], &cmd, envp);
-		free(cmd.cmdline);
-		free(cmd.str);
+		while(i < data->cmd.i)
+			check_cmd(data->cmd.cmdline[i++], &data->cmd, envp);
+		free(data->cmd.cmdline);
+		free(data->cmd.str);
 	}
 }
