@@ -1,19 +1,16 @@
 #include "../includes/minishell.h"
 
-void	printlist(t_elist *lst)
+static void	printlist(t_elist *lst)
 {
 	t_elist *curr;
 
 	curr = lst;
-	if (curr)
+	while (curr)
 	{
-		while (curr->next)
-		{
-			printf("%s\n", curr->key);
-			printf("%s\n", curr->value);
-			curr = curr->next;
-		}
+		printf("%s%s\n", curr->key, curr->value);
+		curr = curr->next;
 	}
+
 }
 
 int	main(int ac, char **av, char **envp)
@@ -26,8 +23,9 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	i = 0;
-	//data->env_list = NULL;
+	data->env_list = NULL;
 	data->env_list = set_env_list(envp);
+	printlist(data->env_list);
 	while (1)
 	{
 		data->cmd.str = readline("% ");

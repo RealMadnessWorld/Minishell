@@ -50,15 +50,15 @@ nowarn: $(LIBFT_EXEC) $(OBJS)
 	gcc -w $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o $(NAME) -lreadline
 	mkdir -p objs
 	mv ${OBJS} objs
-	echo "$(_GREEN)Compilation complete mothfockaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
+	echo "$(_GREEN)Compilation without warnings complete mothfockaaaaaaa!!!!!!$(_RESET)"
 
 clean:
-	rm -rf obj ${OBJS}
+	rm -rf objs ${OBJS}
 	${MAKE} -C $(LIBFT_DIR) fclean
 	echo "$(_YELLOW)Taste my lightning fuckers!!!!⚡⚡⚡$(_RESET)"
 
-fclean:	clean
-	rm -rf obj ${OBJS} $(NAME)
+fclean:
+	rm -rf objs ${OBJS} $(NAME)
 	@${MAKE} -C $(LIBFT_DIR) fclean
 	echo "$(_RED)NOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!$(_RESET)"
 
@@ -68,4 +68,4 @@ dclean:
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re, obj
+.PHONY: all debug nowarn clean fclean dclean re

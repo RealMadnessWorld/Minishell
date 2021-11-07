@@ -1,6 +1,12 @@
 #include "../includes/minishell.h"
 
-// void check_quotes(char **str, t_data *data)
+// static void	parse_quotes(char **str, char c, t_data *data, int pos)
+// {
+// 	if (c = "'")
+// 		str[i] = ft_str
+// }
+
+// void	check_quotes(char **str, t_data *data)
 // {
 // 	int	i;
 // 	int	j;
@@ -12,7 +18,7 @@
 // 		while(str[i][j])
 // 		{
 // 			if (str[i] == "'" || str[i] == "\"")
-// 				parse_quotes(str, str[i]);
+// 				parse_quotes(str, str[i], data, i);
 // 			j++;
 // 		}
 // 		i++;

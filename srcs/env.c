@@ -16,18 +16,18 @@ static t_elist *add_node(char **line)
 	if (line)
 	{
 			node->key = ft_strdup(line[0]);
-			printf("%s\n", node->key);
 			node->value = ft_strdup(line[1]);
-			printf("%s\n", node->value);
 			node->next = NULL;
+			free(line[0]);
+			free(line[1]);
 	}
 	return (node);
 }
 
-static char **set_line(char *envl)
+static char	**set_line(char *envl)
 {
-	char **line;
-	int	i;
+	char	**line;
+	int		i;
 
 	line = malloc(sizeof(char *) * 3);
 	i = 0;
@@ -38,26 +38,26 @@ static char **set_line(char *envl)
 	return (line);
 }
 
-t_elist *set_env_list(char **envp)
+t_elist	*set_env_list(char **envp)
 {
 	t_elist *list;
 	t_elist	*curr;
 	char	**line;
 	int		i;
+	t_elist	*prev;
 
 	i = 0;
+	curr = NULL;
 	line = set_line(envp[0]);
-	envp = NULL;
-	list = NULL;
 	curr = add_node(line);
-	// list = curr;
-	// curr = curr->next;
-	// while (envp[i])
-	// {
-	// 	line = split(envp[i], '=', NULL);
-	// 	curr = add_node(line);
-	// 	curr = curr->next;
-	// 	i++;
-	// }
+	list = curr;
+	while (envp[++i])
+	{
+		prev = curr;
+		curr = curr->next;
+		line = set_line(envp[i]);
+		curr = add_node(line);
+		prev->next = curr;
+	}
 	return (list);
 }
