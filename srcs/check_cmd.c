@@ -8,7 +8,8 @@ int	check_cmd(char *str, t_cmd *d, char **envp)
 	// 	return (/*deal with echo*/);
 	// if (str == "pwd")
 	// 	return (/*deal with pwd*/);
-	// if (str == "export")
+	// if (str == "export")env
+
 	// 	return (/*deal with export*/);
 	// if (str == "unset")
 	// 	return (/*deal with unset*/);

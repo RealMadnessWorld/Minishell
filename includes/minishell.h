@@ -28,7 +28,7 @@ typedef	struct s_elist
 typedef struct s_data
 {
 	t_bool	has_pipe;
-	t_cmd	*cmd;
+	t_cmd	cmd;
 	t_elist *env_list;
 }			t_data;
 

@@ -1,23 +1,21 @@
-NAME	= minishell
 
-OS		= $(shell uname)
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
-RM		= rm -rf
+# -*- MakeFile -*-
+OS			= $(shell uname)
 
-# directories
-SRCDIR	= ./srcs/
-INCDIR	= ./includes/
-OBJDIR	= ./objs/
+MAKEFLAGS	+= -s
 
-# files
-SRCS	= minishell.c split.c utils.c check_cmd.c
-HEADER	= minishell.h
-OBJ		= $((addprefix $(OBJDIR)/,SRCS:.c=.o))
+CFLAGS		= -Wall -Werror -Wextra -g
 
-# libft
-LIBFT	= ./libft/libft.a
-LIB_INC	= -I ./includes/libft
+NAME		= minishell
+
+INCDIR		= ./includes/
+
+LIBFT_DIR	= ./libft/
+LIBFT_EXEC	= libft/libft.a
+LIB_INC		= -I ./includes/libft
+
+SRCS		= ${wildcard srcs/*.c}
+OBJS		= $(SRCS:.c=.o)
 
 ifeq ($(OS), Linux)
 		_RED	= \e[31;5;184m
@@ -31,30 +29,42 @@ else
 		_RESET	= \x1b[0m
 endif
 
-all:	obj $(LIBFT) $(NAME)
+.o: .c
+	gcc $(CFLAGS) -c $< -o $@
 
-obj:
-			@mkdir -p $(OBJDIR)
+all: $(NAME)
 
-$(OBJDIR)/%.o:$(SRCDIR)/%.c
-			@$(CC) $(CFLAGS) -I $(INCDIR) $(LIB_INC) -o $@ -c $<
+$(NAME): $(LIBFT_EXEC) $(OBJS)
+	gcc $(CFLAGS) $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o $(NAME) -lreadline
+	mkdir -p objs
+	mv ${OBJS} objs
+	echo "$(_GREEN)Compilation complete mothfockaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
 
-$(LIBFT):
-			@$(MAKE) bonus -C libft
+$(LIBFT_EXEC):
+	@${MAKE} -C $(LIBFT_DIR)
 
-$(NAME):	$(OBJ)
-			@$(CC) -o $(NAME) $(CFLAGS) $(addprefix $(SRCDIR),$(SRCS)) -I $(INCDIR) $(OBJ) $(LIBFT) -lreadline
-			@echo "$(_GREEN)Compilation complete mothfockaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
+debug:
+	gcc $(CFLAGS) $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o debug -lreadline
+
+nowarn: $(LIBFT_EXEC) $(OBJS)
+	gcc -w $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o $(NAME) -lreadline
+	mkdir -p objs
+	mv ${OBJS} objs
+	echo "$(_GREEN)Compilation complete mothfockaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
 
 clean:
-			@$(RM) $(OBJDIR)
-			@$(MAKE) clean -C libft
-			@echo "$(_YELLOW)Taste my lightning fuckers!!!!⚡⚡⚡$(_RESET)"
+	rm -rf obj ${OBJS}
+	${MAKE} -C $(LIBFT_DIR) fclean
+	echo "$(_YELLOW)Taste my lightning fuckers!!!!⚡⚡⚡$(_RESET)"
 
 fclean:	clean
-			@$(RM) $(NAME)
-			@$(MAKE) fclean -C libft
-			@echo "$(_RED)NOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!$(_RESET)"
+	rm -rf obj ${OBJS} $(NAME)
+	@${MAKE} -C $(LIBFT_DIR) fclean
+	echo "$(_RED)NOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!$(_RESET)"
+
+dclean:
+	rm -rf obj ${OBJS} debug debug.dSYM
+	echo "debug and objects cleaned"
 
 re: fclean all
 
