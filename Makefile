@@ -35,7 +35,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(LIBFT_EXEC) $(OBJS)
-	gcc $(CFLAGS) $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o $(NAME) -lreadline
+	gcc -o $(NAME) $(CFLAGS) -I $(INCDIR) $(OBJS) $(LIBFT_EXEC) -lreadline
 	mkdir -p objs
 	mv ${OBJS} objs
 	echo "$(_GREEN)Compilation complete mothfockaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
@@ -54,7 +54,7 @@ nowarn: $(LIBFT_EXEC) $(OBJS)
 
 clean:
 	rm -rf objs ${OBJS}
-	${MAKE} -C $(LIBFT_DIR) fclean
+	${MAKE} -C $(LIBFT_DIR) clean
 	echo "$(_YELLOW)Taste my lightning fuckers!!!!⚡⚡⚡$(_RESET)"
 
 fclean:
