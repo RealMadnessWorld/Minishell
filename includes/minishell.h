@@ -19,18 +19,18 @@ typedef struct s_cmd
 	int		i;
 }			t_cmd;
 
-typedef	struct s_evars
+typedef	struct s_envars
 {
 	char			*key;
 	char			*value;
-	struct s_evars	*next;
-}			t_evars;
+	struct s_envars	*next;
+}			t_envars;
 
 typedef struct s_data
 {
 	t_bool		has_pipe;
 	t_cmd		cmd;
-	t_evars		*evars_list;
+	t_envars	*envars_list;
 	t_tokens	*token_list;
 }			t_data;
 
@@ -45,7 +45,7 @@ void	exit_func(t_cmd *d);
 
 //ENV
 void	do_env(char **envp);
-t_evars	*set_evars_list(char **envp);
+t_envars	*set_envars_list(char **envp);
 //void	check_quotes(char **str, t_env *env);
 
 #endif

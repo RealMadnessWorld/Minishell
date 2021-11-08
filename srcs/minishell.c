@@ -1,8 +1,8 @@
 #include "../includes/minishell.h"
 
-static void	printlist(t_evars *lst)
+static void	printlist(t_envars *lst)
 {
-	t_evars *curr;
+	t_envars *curr;
 
 	curr = lst;
 	while (curr)
@@ -10,6 +10,14 @@ static void	printlist(t_evars *lst)
 		printf("%s%s\n", curr->key, curr->value);
 		curr = curr->next;
 	}
+}
+
+static void printsplit(char **splt)
+{
+	int	i = 0;
+
+	while (splt[i])
+		printf("%s\n", splt[i++]);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -21,14 +29,15 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	i = 0;
-	data->evars_list = NULL;
-	data->evars_list = set_evars_list(envp);
-	printlist(data->evars_list);
+	data->envars_list = NULL;
+	data->envars_list = set_envars_list(envp);
+	printlist(data->envars_list);
 	while (1)
 	{
 		data->cmd.str = readline("% ");
 		add_history(data->cmd.str);
 		data->cmd.cmdline = split(data->cmd.str, ' ', &data->cmd);
+		printsplit(data->cmd.cmdline);
 		i = 0;
 		while(i < data->cmd.i)
 			check_cmd(data->cmd.cmdline[i++], &data->cmd, envp);

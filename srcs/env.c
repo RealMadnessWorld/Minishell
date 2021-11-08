@@ -1,18 +1,10 @@
 #include "../includes/minishell.h"
 
-void	do_env(char **envp)
+static t_envars *add_node(char **line)
 {
-    int i = 0;
+	t_envars *node;
 
-	while (envp[i])
-		printf("%s\n", envp[i++]);
-}
-
-static t_evars *add_node(char **line)
-{
-	t_evars *node;
-
-	node = (t_evars *)malloc(sizeof(t_evars));
+	node = (t_envars *)malloc(sizeof(t_envars));
 	if (line)
 	{
 			node->key = ft_strdup(line[0]);
@@ -38,13 +30,13 @@ static char	**set_line(char *envl)
 	return (line);
 }
 
-t_evars	*set_evars_list(char **envp)
+t_envars	*set_envars_list(char **envp)
 {
-	t_evars *list;
-	t_evars	*curr;
-	char	**line;
-	int		i;
-	t_evars	*prev;
+	t_envars	*list;
+	t_envars	*curr;
+	char		**line;
+	int			i;
+	t_envars	*prev;
 
 	i = 0;
 	curr = NULL;
@@ -60,4 +52,36 @@ t_evars	*set_evars_list(char **envp)
 		prev->next = curr;
 	}
 	return (list);
+}
+
+void	add_envars(char *str, t_envars **envars_lst)
+{
+	char		**line;
+
+	line = set_line(str);
+
+
+}
+
+void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
+{
+	t_tokens	*curr;
+	int			i;
+	int			j;
+
+	curr = tkn_lst;
+	i = -1;
+	while (curr)
+	{
+		if (curr->token == e_command)
+		{
+			while (curr->str[i++])
+			{
+				if (curr->str[i] == '=')
+					add_envar(curr->str, &envars_lst, i);
+			}
+		}
+		i = 0;
+		curr = curr->next;
+	}
 }
