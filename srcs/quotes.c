@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-static int	q_count(t_tokens *tkn)
+static int	check_q_count(t_tokens *tkn)
 {
 	int			sq_counter;
 	int			dq_counter;
@@ -15,7 +15,6 @@ static int	q_count(t_tokens *tkn)
 	{
 		while(curr->str[i])
 		{
-			if (curr->str[i] == '\\')
 			if (curr->str[i] == "'")
 				sq_counter++;
 			else if (curr->str[i] == '"')
@@ -35,7 +34,9 @@ static void	parse_dbquotes(t_tokens	*tkn)
 	char		*newstr;
 
 	curr = tkn;
-
+	if (check_q_count(curr))
+		printf("error: open quotes\n");
+	while (c)
 }
 
 void	check_quotes(t_data *data)
@@ -50,9 +51,9 @@ void	check_quotes(t_data *data)
 		while(curr->str[i])
 		{
 			if (curr->str[i] == "'")
-				parse_dbquotes(curr);
+				parse_dbquotes(curr, i);
 			else if (curr->str[i] == "\"")
-				parse_sgquotes(curr);
+				parse_sgquotes(curr, i);
 			j++;
 		}
 		i++;
