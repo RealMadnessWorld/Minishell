@@ -11,7 +11,7 @@ INCDIR	= ./includes/
 OBJDIR	= ./objs/
 
 # files
-SRCS	= minishell.c split.c utils.c parsing/check_cmd.c tokens/token.c tokens/checkers.c
+SRCS	= minishell.c split.c utils.c parsing/check_cmd.c tokens/token.c tokens/checkers.c tokens/t_utils.c
 HEADER	= minishell.h tokens.h structs.h
 OBJ		= $((addprefix $(OBJDIR)/,SRCS:.c=.o))
 

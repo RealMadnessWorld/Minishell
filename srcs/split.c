@@ -1,93 +1,130 @@
 #include "minishell.h"
 
-static int	ft_isset(char *s, char c)
-{
-	int		count;
-	int		aux;
-	int		aux2;
+// char    *ft_strndup(const char *s1, size_t len)
+// {
+//     char    *dup;
+//     size_t     i;
+//     if (ft_strlen((char *)s1) <= len)
+//         return (ft_strdup(s1));
+//     dup = (char *)malloc(ft_strlen((char *)s1) + 1);
+//     if (!dup)
+//         return (NULL);
+//     i = -1;
+//     while (++i < len)
+//         dup[i] = s1[i];
+//     dup[i] = '\0';
+//     return (dup);
+// }
 
-	aux2 = 0;
-	aux = 0;
-	count = 0;
-	while (s[count])
-	{
-		if (s[count] == c && s[count + 1] != c && s[count + 1] && aux2 > 0)
-			aux++;
-		else if (s[count] != c)
-			aux2++;
-		count++;
-	}
-	if (aux == 0 && aux2 > 0)
-		return (2);
-	if (aux == 0 && aux2 == 0)
-		return (1);
-	else
-		return (aux + 2);
-}
+// static int  ft_cntwrd(char const *s, char c)
+// {
+//     unsigned int    i;
+//     int             counter;
+//     i = 0;
+//     counter = 0;
+//     while (s[i])
+//     {
+//         while (s[i] == c)
+//             i++;
+//         if (s[i] != '\0')
+//             counter++;
+//         while (s[i] && (s[i] != c))
+//             i++;
+//     }
+//     return (counter);
+// }
+// char    **split(char const *s, char c, t_cmd *d)
+// {
+//     int     i;
+//     int     j;
+//     char    **tab;
 
-static void	ft_be_free_like_a_bird(char **to_free)
+//     if (!s)
+//         return (NULL);
+//     i = 0;
+//     tab = (char **)malloc(sizeof(char *) * (ft_cntwrd(s, c) + 1));
+//     if (!tab || !s)
+//         return (NULL);
+//     while (s[i])
+//     {
+//         while (s[i] == c)
+//             i++;
+//         j = i;
+//         while (s[i] && s[i] != c)
+//             i++;
+//         if (i > j)
+//             tab[d->i++] = ft_strndup(s + j, i - j);
+//     }
+//     tab[d->i] = NULL;
+//     return (tab);
+// }
+
+static int	counter(char const *s, char c)
 {
 	int		i;
+	int		word;
 
 	i = 0;
-	while (to_free[i])
+	word = 0;
+	while (s[i] == c && s[i] != '\0')
 		i++;
-	while (i >= 0)
+	if (s[i] != c)
+		word++;
+	while (s[i] != '\0')
 	{
-		free(to_free[i]);
-		i--;
+		if (s[i] == c)
+		{
+			while (s[i] == c && s[i] != '\0')
+				i++;
+			if (s[i] != '\0')
+				word++;
+		}
+		else
+			i++;
 	}
+	return (word + 1);
 }
 
-static int	ft_set_mem(char **to_return, int size, char *s, char c, t_cmd *d)
+static int	allocate_dst(char ***dst, char const *s, char c)
 {
-	int		start;
-	int		end;
-	int		aux;
+	*dst = (char **)malloc(sizeof(char *) * counter(s, c) + 1);
+	if (!*dst)
+		return (0);
+	return (1);
+}
 
-	aux = 0;
-	start = 0;
-	end = 0;
-	while (s[start] && aux < size)
-	{
-		end = 0;
-		if (s[start] != c)
-		{
-			while (s[start + end] != c && s[start + end])
-				end++;
-			to_return[aux] = ft_substr(s, start, end);
-			if (!to_return[aux])
-			{
-				ft_be_free_like_a_bird(to_return);
-				return (0);
-			}
-			aux++;
-			start += end;
-		}
-		if (s[start])
-			start++;
-	}
-	d->i = aux;
-	ft_be_free_like_a_bird(to_return);
- 	return (1);
+static int	allocate_dst_small(char **dst, char *str, const char *s)
+{
+	*dst = (char *)malloc(s - str + 1);
+	if (!dst)
+		return (0);
+	return (1);
 }
 
 char	**split(char const *s, char c, t_cmd *d)
 {
-	char	**to_return;
+	char	**dst;
+	char	*str;
 
+	dst = NULL;
 	if (!s)
-		return (NULL);
-	to_return = (char **)ft_calloc(ft_isset((char *)s, c), sizeof(char *));
-	if (!to_return)
-		return (NULL);
-	if (ft_isset((char *)s, c) == 1)
-		return (to_return);
-	if (!(ft_set_mem(to_return, ft_isset((char *)s, c), (char *)s, c, d)))
+		return (0);
+	if (allocate_dst(&dst, s, c) == 0)
+		return (0);
+	while (*s)
 	{
-		ft_be_free_like_a_bird(to_return);
-		free(to_return);
-		return (NULL);
+		if (*s != c)
+		{
+			str = (char *)s;
+			while (*s && *s != c)
+				s++;
+			if (allocate_dst_small(&dst[d->i], str, s) == 0)
+				return (0);
+			ft_strlcpy(dst[d->i++], str, s - str + 1);
+		}
+		else
+			s++;
 	}
-	return (to_return);
+	dst[d->i] = NULL;
+	return (dst);
 }

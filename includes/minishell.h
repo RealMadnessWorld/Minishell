@@ -11,6 +11,7 @@ typedef struct s_cmd
 	char			**cmdline;
 	char			*str;
 	int				i;
+	t_tokens		*t;
 }			t_cmd;
 
 char		**split(char const *s, char c, t_cmd *d);
@@ -18,10 +19,12 @@ int			check_cmd(char *str, t_cmd *d, char **envp);
 void		exit_func(t_cmd *d);
 void		do_env(char **envp);
 
-int			is_command(t_tokens *t);
+int			is_command(char *str);
 
-t_tokens	*token_creater(t_cmd *d);
-e_token		token_check(t_tokens *t);
-
+void		token_creater(t_cmd *d);
+void		token_check(t_tokens *t);
+t_tokens	*token_lstnew(char *content);
+t_tokens	*token_lstlast(t_tokens *lst);
+void	token_lstadd_back(t_tokens **lst, t_tokens *new);
 
 #endif

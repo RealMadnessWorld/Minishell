@@ -1,33 +1,38 @@
 #include "../includes/minishell.h"
 
-e_token	token_check(t_tokens *t)
+void	token_check(t_tokens *t)
 {
-	if (is_command(t) == 1)
+	if (is_command(t->str))
 	{
 		printf("%s is a command ^^\n", t->str);
-		return (e_command);
+		t->token = e_command;
+	}
+	else if (strcmp(t->str, "|"))
+	{
+		printf("%s is a pipe\n", t->str);
+		t->token = e_pipe
 	}
 	else
 	{
 		printf("%s it's not a command\n", t->str);
-		return (is_nothing);
+		t->token = is_nothing;
 	}
 }
 
-t_tokens	*token_creater(t_cmd *d)
+void	token_creater(t_cmd *d)
 {
 	int			i;
-	t_tokens	*tokens;
+	t_tokens	*tmp;
 
-	tokens = malloc(sizeof(t_tokens));
+	d->t = malloc(sizeof(t_tokens));
 	i = -1;
-	while (i < d->i)
+	while (++i < d->i)
 	{
-		tokens->str = d->cmdline[++i];
-		printf("%s ?==? %s \n", tokens->str, d->cmdline[i]);
-		tokens->token = token_check(tokens);
-		printf("string[%d] is token: %d\n", i, tokens->token);
+		token_lstadd_back(&d->t, token_lstnew(d->cmdline[i]));
+		tmp = token_lstlast(d->t);
+		printf("%s ?==? %s \n", tmp->str, d->cmdline[i]);
+	 	token_check(token_lstlast(d->t));
+		printf("string[%d] is token: %i\n", i, tmp->token);
+		printf("\n\n--------------\n\n");
 	}
-	free(tokens);
-	return (tokens);
 }
