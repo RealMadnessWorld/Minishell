@@ -54,14 +54,7 @@ t_envars	*set_envars_list(char **envp)
 	return (list);
 }
 
-void	add_envars(char *str, t_envars **envars_lst)
-{
-	char		**line;
-
-	line = set_line(str);
-
-
-}
+void	add_envars(char *str, t_envars **envars_lst);
 
 void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 {
