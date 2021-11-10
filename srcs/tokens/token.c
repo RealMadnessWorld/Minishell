@@ -7,10 +7,15 @@ void	token_check(t_tokens *t)
 		printf("%s is a command ^^\n", t->str);
 		t->token = e_command;
 	}
-	else if (strcmp(t->str, "|"))
+	else if (ft_strcmp(t->str, "|"))
 	{
 		printf("%s is a pipe\n", t->str);
 		t->token = e_pipe;
+	}
+	else if (ft_strcmp(t->str, "\""))
+	{
+		printf("%s is a quotes\n", t->str);
+		t->token = e_quotes
 	}
 	else
 	{
@@ -30,8 +35,9 @@ void	token_creater(t_cmd *d)
 	{
 		token_lstadd_back(&d->t, token_lstnew(d->cmdline[i]));
 		tmp = token_lstlast(d->t);
-		printf("%s ?==? %s \n", tmp->str, d->cmdline[i]);
 	 	token_check(token_lstlast(d->t));
+		if ()
+		printf("%s ?==? %s \n", tmp->str, d->cmdline[i]);
 		printf("string[%d] is token: %i\n", i, tmp->token);
 		printf("\n\n--------------\n\n");
 	}
