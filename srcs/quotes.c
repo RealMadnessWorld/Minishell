@@ -1,42 +1,55 @@
 #include "../includes/minishell.h"
 
-static int	check_q_count(t_tokens *tkn)
+static int	check_q_count(t_tokens *tkn, char aspas)
 {
-	int			sq_counter;
-	int			dq_counter;
+	int			q_counter;
 	t_tokens	*curr;
 	int			i;
+	int			to_malloc;
 
 	curr = tkn;
-	sq_counter = 0;
-	dq_counter = 0;
+	q_counter = 0;
 	i = 0;
+	to_malloc = 0;
 	while (curr)
 	{
 		while(curr->str[i])
 		{
-			if (curr->str[i] == "'")
-				sq_counter++;
-			else if (curr->str[i] == '"')
-				dq_counter++;
+			if (curr->str[i] == aspas)
+				q_counter++;
+			else if (curr->str[i] != aspas || (curr->str[i] == aspas
+					&& (q_counter % 2)))
+				to_malloc++;
 			i++;
 		}
 		curr = curr->next;
 	}
-	if (sq_counter % 2 || dq_counter % 2)
+	if (q_counter % 2)
+	{
+		printf("error: open quotes\n");
 		return (1);
-	return (0);
+	}
+	return (to_malloc);
 }
 
-static void	parse_dbquotes(t_tokens	*tkn, int i)
+static int	parse_dbquotes(t_tokens	**tkn, int i)
 {
 	t_tokens	*curr;
 	char		*newstr;
+	t_bool		iter;
+	int			pos;
 
-	curr = tkn;
-	if (check_q_count(curr))
-		printf("error: open quotes\n");
-	while (c)
+	curr = *tkn;
+	iter = true;
+	pos = i + 1;
+	newstr = NULL;
+	while (iter && curr)
+	{
+		if (curr->str[pos] != '"')
+		{
+			newstr = append(newstr, check_q_count(curr))
+		}
+	}
 }
 
 void	check_quotes(t_data *data)
@@ -51,10 +64,11 @@ void	check_quotes(t_data *data)
 		while(curr->str[i])
 		{
 			if (curr->str[i] == "'")
-				parse_dbquotes(curr, i);
+			{
+				if (parse_dbquotes(&curr, i)
+
 			else if (curr->str[i] == "\"")
-				parse_sgquotes(curr, i);
-			j++;
+				i = parse_sgquotes(&curr, i);
 		}
 		i++;
 	}
