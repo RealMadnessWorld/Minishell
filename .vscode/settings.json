@@ -2,6 +2,7 @@
 	"files.associations": {
 		"minishell.h": "c",
 		"__node_handle": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"libft.h": "c"
 	}
 }
