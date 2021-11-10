@@ -34,22 +34,42 @@ static int	check_q_count(t_tokens *tkn, char aspas)
 
 static int	parse_dbquotes(t_tokens	**tkn, int i)
 {
-	t_tokens	*curr;
-	char		*newstr;
-	t_bool		iter;
-	int			pos;
+	// t_tokens	*curr;
+	// char		*newstr;
+	// t_bool		iter;
+	// int			pos;
 
-	curr = *tkn;
-	iter = true;
-	pos = i + 1;
-	newstr = NULL;
-	while (iter && curr)
+	// curr = *tkn;
+	// iter = true;
+	// pos = i + 1;
+	// newstr = NULL;
+	// while (iter && curr)
+	// {
+	// 	if (curr->str[pos] != '"')
+	// 	{
+	// 		newstr = append_char(newstr, check_q_count(curr));
+	// 	}
+	// }
+	int i = 0;
+	int x = 0;
+	int j = 0;
+	char *str;
+	char *also_str;
+
+	str = (*tkn)->str;
+	also_str = (*tkn)->str;
+	while(also_str[j] != '\0')
 	{
-		if (curr->str[pos] != '"')
+		while(also_str[j] == '"')
 		{
-			newstr = append(newstr, check_q_count(curr))
+			j++;
+			x++;
 		}
+		(*tkn)->str[i] = str[i + x];
+		i++;
+		j++;
 	}
+	(*tkn)->str[i] = '\0';
 }
 
 void	check_quotes(t_data *data)
@@ -67,7 +87,7 @@ void	check_quotes(t_data *data)
 			{
 				if (parse_dbquotes(&curr, i)
 
-			else if (curr->str[i] == "\"")
+			else if (curr->str[i] == '"')
 				i = parse_sgquotes(&curr, i);
 		}
 		i++;
