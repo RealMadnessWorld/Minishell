@@ -28,7 +28,7 @@ static int	check_q_count(t_tokens *tkn)
 	return (0);
 }
 
-static void	parse_dbquotes(t_tokens	*tkn)
+static void	parse_dbquotes(t_tokens	*tkn, int i)
 {
 	t_tokens	*curr;
 	char		*newstr;
