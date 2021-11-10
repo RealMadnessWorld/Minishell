@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // static void	parse_quotes(char **str, char c, t_data *data, int pos)
 // {
