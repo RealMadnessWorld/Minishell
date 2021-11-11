@@ -22,8 +22,8 @@ int	main(int ac, char **av, char **envp)
 		data.cmd.str = readline("What is your command:\n");
 		add_history(data.cmd.str);
 		data.cmd.cmdline = split(data.cmd.str, '|', &data.cmd);
-		printf("hi i passed you motherfucker! Notice me!!!!\n");
 		token_creater(&data.cmd);
+		printf("hi i passed you motherfucker! Notice me!!!!\n");
 		while(data.cmd.cmdline[i])
 		{
 			while (data.cmd.t->next != NULL)

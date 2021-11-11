@@ -24,14 +24,13 @@ void	token_check(t_tokens *t)
 	}
 }
 
-char	*token_str_checker(char *str)
+int	token_str_checker(char **tmp, char *str, int x)
 {
-	char		*tmp;
 	static int	i;
 	int			j;
 	int 		quote;
 
-	i = 0;
+	i = x;
 	j = 0;
 	quote = -1;
 	tmp = malloc(sizeof(char) * ft_strlen(str));
@@ -49,30 +48,32 @@ char	*token_str_checker(char *str)
 		{
 			while (str[i] == ' ')
 				i++;
-			tmp[j] = '\0';
-			return (tmp);
+			(*tmp)[j] = '\0';
+			return (x);
 		}
-		tmp[j] = str[i];
+		printf("wroking so far\n");
+		(*tmp)[j] = str[i];
 		i++;
 		j++;
 	}
-	tmp[j] = '\0';
-	return (tmp);
+	(*tmp)[j] = '\0';
+	return (i);
 }
 
 void	token_creater(t_cmd *d)
 {
 	int			i;
-	// int			j;
+	int			j;
 	t_tokens	*tmp;
 	char		*str;
 
-	//d->t = malloc(sizeof(t_tokens));
-	i = -1;
-	// j = -1;
-	while (++i < d->i)
+	d->t = malloc(sizeof(t_tokens));
+	i = 0;
+	j = 0;
+	while (d->cmdline[i][j])
 	{
-		str = token_str_checker(d->cmdline[i]);
+		j = token_str_checker(&str, d->cmdline[i], j);
+		printf("hi\n");
 		token_lstadd_back(&d->t, token_lstnew(str));
 		tmp = token_lstlast(d->t);
 	 	token_check(token_lstlast(d->t));
