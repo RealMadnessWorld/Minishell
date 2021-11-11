@@ -103,14 +103,14 @@ int	trim_quotes(char **str)
 	int	is_echo;
 	int	quotes_nbr;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
 		check_quotes = check_ifopen_ret_qs(str[i]);
 		if (check_quotes == 1)
 			return ((printf("error: open quotes\n")));
 		else if (!check_quotes)
-			i++;
+			continue;
 		is_echo = ft_strncmp(str, "echo", 4);
 		quotes_nbr = check_command_ret_q_count(str[i], is_echo);
 		if (quotes_nbr)
