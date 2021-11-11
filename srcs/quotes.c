@@ -41,22 +41,6 @@ static int	check_ifopen_ret_qs(char **str)
 	return (quotes_exist);
 }
 
-int	not_arg(char *str, int i, int echo)
-{
-	int	j;
-
-	if (echo == 0)
-	{
-
-	}
-	else
-	{
-		while (ft_isalnum(str[++i]))
-
-	}
-	return (0);
-}
-
 int	check_command_ret_q_count(char *str, int echo)
 {
 	int	i;
