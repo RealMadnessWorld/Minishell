@@ -6,8 +6,8 @@
 
 typedef enum	s_token
 {
-	e_pipe,
 	e_command,
+	e_pipe,
 	e_quotes,
 	e_single_quotes,
 	e_bigger,
