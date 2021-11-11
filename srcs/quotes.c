@@ -1,75 +1,123 @@
 #include "../includes/minishell.h"
 
-static int	check_q_count(t_tokens *tkn, char aspas)
+static int check_end(char *str, char aspas, int *quotes_exist, int *j)
 {
-	int			q_counter;
-	t_tokens	*curr;
-	int			i;
-	int			to_malloc;
-
-	curr = tkn;
-	q_counter = 0;
-	i = 0;
-	to_malloc = 0;
-	while (curr)
+	*quotes_exist = *quotes_exist++;
+	while (str[*j] != aspas)
 	{
-		while(curr->str[i])
-		{
-			if (curr->str[i] == aspas)
-				q_counter++;
-			else if (curr->str[i] != aspas || (curr->str[i] == aspas
-					&& (q_counter % 2)))
-				to_malloc++;
-			i++;
-		}
-		curr = curr->next;
+		if (str[*j] == '\0')
+			return (1);
+		*j = *j++;
 	}
-	if (q_counter % 2)
-	{
-		printf("error: open quotes\n");
-		return (1);
-	}
-	return (to_malloc);
+	return (0);
 }
 
-static int	parse_dbquotes(t_tokens	**tkn, int i)
+static int	check_ifopen_ret_qs(char **str)
 {
-	t_tokens	*curr;
-	char		*newstr;
-	t_bool		iter;
-	int			pos;
+	int	quotes_exist;
+	int	i;
+	int	j;
 
-	curr = *tkn;
-	iter = true;
-	pos = i + 1;
-	newstr = NULL;
-	while (iter && curr)
+	quotes_exist = 0;
+	i = -1;
+	while (str[++i])
 	{
-		if (curr->str[pos] != '"')
+		j = 0;
+		while (str[i][j])
 		{
-			newstr = append(newstr, check_q_count(curr))
-		}
-	}
-}
-
-void	check_quotes(t_data *data)
-{
-	t_tokens	*curr;
-	int			i;
-
-	i = 0;
-	curr = data->token_list;
-	while (curr)
-	{
-		while(curr->str[i])
-		{
-			if (curr->str[i] == "'")
+			if (str[i][j] == '\'')
 			{
-				if (parse_dbquotes(&curr, i)
-
-			else if (curr->str[i] == "\"")
-				i = parse_sgquotes(&curr, i);
+				if (check_end((str[i][j]), '\'', &quotes_exist, &j))
+					return (1);
+			}
+			else if (str[i][j] == '"')
+			{
+				if (check_end((str[i][j]), '"', &quotes_exist, &j))
+					return (1);
+			}
+			j++;
 		}
+	}
+	return (quotes_exist);
+}
+
+int	check_command_ret_q_count(char *str, int echo)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+
+	while (str[++i] != ' ')
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			count++;
+	}
+	while (!(ft_isalnum(str[i++])))
+	{
+		if (echo == 0 && (str[i] == 'n' && str[i - 1] == '-'))
+			continue;
+		if (str[i] == '"' || str[i] == '\'')
+			count++;
+	}
+	return (count);
+}
+
+char	*clean_command_line(char *str, int echo, int quotes)
+{
+	char	*newstr;
+	int		i;
+	int		j;
+
+	newstr = malloc((sizeof(char) * ft_strlen(str)) - quotes + 1);
+	if (!newstr)
+	{
+		printf ("failed to malloc\n");
+		return (NULL);
+	}
+	i = -1;
+	j = 0;
+
+	while (str[++i] != ' ')
+	{
+		if (str[i] != '"' || str[i] != '\'')
+			newstr[j++] = str[i];
+	}
+	while (str[i] != '"' || str[i] != '\'' || str[i] == ' ')
+	{
+		if (str[i] == ' ' && echo == 0 && str[i - 1] == 'n' &&
+		str[i - 2] == '-')
 		i++;
 	}
+	while (str[i++])
+		newstr[j++] = str[i];
+	newstr[++j] = '\0';
+	return (newstr);
+}
+
+int	trim_quotes(char **str)
+{
+	int	i;
+	int	check_quotes;
+	int	is_echo;
+	int	quotes_nbr;
+
+	i = 0;
+	while (str[i])
+	{
+		check_quotes = check_ifopen_ret_qs(str[i]);
+		if (check_quotes == 1)
+			return ((printf("error: open quotes\n")));
+		else if (!check_quotes)
+			i++;
+		is_echo = ft_strncmp(str, "echo", 4);
+		quotes_nbr = check_command_ret_q_count(str[i], is_echo);
+		if (quotes_nbr)
+		{
+			free(str[i]);
+			str[i] = clean_command_line(str[i], is_echo, quotes_nbr);
+		}
+	}
+	return (0);
 }
