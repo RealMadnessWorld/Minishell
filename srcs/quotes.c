@@ -12,7 +12,7 @@ static int check_end(char *str, char aspas, int *quotes_exist, int *j)
 	return (0);
 }
 
-static int	open_qs(char **str)
+static int	check_ifopen_ret_qs(char **str)
 {
 	int	quotes_exist;
 	int	i;
@@ -41,97 +41,83 @@ static int	open_qs(char **str)
 	return (quotes_exist);
 }
 
-int	q_find(char *str)
+int	check_command_ret_q_count(char *str, int echo)
 {
 	int	i;
+	int	count;
 
-	i = 0;
-	while (str[i] != ' ')
+	i = -1;
+	count = 0;
+
+	while (str[++i] != ' ')
 	{
-		if (str[i] == "'" || str[i] == "'")
+		if (str[i] == '"' || str[i] == '\'')
+			count++;
 	}
+	while (!(ft_isalnum(str[i++])))
+	{
+		if (echo == 0 && (str[i] == 'n' && str[i - 1] == '-'))
+			continue;
+		if (str[i] == '"' || str[i] == '\'')
+			count++;
+	}
+	return (count);
+}
+
+char	*clean_command_line(char *str, int echo, int quotes)
+{
+	char	*newstr;
+	int		i;
+	int		j;
+
+	newstr = malloc((sizeof(char) * ft_strlen(str)) - quotes + 1);
+	if (!newstr)
+	{
+		printf ("failed to malloc\n");
+		return (NULL);
+	}
+	i = -1;
+	j = 0;
+
+	while (str[++i] != ' ')
+	{
+		if (str[i] != '"' || str[i] != '\'')
+			newstr[j++] = str[i];
+	}
+	while (str[i] != '"' || str[i] != '\'' || str[i] == ' ')
+	{
+		if (str[i] == ' ' && echo == 0 && str[i - 1] == 'n' &&
+		str[i - 2] == '-')
+		i++;
+	}
+	while (str[i++])
+		newstr[j++] = str[i];
+	newstr[++j] = '\0';
+	return (newstr);
 }
 
 int	trim_quotes(char **str)
 {
 	int	i;
-	int	j;
 	int	check_quotes;
+	int	is_echo;
+	int	quotes_nbr;
 
 	i = 0;
-	j = 0;
-	check_quotes = open_qs(str);
-	if (check_quotes == 1)
-		return ((printf("error: open quotes\n")));
-	else if (!check_quotes)
-		return (0);
-	if (q_find(str[i]))
-	{
-		free(str[i]);
-
 	while (str[i])
 	{
-		if (str[i] == echo)
-		{
-			j = 0;
-			while (str[i][j])
-			{
-				if (str[i][j] == '"')
-				{
-					if (parse_dbquotes(str, &i))
-						return (1);
-				}
-				else if (str[i][j] == "'")
-				{
-					if (parse_sgquotes(str, &i))
-						return (1);
-				}
-				j++;
-			}
+		check_quotes = check_ifopen_ret_qs(str[i]);
+		if (check_quotes == 1)
+			return ((printf("error: open quotes\n")));
+		else if (!check_quotes)
 			i++;
+		is_echo = ft_strncmp(str, "echo", 4);
+		quotes_nbr = check_command_ret_q_count(str[i], is_echo);
+		if (quotes_nbr)
+		{
+			free(str[i]);
+			str[i] = clean_command_line(str[i], is_echo, quotes_nbr);
 		}
 	}
 	return (0);
 }
-
-
-
-static int	parse_dbquotes(t_tokens	**tkn, int i)
-// {
-// 	// t_tokens	*curr;
-// 	// char		*newstr;
-// 	// t_bool		iter;
-// 	// int			pos;
-
-// 	// curr = *tkn;
-// 	// iter = true;
-// 	// pos = i + 1;
-// 	// newstr = NULL;
-// 	// while (iter && curr)
-// 	// {
-// 	// 	if (curr->str[pos] != '"')
-// 	// 	{
-// 	// 		newstr = append_char(newstr, check_q_count(curr));
-// 	// 	}
-// 	// }
-// 	int i = 0;
-// 	int x = 0;
-// 	int j = 0;
-// 	char *str;
-// 	char *also_str;
-
-// 	str = (*tkn)->str;
-// 	also_str = (*tkn)->str;
-// 	while(also_str[j] != '\0')
-// 	{
-// 		while(also_str[j] == '"')
-// 		{
-// 			j++;
-// 			x++;
-// 		}
-// 		(*tkn)->str[i] = str[i + x];
-// 		i++;
-// 		j++;
-// 	}
-// 	(*tkn)->str[i] = '\0';
-// }
