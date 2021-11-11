@@ -41,6 +41,22 @@ static int	check_ifopen_ret_qs(char **str)
 	return (quotes_exist);
 }
 
+int	not_arg(char *str, int i, int echo)
+{
+	int	j;
+
+	if (echo == 0)
+	{
+
+	}
+	else
+	{
+		while (ft_isalnum(str[++i]))
+
+	}
+	return (0);
+}
+
 int	check_command_ret_q_count(char *str, int echo)
 {
 	int	i;
@@ -48,17 +64,19 @@ int	check_command_ret_q_count(char *str, int echo)
 
 	i = -1;
 	count = 0;
-
 	while (str[++i] != ' ')
 	{
 		if (str[i] == '"' || str[i] == '\'')
 			count++;
 	}
-	while (!(ft_isalnum(str[i++])))
+	while (!(ft_isalnum(str[++i])))
 	{
-		if (echo == 0 && (str[i] == 'n' && str[i - 1] == '-'))
+		if (echo == 0 && str[i] == '-' && (str[i + 1] == 'n'))
+		{
+			i++;
 			continue;
-		if (str[i] == '"' || str[i] == '\'')
+		}
+		else if (str[i] == '"' || str[i] == '\'' && !(ft_isalnum(str[i + 1])))
 			count++;
 	}
 	return (count);
@@ -104,6 +122,7 @@ int	trim_quotes(char **str)
 	int	quotes_nbr;
 
 	i = -1;
+	is_echo = 1;
 	while (str[++i])
 	{
 		check_quotes = check_ifopen_ret_qs(str[i]);
