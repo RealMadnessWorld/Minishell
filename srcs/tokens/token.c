@@ -15,7 +15,7 @@ void	token_check(t_tokens *t)
 	else if (ft_strcmp(t->str, "\""))
 	{
 		printf("%s is a quotes\n", t->str);
-		t->token = e_quotes
+		t->token = e_quotes;
 	}
 	else
 	{
@@ -24,21 +24,61 @@ void	token_check(t_tokens *t)
 	}
 }
 
+char	*token_str_checker(char *str)
+{
+	char		*tmp;
+	static int	i;
+	int			j;
+	int 		quote;
+
+	i = 0;
+	j = 0;
+	quote = -1;
+	tmp = malloc(sizeof(char) * ft_strlen(str));
+	while (str[i])
+	{
+		if (str[i] == '"')
+		{
+			while (str[i] == '"')
+			{
+				quote *= -1;
+				i++;
+			}
+		}
+		if (str[i] == ' ' && quote != 1)
+		{
+			while (str[i] == ' ')
+				i++;
+			tmp[j] = '\0';
+			return (tmp);
+		}
+		tmp[j] = str[i];
+		i++;
+		j++;
+	}
+	tmp[j] = '\0';
+	return (tmp);
+}
+
 void	token_creater(t_cmd *d)
 {
 	int			i;
+	// int			j;
 	t_tokens	*tmp;
+	char		*str;
 
-	d->t = malloc(sizeof(t_tokens));
+	//d->t = malloc(sizeof(t_tokens));
 	i = -1;
+	// j = -1;
 	while (++i < d->i)
 	{
-		token_lstadd_back(&d->t, token_lstnew(d->cmdline[i]));
+		str = token_str_checker(d->cmdline[i]);
+		token_lstadd_back(&d->t, token_lstnew(str));
 		tmp = token_lstlast(d->t);
 	 	token_check(token_lstlast(d->t));
-		if ()
 		printf("%s ?==? %s \n", tmp->str, d->cmdline[i]);
 		printf("string[%d] is token: %i\n", i, tmp->token);
 		printf("\n\n--------------\n\n");
+		free(str);
 	}
 }

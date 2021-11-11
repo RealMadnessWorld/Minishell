@@ -12,7 +12,7 @@ typedef enum	s_token
 	e_single_quotes,
 	e_bigger,
 	e_smaller,
-	e_word,
+	e_msg,
 	e_or,
 	e_and,
 	is_nothing

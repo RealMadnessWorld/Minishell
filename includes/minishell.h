@@ -45,6 +45,7 @@ t_tokens	*token_lstnew(char *content);
 t_tokens	*token_lstlast(t_tokens *lst);
 void		token_lstadd_back(t_tokens **lst, t_tokens *new);
 int			is_command(char *str);
+char		*token_str_checker(char *str);
 
 //CHECK CMD
 int			check_cmd(char *str, t_cmd *d, char **envp);
