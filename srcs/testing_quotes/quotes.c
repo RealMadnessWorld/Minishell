@@ -1,41 +1,35 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int check_end(char *str, char aspas, int *quotes_exist, int *j)
 {
-	*quotes_exist = *quotes_exist++;
-	while (str[*j] != aspas)
+	*quotes_exist = 2;
+	while (str[*j] != aspas && str[*j])
 	{
-		if (str[*j] == '\0')
+		if (str[(*j) + 1] == '\0')
 			return (1);
-		*j = *j++;
+		*j = *j + 1;
 	}
 	return (0);
 }
 
-static int	check_ifopen_ret_qs(char **str)
+static int	check_ifopen_ret_1_if_qs(char *str)
 {
 	int	quotes_exist;
 	int	i;
-	int	j;
 
 	quotes_exist = 0;
 	i = -1;
 	while (str[++i])
 	{
-		j = 0;
-		while (str[i][j])
+		if (str[i] == '\'')
 		{
-			if (str[i][j] == '\'')
-			{
-				if (check_end((str[i][j]), '\'', &quotes_exist, &j))
-					return (1);
-			}
-			else if (str[i][j] == '"')
-			{
-				if (check_end((str[i][j]), '"', &quotes_exist, &j))
-					return (1);
-			}
-			j++;
+			if (check_end(&(str[i]), '\'', &quotes_exist, &i))
+				return (1);
+		}
+		else if (str[i] == '"')
+		{
+			if (check_end(&(str[i]), '"', &quotes_exist, &i))
+				return (1);
 		}
 	}
 	return (quotes_exist);
@@ -53,7 +47,7 @@ int	check_command_ret_q_count(char *str, int echo)
 		if (str[i] == '"' || str[i] == '\'')
 			count++;
 	}
-	while (!(ft_isalnum(str[++i])))
+	while (!(ft_isalnum(str[++i])) && str[i])
 	{
 		if (echo == 0 && str[i] == '-' && (str[i + 1] == 'n'))
 		{
@@ -80,7 +74,6 @@ char	*clean_command_line(char *str, int echo, int quotes)
 	}
 	i = -1;
 	j = 0;
-
 	while (str[++i] != ' ')
 	{
 		if (str[i] != '"' || str[i] != '\'')
@@ -109,12 +102,12 @@ int	trim_quotes(char **str)
 	is_echo = 1;
 	while (str[++i])
 	{
-		check_quotes = check_ifopen_ret_qs(str[i]);
+		check_quotes = check_ifopen_ret_1_if_qs(str[i]);
 		if (check_quotes == 1)
 			return ((printf("error: open quotes\n")));
 		else if (!check_quotes)
 			continue;
-		is_echo = ft_strncmp(str, "echo", 4);
+		is_echo = ft_strncmp(str[i], "echo", 4);
 		quotes_nbr = check_command_ret_q_count(str[i], is_echo);
 		if (quotes_nbr)
 		{
@@ -124,3 +117,19 @@ int	trim_quotes(char **str)
 	}
 	return (0);
 }
+
+int main(int ac, char **av)
+{
+	char **dbl = malloc(sizeof(char *) * 2);
+	char *mal = malloc(sizeof(char) * (ft_strlen("ec\'ch\'s") + 1));
+	mal = "ec\'ch\'s";
+	dbl[0] = mal;
+	dbl[1] = NULL;
+	trim_quotes(dbl);
+}
+
+
+
+(echo) (-n) ("ola' .'") | (e'ch'o) (-n) ("ola' .'")
+
+ls > file | grep .c | wc -l
