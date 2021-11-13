@@ -39,7 +39,7 @@ typedef struct s_data
 char		**split(char const *s, char c, t_cmd *d);
 
 //TOKENS
-void		token_creater(t_cmd *d);
+t_tokens	*token_creater(t_cmd *d);
 void		token_check(t_tokens *t);
 t_tokens	*token_lstnew(char *content);
 t_tokens	*token_lstlast(t_tokens *lst);
@@ -52,10 +52,14 @@ int			check_cmd(char *str, t_cmd *d, char **envp);
 
 //UTILS
 void		exit_func(t_cmd *d);
+void		be_free_my_child(t_tokens *lst);
 
 //ENV
 void		do_env(char **envp);
 t_envars	*set_envars_list(char **envp);
 //void		check_quotes(char **str, t_env *env);
+
+//DEBUG
+int	token_lstsize(t_tokens *lst);
 
 #endif
