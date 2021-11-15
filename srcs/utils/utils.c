@@ -1,9 +1,8 @@
 #include "../../includes/minishell.h"
 
-void	exit_func(t_cmd *d)
+void	exit_func(t_data *d)
 {
-	free(d->cmdline);
-	free(d->str);
+	everyone_be_freeee(d);
 	exit(EXIT_SUCCESS);
 }
 

@@ -112,6 +112,6 @@ void			ft_error(char *error);
 int				find_extention(char *str, char *ext);
 char			*chk_img_path(char *path);
 int				random_num(int lower, int upper);
-int				ft_strcmp(char *newstr, char *original);
+int				ft_strcmp(char *s1, char *s2);
 
 #endif

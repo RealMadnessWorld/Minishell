@@ -1,72 +1,94 @@
 #include "../../includes/minishell.h"
 
-static int	counter(char const *s, char c)
+int	str_quotes_checker(int i, const char *str, int quotes)
 {
-	int		i;
-	int		word;
+	if (str[i] == '"' && quotes == 0)
+		return (1);
+	else if (str[i] == '\'' && quotes == 0)
+		return (2);
+	else if (str[i] == '"' && quotes == 1)
+		return (0);
+	else if (str[i] == '\'' && quotes == 1)
+		return (1);
+	else if (str[i] == '"' && quotes == 2)
+		return (2);
+	else
+		return (0);
+}
 
+static int	split_counter(const char *str, char c)
+{
+	int	i;
+	int	counter;
+	int	quotes;
+
+	if (!str)
+		return (0);
 	i = 0;
-	word = 0;
-	while (s[i] == c && s[i] != '\0')
-		i++;
-	if (s[i] != c)
-		word++;
-	while (s[i] != '\0')
+	counter = 1;
+	quotes = 0;
+	while (str[i] != '\0')
 	{
-		if (s[i] == c)
+		if (str[i] == '"' || str[i] == '\'')
+			quotes = str_quotes_checker(i, str, quotes);
+		if (str[i] == c && quotes == 0)
 		{
-			while (s[i] == c && s[i] != '\0')
+			while (str[i] == c)
 				i++;
-			if (s[i] != '\0')
-				word++;
+			counter++;
 		}
-		else
-			i++;
+		i++;
 	}
-	return (word + 1);
+	return (counter);
 }
 
-static int	allocate_dst(char ***dst, char const *s, char c)
+static int	split_str(const char *str, char c, int x, char **tmp)
 {
-	*dst = (char **)malloc(sizeof(char *) * counter(s, c) + 1);
-	if (!*dst)
-		return (0);
-	return (1);
-}
+	static int	i;
+	int			j;
+	int 		quotes;
 
-
-static int	allocate_dst_small(char **dst, char *str, const char *s)
-{
-	*dst = (char *)malloc(s - str + 1);
-	if (!dst)
-		return (0);
-	return (1);
-}
-
-char	**split(char const *s, char c, t_cmd *d)
-{
-	char	**dst;
-	char	*str;
-
-	dst = NULL;
-	if (!s)
-		return (0);
-	if (allocate_dst(&dst, s, c) == 0)
-		return (0);
-	while (*s)
+	i = x;
+	j = 0;
+	quotes = 0;
+	*tmp = malloc(sizeof(char) * ft_strlen(str) + 1);
+	while (str[i])
 	{
-		if (*s != c)
+		if (str[i] == '"' || str[i] == '\'')
+			quotes = str_quotes_checker(i, str, quotes);
+		if (str[i] == c && quotes == 0)
 		{
-			str = (char *)s;
-			while (*s && *s != c)
-				s++;
-			if (allocate_dst_small(&dst[d->i], str, s) == 0)
-				return (0);
-			ft_strlcpy(dst[d->i++], str, s - str + 1);
+			while (str[i] == c)
+				i++;
+			(*tmp)[j] = '\0';
+			return (i);
 		}
-		else
-			s++;
+		(*tmp)[j] = str[i];
+		i++;
+		j++;
 	}
-	dst[d->i] = NULL;
-	return (dst);
+	(*tmp)[j] = '\0';
+	return (i);
+}
+
+void	split(char const *str, char c, t_cmd *d)
+{
+	char	*tmp;
+	int		i;
+
+	if (!str)
+		return ;
+	i = 0;
+	d->cmdline = (char **)malloc(sizeof(char *) * (split_counter(str, c) * 2 - 1));
+	while(str[i])
+	{
+		i = split_str(str, c, i, &tmp);
+		tmp = ft_strtrim(tmp, " ");
+		d->cmdline[d->i] = ft_strdup(tmp);
+		d->i++;
+		d->cmdline[d->i] = ft_strdup("|");
+		d->i++;
+		free(tmp);
+	}
+	d->cmdline[--d->i] = NULL;
 }

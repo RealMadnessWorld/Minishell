@@ -19,3 +19,4 @@ int	is_command(char *str)
 	else
 		return (0);
 }
+

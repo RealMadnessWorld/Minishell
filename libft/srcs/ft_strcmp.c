@@ -12,18 +12,53 @@
 
 #include "../includes/libft.h"
 
-int	ft_strcmp(char *newstr, char *original)
+int	ft_strcmp(char *s1, char *s2)
 {
-	size_t	i;
-	size_t	len;
-
-	i = 0;
-	len = ft_strlen(original);
-	while (i < len)
+	if (!s1 && !s2)
+		return (0);
+	while (*s1 != '\0' && *s1 == *s2)
 	{
-		if (original[i] != newstr[i])
-			return (0);
-		i++;
+		s1++;
+		s2++;
 	}
-	return (1);
+	if (*s1 == '\0')
+		return (0);
+	else
+		return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// int	ft_strcmp(char *newstr, char *original)
+// {
+// 	int	i;
+// 	int	len;
+
+// 	i = 0;
+// 	len = ft_strlen(original);
+// 	while (i < len)
+// 	{
+// 		if (original[i] != newstr[i])
+// 			return (0);
+// 		i++;
+// 	}
+// 	return (1);
+// }
