@@ -17,7 +17,6 @@ typedef struct s_cmd
 	char			**cmdline;
 	char			*str;
 	int				i;
-	t_tokens		*t;
 }			t_cmd;
 
 typedef	struct s_envars
@@ -32,7 +31,7 @@ typedef struct s_data
 	t_bool		has_pipe;
 	t_cmd		cmd;
 	t_envars	*envars_list;
-	t_tokens	*token_list;
+	t_tokens	*t;
 }			t_data;
 
 //SPLIT
