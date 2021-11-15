@@ -17,7 +17,6 @@ typedef struct s_cmd
 	char			**cmdline;
 	char			*str;
 	int				i;
-	t_tokens		*t;
 }			t_cmd;
 
 typedef	struct s_envars
@@ -32,7 +31,7 @@ typedef struct s_data
 	t_bool		has_pipe;
 	t_cmd		cmd;
 	t_envars	*envars_list;
-	t_tokens	*token_list;
+	t_tokens	*t;
 }			t_data;
 
 //SPLIT
@@ -40,7 +39,7 @@ void	split(char const *str, char c, t_cmd *d);
 int		str_quotes_checker(int i, const char *str, int quotes);
 
 //TOKENS
-t_tokens	*token_creater(t_cmd *d);
+t_tokens	*token_creater(t_data *d);
 void		token_check(t_tokens *t);
 t_tokens	*token_lstnew(char *content);
 t_tokens	*token_lstlast(t_tokens *lst);
@@ -63,5 +62,8 @@ t_envars	*set_envars_list(char **envp);
 
 //DEBUG
 int			token_lstsize(t_tokens *lst);
+void		printlst(t_tokens *also_tmp);
+void		print_dbl(t_data data);
+
 
 #endif

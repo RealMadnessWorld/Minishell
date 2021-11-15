@@ -28,7 +28,7 @@ static void	free_cmd(t_cmd *cmd)
 
 void	everyone_be_freeee(t_data *d)
 {
-	be_free_my_child(d->cmd.t);
+	be_free_my_child(d->t);
 	free_cmd(&d->cmd);
 	free(d->cmd.str);
 }

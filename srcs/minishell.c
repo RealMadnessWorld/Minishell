@@ -2,7 +2,7 @@
 
 void	data_init(t_data *d)
 {
-	d->cmd.t = NULL;
+	d->t = NULL;
 	d->cmd.i = 0;
 	// d = malloc(sizeof(t_data));
 	//d->envars_list = NULL;
@@ -23,28 +23,24 @@ int	main(int ac, char **av, char **envp)
 		data.cmd.str = readline("What is your command:\n");
 		printf(CLR_BLU"i am the string: %s\n"CLR_RST, data.cmd.str);
 		//add_history(data.cmd.str);
+		printf(CLR_RED"\n\n\t\t\tOUT OF SPLIT\n"CLR_RST);
 		split(data.cmd.str, '|', &data.cmd);
-		// printf(CLR_GRN "hi i passed you motherfucker! Notice me!!!!\n" CLR_RST);
-
-
-		// while (data.cmd.cmdline[i])
-		// {
-		// 	printf("str[%d] = %s\n", i, data.cmd.cmdline[i]);
-		// 	i++;
-		// }
-
-
-		data.cmd.t = token_creater(&data.cmd);
+		while (data.cmd.cmdline[i])
+		{
+			printf("str[%d] = %s\n", i, data.cmd.cmdline[i]);
+			i++;
+		}
+		printf("\n\n");
+		data.t = token_creater(&data);
 		while(data.cmd.cmdline[i])
 		{
-			while (data.cmd.t)
+			while (data.t)
 			{
-				printf("linked list: %s\n", data.cmd.t->str);
-				if (data.cmd.t->token == e_command)
+				if (data.t->token == e_command)
 					check_cmd(data.cmd.cmdline[i], &data, envp);
-				data.cmd.t = data.cmd.t->next;
+				data.t = data.t->next;
 			}
-			printf("cmd = %s\n", data.cmd.cmdline[i++]);
+			i++;
 		}
 		everyone_be_freeee(&data);
 	}

@@ -28,26 +28,25 @@ void	token_check(t_tokens *t)
 
 int	token_str_checker(char **tmp, char *str, int x)
 {
-	static int	i;
-	int			j;
-	int 		quotes;
+	int	i;
+	int	quotes;
+	int	j;
 
 	i = x;
 	j = 0;
-	quotes = -1;
+	quotes = 0;
 	*tmp = malloc(sizeof(char) * ft_strlen(str));
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
 			quotes = str_quotes_checker(i, str, quotes);
-		if (str[i] == ' ' && quotes > 0)
+		if (str[i] == ' ' && quotes == 0)
 		{
 			while (str[i] == ' ')
 				i++;
 			(*tmp)[j] = '\0';
 			return (i);
 		}
-		// printf("wroking so far\n");
 		(*tmp)[j] = str[i];
 		i++;
 		j++;
@@ -56,23 +55,7 @@ int	token_str_checker(char **tmp, char *str, int x)
 	return (i);
 }
 
-void printlst(t_tokens *also_tmp)
-{
-	t_tokens	*curr;
-	int			i;
-
-	i = 0;
-	curr = also_tmp;
-	while (curr)
-	{
-		printf(CLR_CYN"->\tnode [%i] %s\n"CLR_RST, i, curr->str);
-		curr = curr->next;
-		i++;
-	}
-	printf("\n");
-}
-
-t_tokens	*token_creater(t_cmd *d)
+t_tokens	*token_creater(t_data *d)
 {
 	int			i;
 	int			j;
@@ -83,12 +66,12 @@ t_tokens	*token_creater(t_cmd *d)
 	i = 0;
 	j = 0;
 	also_tmp = d->t;
-	while (d->cmdline[i])
+	while (d->cmd.cmdline[i])
 	{
 		j = 0;
-		while (d->cmdline[i][j])
+		while (d->cmd.cmdline[i][j])
 		{
-			j = token_str_checker(&str, d->cmdline[i], j);
+			j = token_str_checker(&str, d->cmd.cmdline[i], j);
 			token_lstadd_back(&also_tmp, token_lstnew(ft_strdup(str)));
 			tmp = token_lstlast(also_tmp);
 			token_check(token_lstlast(also_tmp));
