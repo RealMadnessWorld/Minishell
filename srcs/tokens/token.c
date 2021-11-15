@@ -8,6 +8,20 @@ void	token_check(t_tokens *t)
 		t->token = e_pipe;
 	else if (ft_strncmp(t->str, "\"", 1) == 0)
 		t->token = e_quotes;
+	else if (ft_strncmp(t->str, "\'", 1) == 0)
+		t->token = e_single_quotes;
+	else if (ft_strcmp(t->str, ">") == 0)
+		t->token = e_bigger;
+	else if (ft_strcmp(t->str, "<") == 0)
+		t->token = e_smaller;
+	else if (ft_strcmp(t->str, "||") == 0)
+		t->token = e_or;
+	else if (ft_strcmp(t->str, "&&") == 0)
+		t->token = e_and;
+	else if (ft_strcmp(t->str, ">>") == 0)
+		t->token = e_double_bigger;
+	else if (ft_strcmp(t->str, "<<") == 0)
+		t->token = e_double_smaller;
 	else
 		t->token = is_nothing;
 }
@@ -16,17 +30,17 @@ int	token_str_checker(char **tmp, char *str, int x)
 {
 	static int	i;
 	int			j;
-	int 		quote;
+	int 		quotes;
 
 	i = x;
 	j = 0;
-	quote = -1;
+	quotes = -1;
 	*tmp = malloc(sizeof(char) * ft_strlen(str));
 	while (str[i])
 	{
-		if (str[i] == '"')
-			quote *= -1;
-		if (str[i] == ' ' && quote != 1)
+		if (str[i] == '"' || str[i] == '\'')
+			quotes = str_quotes_checker(i, str, quotes);
+		if (str[i] == ' ' && quotes > 0)
 		{
 			while (str[i] == ' ')
 				i++;

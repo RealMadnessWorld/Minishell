@@ -36,7 +36,8 @@ typedef struct s_data
 }			t_data;
 
 //SPLIT
-void	split(char const *s, char c, t_cmd *d);
+void	split(char const *str, char c, t_cmd *d);
+int		str_quotes_checker(int i, const char *str, int quotes);
 
 //TOKENS
 t_tokens	*token_creater(t_cmd *d);

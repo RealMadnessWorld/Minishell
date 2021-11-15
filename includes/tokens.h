@@ -12,9 +12,10 @@ typedef enum	s_token
 	e_single_quotes,
 	e_bigger,
 	e_smaller,
-	e_msg,
 	e_or,
 	e_and,
+	e_double_bigger,
+	e_double_smaller,
 	is_nothing
 }			e_token;
 
