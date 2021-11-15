@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_cmd(char *str, t_cmd *d, char **envp)
 {
@@ -19,3 +19,4 @@ int	check_cmd(char *str, t_cmd *d, char **envp)
 		exit_func(d);
 	return (0);
 }
+

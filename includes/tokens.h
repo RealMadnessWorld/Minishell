@@ -2,12 +2,12 @@
 # define TOKENS_H
 
 # include "minishell.h"
-//# include "structs.h"
+# include "structs.h"
 
 typedef enum	s_token
 {
-	e_pipe,
 	e_command,
+	e_pipe,
 	e_quotes,
 	e_single_quotes,
 	e_bigger,
@@ -24,6 +24,5 @@ typedef struct	s_tokens
 	e_token			token;
 	struct s_tokens	*next;
 }			t_tokens;
-
 
 #endif

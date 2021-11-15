@@ -6,6 +6,11 @@ MAKEFLAGS	+= -s
 
 CFLAGS		= -Wall -Werror -Wextra -g
 
+# # files
+# SRCS	= minishell.c split.c utils.c parsing/check_cmd.c tokens/token.c tokens/checkers.c tokens/t_utils.c
+# HEADER	= minishell.h tokens.h structs.h
+# OBJ		= $((addprefix $(OBJDIR)/,SRCS:.c=.o))
+
 NAME		= minishell
 
 INCDIR		= ./includes/
@@ -15,6 +20,7 @@ LIBFT_EXEC	= libft/libft.a
 LIB_INC		= -I ./includes/libft
 
 SRCS		= ${wildcard srcs/*.c}
+SRCS		+= ${wildcard srcs/*/*.c}
 OBJS		= $(SRCS:.c=.o)
 
 ifeq ($(OS), Linux)

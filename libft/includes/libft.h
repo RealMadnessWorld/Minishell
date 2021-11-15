@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jarsenio <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 14:50:17 by jarsenio          #+#    #+#             */
-/*   Updated: 2021/03/09 17:13:13 by jarsenio         ###   ########.fr       */
+/*   Updated: 2021/11/09 00:43:40 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ void			ft_error(char *error);
 int				find_extention(char *str, char *ext);
 char			*chk_img_path(char *path);
 int				random_num(int lower, int upper);
+int				ft_strcmp(char *newstr, char *original);
 
 #endif
