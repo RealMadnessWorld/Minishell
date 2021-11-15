@@ -54,13 +54,16 @@ t_envars	*set_envars_list(char **envp)
 	return (list);
 }
 
-void	add_envars(char *str, t_envars **envars_lst)
+void	add_envar(char *str, t_envars *envars_lst, int i)
 {
 	char		**line;
+	t_envars	*curr;
 
+	curr = envars_lst;
+	while (curr->next)
+		curr = curr->next;
 	line = set_line(str);
-
-
+	curr->next = add_node(line);
 }
 
 void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
@@ -73,15 +76,53 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 	i = -1;
 	while (curr)
 	{
-		if (curr->token == e_command)
+		if (curr->token == e_var)
 		{
 			while (curr->str[i++])
 			{
 				if (curr->str[i] == '=')
-					add_envar(curr->str, &envars_lst, i);
+					add_envar(curr->str, envars_lst, i);
 			}
 		}
 		i = 0;
 		curr = curr->next;
 	}
 }
+
+// int main(int ac, char **av, char **envp)
+// {
+// 	t_data		*data = malloc(sizeof(t_data));
+// 	t_tokens	*first = malloc(sizeof(t_tokens));
+// 	t_tokens	*second = malloc(sizeof(t_tokens));
+// 	t_tokens	*third = malloc(sizeof(t_tokens));
+// 	t_envars	*curr;
+
+// 	data->envars_list = NULL;
+// 	data->envars_list = set_envars_list(envp);
+// 	curr = data->envars_list;
+// 	first->str = ft_strdup("primeiro=FIRST");
+// 	first->token = e_command;
+// 	second->str = ft_strdup("segundo=SECOND");
+// 	second->token = e_command;
+// 	third->str = ft_strdup("terceiro=THIRD");
+// 	third->token = e_command;
+// 	first->next = second;
+// 	second->next = third;
+// 	third->next = NULL;
+// 	parse_envars(first, data->envars_list);
+// 	while (curr)
+// 	{
+// 		printf("%s", curr->key);
+// 		printf("%s\n", curr->value);
+// 		curr = curr->next;
+// 	}
+// 	curr = data->envars_list;
+// 	while (curr)
+// 	{
+// 		free(curr->key);
+// 		free(curr->value);
+// 		free(curr);
+// 		curr = curr->next;
+// 	}
+// 	return (0);
+// }

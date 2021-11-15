@@ -15,7 +15,8 @@ typedef enum	s_token
 	e_word,
 	e_or,
 	e_and,
-	is_nothing
+	is_nothing,
+	e_var
 }			e_token;
 
 typedef struct	s_tokens
