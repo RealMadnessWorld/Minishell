@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-static int check_end(char *str, char aspas, int *quote_count, int *i)
+static int	check_end(char *str, char aspas, int *quote_count, int *i)
 {
 	(*i)++;
 	(*quote_count)++;
@@ -42,6 +42,7 @@ static int	check_quotes(char *str)
 char	*allocate(char *str, int quotes)
 {
 	char	*newstr;
+
 	if (str[0] == '\'' && str[ft_strlen(str)] == '\'')
 		newstr = ft_strtrim(str, "'");
 	else if (str[0] == '"' && str[ft_strlen(str)] == '"')
@@ -56,39 +57,30 @@ char	*allocate(char *str, int quotes)
 	return (newstr);
 }
 
-void	trim_quotes(char *str, char *newstr, char aspa, int *i, int *j)
-{
-	char	*tmp;
-	char	*new;
-
-	tmp = str;
-	new = newstr;
-	while (tmp[++(*i)] != aspa)
-	{
-		new[(*j)++] = tmp[*i];
-	}
-}
-
-//trim quotes > clean_str
 char	*clean_str(char *str, int quotes)
 {
 	int		i;
 	int		j;
 	char	*newstr;
-	char	*tmp;
 
-	tmp = str;
 	i = -1;
 	j = 0;
 	newstr = allocate(str, quotes);
-	while (tmp[++i])
+	while (str[++i])
 	{
-		if (tmp[i] == '"' || tmp[i] == '\'')
+		if (str[i] == '"')
 		{
-			trim_quotes(str, newstr, tmp[i], &i, &j);
-			continue;
+			while (str[++i] != '"')
+				newstr[j++] = str[i];
+			continue ;
 		}
-		newstr[j++] = tmp[i];
+		if (str[i] == '\'')
+		{
+			while (str[++i] != '\'')
+				newstr[j++] = str[i];
+			continue ;
+		}
+		newstr[j++] = str[i];
 	}
 	return (newstr);
 }
@@ -107,7 +99,7 @@ int	handle_quotes(char **str)
 		curr = *dbl;
 		quotes = check_quotes(*dbl);
 		if (!quotes)
-			continue;
+			continue ;
 		else if (quotes == 1)
 			return ((printf("error: open quotes\n")));
 		else if (quotes > 1)
@@ -122,27 +114,26 @@ int	handle_quotes(char **str)
 	return (0);
 }
 
-int main(int ac, char **av)
-{
-	char	**dbl = malloc(sizeof(char *) * 3);
-	char	*mal;
-	char	*sec;
-	char	**fre = dbl;
+// int main(int ac, char **av)
+// {
+// 	char	**dbl = malloc(sizeof(char *) * 3);
+// 	char	*mal;
+// 	char	*sec;
+// 	char	**fre = dbl;
 
-	mal = ft_strdup("ec\'h\'o");
-	sec = ft_strdup("hey \"I ' am \" cool");
-	// dbl[1] = NULL;
-	dbl[0] = mal;
-	dbl[1] = sec;
-	dbl[2] = 0;
-	handle_quotes(dbl);
-	printf("str[0] = %s\n", *dbl);
-	dbl++;
-	printf("str[1] = %s\n", *dbl);
-	while (*fre)
-	{
-		free(*fre);
-		fre++;
-	}
-	return (0);
-}
+// 	mal = ft_strdup("ec\'h\'o");
+// 	sec = ft_strdup("hey \"I ' am'' \" cool");
+// 	dbl[0] = mal;
+// 	dbl[1] = sec;
+// 	dbl[2] = 0;
+// 	handle_quotes(dbl);
+// 	printf("str[0] = %s\n", *dbl);
+// 	dbl++;
+// 	printf("str[1] = %s\n", *dbl);
+// 	while (*fre)
+// 	{
+// 		free(*fre);
+// 		fre++;
+// 	}
+// 	return (0);
+// }
