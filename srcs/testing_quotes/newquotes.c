@@ -10,20 +10,19 @@ static int check_end(char *str, char aspas, int *quote_count, int *i)
 			return (1);
 		(*i)++;
 	}
-	//printf("str[%d]: %c\n", *i, str[*i]);
 	(*quote_count)++;
 	return (0);
 }
 
-static int	check_quotes(char **str)
+static int	check_quotes(char *str)
 {
-	int	quote_count;
-	int	i;
-	char *tmp;
+	int		quote_count;
+	int		i;
+	char	*tmp;
 
 	quote_count = 0;
 	i = -1;
-	tmp = *str;
+	tmp = str;
 	while (tmp[++i])
 	{
 		if (tmp[i] == '\'')
@@ -39,31 +38,6 @@ static int	check_quotes(char **str)
 	}
 	return (quote_count);
 }
-
-// int	check_command_ret_q_count(char *str, int echo)
-// {
-// 	int	i;
-// 	int	count;
-
-// 	i = -1;
-// 	count = 0;
-// 	while (str[++i] != ' ')
-// 	{
-// 		if (str[i] == '"' || str[i] == '\'')
-// 			count++;
-// 	}
-// 	while (!(ft_isalnum(str[++i])) && str[i])
-// 	{
-// 		if (echo == 0 && str[i] == '-' && (str[i + 1] == 'n'))
-// 		{
-// 			i++;
-// 			continue;
-// 		}
-// 		else if (str[i] == '"' || str[i] == '\'' && !(ft_isalnum(str[i + 1])))
-// 			count++;
-// 	}
-// 	return (count);
-// }
 
 char	*allocate(char *str, int quotes)
 {
@@ -82,35 +56,36 @@ char	*allocate(char *str, int quotes)
 	return (newstr);
 }
 
-void	trim_quotes(char **str, char **newstr, char aspa, int *i, int *j)
+void	trim_quotes(char *str, char *newstr, char aspa, int *i, int *j)
 {
 	char	*tmp;
 	char	*new;
 
-	tmp = *str;
-	new = *newstr;
+	tmp = str;
+	new = newstr;
 	while (tmp[++(*i)] != aspa)
 	{
 		new[(*j)++] = tmp[*i];
 	}
 }
 
-char	*clean_str(char **str, int quotes)
+//trim quotes > clean_str
+char	*clean_str(char *str, int quotes)
 {
 	int		i;
 	int		j;
 	char	*newstr;
 	char	*tmp;
 
-	tmp = *str;
+	tmp = str;
 	i = -1;
 	j = 0;
-	newstr = allocate(*str, quotes);
+	newstr = allocate(str, quotes);
 	while (tmp[++i])
 	{
 		if (tmp[i] == '"' || tmp[i] == '\'')
 		{
-			trim_quotes(str, &newstr, tmp[i], &i, &j);
+			trim_quotes(str, newstr, tmp[i], &i, &j);
 			continue;
 		}
 		newstr[j++] = tmp[i];
@@ -118,41 +93,56 @@ char	*clean_str(char **str, int quotes)
 	return (newstr);
 }
 
-int	handle_quotes(char ***str)
+int	handle_quotes(char **str)
 {
-	int		i;
 	int		quotes;
 	char	*curr;
 	char	*new;
+	char	**dbl;
 
-	i = -1;
 	new = NULL;
-	while (*str[++i])
+	dbl = str;
+	while (*dbl)
 	{
-		curr = *str[i];
-		quotes = check_quotes(str[i]);
+		curr = *dbl;
+		quotes = check_quotes(*dbl);
 		if (!quotes)
 			continue;
 		else if (quotes == 1)
 			return ((printf("error: open quotes\n")));
 		else if (quotes > 1)
 		{
+			new = clean_str(*dbl, quotes);
 			free(curr);
-			new = clean_str(str[i], quotes);
-			*str[i] = new;
+			curr = NULL;
+			*dbl = new;
 		}
+		dbl++;
 	}
 	return (0);
 }
 
 int main(int ac, char **av)
 {
-	char **dbl = malloc(sizeof(char *) * (2 + 1));
-	char *mal;
+	char	**dbl = malloc(sizeof(char *) * 3);
+	char	*mal;
+	char	*sec;
+	char	**fre = dbl;
 
 	mal = ft_strdup("ec\'h\'o");
+	sec = ft_strdup("hey \"I ' am \" cool");
+	// dbl[1] = NULL;
 	dbl[0] = mal;
-	dbl[1] = NULL;
-	handle_quotes(&dbl);
-	printf("str[0] = %s\n", dbl[0]);
+	dbl[1] = sec;
+	dbl[2] = 0;
+	handle_quotes(dbl);
+	printf("str[0] = %s\n", *dbl);
+	dbl++;
+	printf("str[1] = %s\n", *dbl);
+	while (*fre)
+	{
+		free(*fre);
+		fre++;
+	}
+	return (0);
 }
