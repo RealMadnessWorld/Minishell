@@ -1,72 +1,83 @@
 #include "../../includes/minishell.h"
 
-static int	counter(char const *s, char c)
+static int	split_counter(const char *str, char c)
 {
-	int		i;
-	int		word;
+	int	i;
+	int	counter;
+	int	quotes;
+
+	if (!str)
+		return (0);
+	i = 0;
+	counter = 1;
+	quotes = -1;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '"')
+			quotes *= -1;
+		if (str[i] == c && quotes == -1)
+		{
+			while (str[i] == c)
+				i++;
+			counter++;
+		}
+		i++;
+	}
+	return (counter);
+}
+
+static int	split_str(const char *str, char c, int x, char **tmp)
+{
+	static int	i;
+	int			j;
+	int 		quote;
+
+	i = x;
+	j = 0;
+	quote = -1;
+	*tmp = malloc(sizeof(char) * ft_strlen(str) + 1);
+	while (str[i])
+	{
+		if (str[i] == '"')
+			quote *= -1;
+		if (str[i] == c && quote != 1)
+		{
+			while (str[i] == c)
+				i++;
+			(*tmp)[j] = '\0';
+			return (i);
+		}
+		(*tmp)[j] = str[i];
+		i++;
+		j++;
+	}
+	(*tmp)[j] = '\0';
+	return (i);
+}
+
+static void	copy_str(char const *str, char c, t_cmd *d)
+{
+	char *tmp;
+	int i;
 
 	i = 0;
-	word = 0;
-	while (s[i] == c && s[i] != '\0')
-		i++;
-	if (s[i] != c)
-		word++;
-	while (s[i] != '\0')
+	while(str[i])
 	{
-		if (s[i] == c)
-		{
-			while (s[i] == c && s[i] != '\0')
-				i++;
-			if (s[i] != '\0')
-				word++;
-		}
-		else
-			i++;
+		i = split_str(str, c, i, &tmp);
+		tmp = ft_strtrim(tmp, " ");
+		d->cmdline[d->i] = ft_strdup(tmp);
+		d->i++;
+		d->cmdline[d->i] = ft_strdup("|");
+		d->i++;
+		free(tmp);
 	}
-	return (word + 1);
+	d->cmdline[--d->i] = NULL;
 }
 
-static int	allocate_dst(char ***dst, char const *s, char c)
+void	split(char const *s, char c, t_cmd *d)
 {
-	*dst = (char **)malloc(sizeof(char *) * counter(s, c) + 1);
-	if (!*dst)
-		return (0);
-	return (1);
-}
-
-
-static int	allocate_dst_small(char **dst, char *str, const char *s)
-{
-	*dst = (char *)malloc(s - str + 1);
-	if (!dst)
-		return (0);
-	return (1);
-}
-
-char	**split(char const *s, char c, t_cmd *d)
-{
-	char	**dst;
-	char	*str;
-
-	dst = NULL;
 	if (!s)
-		return (0);
-	if (allocate_dst(&dst, s, c) == 0)
-		return (0);
-	while (*s)
-	{
-		if (*s != c)
-		{
-			str = (char *)s;
-			while (*s && *s != c)
-				s++;
-			if (allocate_dst_small(&dst[d->i], str, s) == 0)
-				return (0);
-			ft_strlcpy(dst[d->i++], str, s - str + 1);
-		}
-		else
-			s++;
-	}
-	dst[d->i] = NULL;
-	return (dst);
+		return ;
+	d->cmdline = (char **)malloc(sizeof(char *) * (split_counter(s, c) * 2 - 1));
+	copy_str(s, c, d);
 }
