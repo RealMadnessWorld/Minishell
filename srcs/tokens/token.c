@@ -36,7 +36,6 @@ void	token_creater(t_cmd *d)
 		token_lstadd_back(&d->t, token_lstnew(d->cmdline[i]));
 		tmp = token_lstlast(d->t);
 	 	token_check(token_lstlast(d->t));
-		if ()
 		printf("%s ?==? %s \n", tmp->str, d->cmdline[i]);
 		printf("string[%d] is token: %i\n", i, tmp->token);
 		printf("\n\n--------------\n\n");
