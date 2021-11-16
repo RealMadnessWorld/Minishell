@@ -42,9 +42,7 @@ static int	check_quotes(char *str)
 char	*allocate(char *str, int quotes, e_token *token)
 {
 	char	*newstr;
-	e_token	*tkn;
 
-	tkn = token;
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')
 		*token = e_single_quotes;
 	else if (str[0] == '"' && str[ft_strlen(str) - 1] == '"')

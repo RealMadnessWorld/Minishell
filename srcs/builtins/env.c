@@ -54,7 +54,7 @@ t_envars	*set_envars_list(char **envp)
 	return (list);
 }
 
-void	add_envar(char *str, t_envars *envars_lst, int i)
+void	add_envar(char *str, t_envars *envars_lst)
 {
 	char		**line;
 	t_envars	*curr;
@@ -70,7 +70,6 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 {
 	t_tokens	*curr;
 	int			i;
-	int			j;
 
 	curr = tkn_lst;
 	i = -1;
@@ -81,7 +80,7 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 			while (curr->str[i++])
 			{
 				if (curr->str[i] == '=')
-					add_envar(curr->str, envars_lst, i);
+					add_envar(curr->str, envars_lst);
 			}
 		}
 		i = 0;
