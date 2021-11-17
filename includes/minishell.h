@@ -51,7 +51,7 @@ int		str_quotes_checker(int i, const char *str, int quotes);
 /****************************\
 *		  	 Tokens			 *
 \****************************/
-t_tokens	*token_creater(t_data *d);
+void		token_creater(t_data *d);
 void		token_check(t_tokens *t);
 t_tokens	*token_lstnew(char *content);
 t_tokens	*token_lstlast(t_tokens *lst);

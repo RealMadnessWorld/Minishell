@@ -79,7 +79,7 @@ void	split(char const *str, char c, t_cmd *d)
 	if (!str)
 		return ;
 	i = 0;
-	d->cmdline = (char **)malloc(sizeof(char *) * (split_counter(str, c) * 2 - 1));
+	d->cmdline = (char **)malloc(sizeof(char *) * (split_counter(str, c) * 2));
 	while(str[i])
 	{
 		i = split_str(str, c, i, &tmp);

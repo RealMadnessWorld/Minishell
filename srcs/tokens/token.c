@@ -5,7 +5,6 @@ void	re_check_tokens(t_tokens *t)
 	t_tokens	*tmp;
 
 	tmp = t;
-	printf("cheguei\n");
 	while (tmp)
 	{
 		if (tmp->token == is_nothing)
@@ -45,7 +44,7 @@ int	token_str_checker(char **tmp, char *str, int x)
 	i = x;
 	j = 0;
 	quotes = 0;
-	*tmp = malloc(sizeof(char) * ft_strlen(str));
+	*tmp = malloc(sizeof(char) * ft_strlen(str) + 1);
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
@@ -65,39 +64,26 @@ int	token_str_checker(char **tmp, char *str, int x)
 	return (i);
 }
 
-t_tokens	*token_creater(t_data *d)
+void	token_creater(t_data *d)
 {
 	int			i;
 	int			j;
-	t_tokens	*also_tmp;
-	t_tokens	*tmp;
 	char		*str;
 
 	i = 0;
 	j = 0;
-	also_tmp = d->t;
 	while (d->cmd.cmdline[i])
 	{
 		j = 0;
 		while (d->cmd.cmdline[i][j])
 		{
 			j = token_str_checker(&str, d->cmd.cmdline[i], j);
-			token_lstadd_back(&also_tmp, token_lstnew(ft_strdup(str)));
-			token_check(token_lstlast(also_tmp));
-			tmp = token_lstlast(also_tmp);
-			printf("\n\n----------------------------------------------\n----------------------------------------------\n\n");
-			printf(CLR_RED"\t\t\tFULL LIST INFO\n"CLR_RST);
-			printf("nmbr of nodes: %d\n", token_lstsize(also_tmp));
-			printf("list strings:\n\n");
-			printlst(also_tmp);
-			printf(CLR_RED"\t\t\tLATEST NODE\n"CLR_RST);
-			printf("str: %s\n", tmp->str);
-			printf("token: %d\n\n", tmp->token);
+			token_lstadd_back(&d->t, token_lstnew(ft_strdup(str)));
+			token_check(token_lstlast(d->t));
 			free(str);
 		}
 		i++;
 	}
-	handle_quotes(also_tmp);
-	re_check_tokens(also_tmp);
-	return (also_tmp);
+	handle_quotes(d->t);
+	re_check_tokens(d->t);
 }

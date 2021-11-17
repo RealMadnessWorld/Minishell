@@ -9,7 +9,7 @@ void printlst(t_tokens *also_tmp)
 	curr = also_tmp;
 	while (curr)
 	{
-		printf(CLR_CYN"->\tnode [%i] %s\n"CLR_RST, i, curr->str);
+		printf(CLR_CYN"->\tnode [%i] %s\t\t\t token: %i\n"CLR_RST, i, curr->str, curr->token);
 		curr = curr->next;
 		i++;
 	}

@@ -8,6 +8,7 @@ void	be_free_my_child(t_tokens *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
+		free(tmp->str);
 		free(tmp);
 	}
 }
