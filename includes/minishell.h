@@ -58,7 +58,7 @@ void		everyone_be_freeee(t_data *d);
 //ENV
 void		do_env(char **envp);
 t_envars	*set_envars_list(char **envp);
-//void		check_quotes(char **str, t_env *env);
+void		add(t_tokens *old, char *new);
 
 //DEBUG
 int			token_lstsize(t_tokens *lst);
