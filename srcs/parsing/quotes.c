@@ -95,8 +95,12 @@ int	handle_quotes(t_tokens *tkn_lst)
 	while (curr)
 	{
 		quotes = check_quotes(curr->str);
+		printf("passei\n");
 		if (!quotes)
+		{
+			curr = curr->next;
 			continue ;
+		}
 		else if (quotes == 1)
 			return ((printf("error: open quotes\n")));
 		else if (quotes > 1)

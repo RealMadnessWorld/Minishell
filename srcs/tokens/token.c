@@ -1,15 +1,29 @@
 #include "../../includes/minishell.h"
 
+void	re_check_tokens(t_tokens *t)
+{
+	t_tokens	*tmp;
+
+	tmp = t;
+	printf("cheguei\n");
+	while (tmp)
+	{
+		if (tmp->token == is_nothing)
+			token_check(tmp);
+		tmp = tmp->next;
+	}
+}
+
 void	token_check(t_tokens *t)
 {
 	if (is_command(t->str))
 		t->token = e_command;
 	else if (ft_strcmp(t->str, "|") == 0)
 		t->token = e_pipe;
-	else if (ft_strncmp(t->str, "\"", 1) == 0)
-		t->token = e_quotes;
-	else if (ft_strncmp(t->str, "\'", 1) == 0)
-		t->token = e_single_quotes;
+	// else if (ft_strncmp(t->str, "\"", 1) == 0)
+	// 	t->token = e_quotes;
+	// else if (ft_strncmp(t->str, "\'", 1) == 0)
+	// 	t->token = e_single_quotes;
 	else if (ft_strcmp(t->str, ">") == 0)
 		t->token = e_bigger;
 	else if (ft_strcmp(t->str, "<") == 0)
@@ -55,8 +69,8 @@ t_tokens	*token_creater(t_data *d)
 {
 	int			i;
 	int			j;
-	t_tokens	*tmp;
 	t_tokens	*also_tmp;
+	t_tokens	*tmp;
 	char		*str;
 
 	i = 0;
@@ -69,8 +83,8 @@ t_tokens	*token_creater(t_data *d)
 		{
 			j = token_str_checker(&str, d->cmd.cmdline[i], j);
 			token_lstadd_back(&also_tmp, token_lstnew(ft_strdup(str)));
-			tmp = token_lstlast(also_tmp);
 			token_check(token_lstlast(also_tmp));
+			tmp = token_lstlast(also_tmp);
 			printf("\n\n----------------------------------------------\n----------------------------------------------\n\n");
 			printf(CLR_RED"\t\t\tFULL LIST INFO\n"CLR_RST);
 			printf("nmbr of nodes: %d\n", token_lstsize(also_tmp));
@@ -83,5 +97,7 @@ t_tokens	*token_creater(t_data *d)
 		}
 		i++;
 	}
+	handle_quotes(also_tmp);
+	re_check_tokens(also_tmp);
 	return (also_tmp);
 }
