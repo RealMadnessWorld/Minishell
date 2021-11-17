@@ -77,6 +77,7 @@ void		everyone_be_freeee(t_data *d);
 \****************************/
 void		do_env(char **envp);
 t_envars	*set_envars_list(char **envp);
+void		add(t_tokens *old, char *new);
 
 /****************************\
 *		  	Quotes			 *

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_func.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jarsenio <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 20:02:19 by jarsenio          #+#    #+#             */
-/*   Updated: 2021/09/11 20:02:21 by jarsenio         ###   ########.fr       */
+/*   Updated: 2021/11/16 17:56:37 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	*ft_strjoingnl(char const *s1, char const *s2)
 {

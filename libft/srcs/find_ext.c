@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   find_ext.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jarsenio <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:30:35 by jarsenio          #+#    #+#             */
-/*   Updated: 2021/09/10 17:30:37 by jarsenio         ###   ########.fr       */
+/*   Updated: 2021/11/16 17:57:15 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	find_extention(char *str, char *ext)
 {

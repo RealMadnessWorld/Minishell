@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_img_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jarsenio <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:30:25 by jarsenio          #+#    #+#             */
-/*   Updated: 2021/09/10 17:30:26 by jarsenio         ###   ########.fr       */
+/*   Updated: 2021/11/16 17:57:11 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	*chk_img_path(char *path)
 {
