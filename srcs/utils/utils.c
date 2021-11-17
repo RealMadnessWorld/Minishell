@@ -13,3 +13,10 @@ void	do_env(char **envp)
 	while (envp[i])
 		printf("%s\n", envp[i++]);
 }
+
+void	add(t_tokens *old, char *new)
+{
+	free(old->str);
+	old->str = NULL;
+	old->str = new;
+}

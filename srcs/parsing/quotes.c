@@ -123,7 +123,7 @@ int	handle_quotes(t_tokens *tkn_lst)
 // 	t_tokens	*curr = first;
 // 	int			i = 0;
 
-// 	first->str = ft_strdup("\'ec\'h\'o\'");
+// 	first->str = ft_strdup("\"hello \"hello\" hello\"");
 // 	second->str = ft_strdup("\"\"hey \'I am \'cool\"\"");
 // 	third->str = ft_strdup("\"\"aspas?\"\"");
 // 	first->next = second;
