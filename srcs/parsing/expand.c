@@ -16,15 +16,13 @@ static int	get_limits(char *str, int i)
 char	*find_var(char *str, int start, int end, t_data *data)
 {
 	int			len;
-	char		*to_find;
 	int			i;
-	int			j;
+	char		*to_find;
 	t_envars	*curr;
 
 	len = end - start;
 	to_find = ft_calloc(++len, sizeof(char));
 	i = 0;
-	j = 0;
 	curr = data->envars_list;
 	while (--len)
 		to_find[i++] = str[++start];
@@ -55,7 +53,7 @@ static char	*remove_dollar_install_communism(char *str, int start, int end)
 	while (++i < start)
 		new[i] = str[i];
 	j = ++end;
-	while (j < ft_strlen(str))
+	while (j < (int)ft_strlen(str))
 		new[i++] = str[j++];
 	new[i] = '\0';
 	return (new);
@@ -78,10 +76,10 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 		new = ft_calloc(++len, sizeof(char));
 		while (++i < start)
 			new[i] = str[i];
-		while (++j < ft_strlen(str_to_fit))
+		while (++j < (int)ft_strlen(str_to_fit))
 			new[i++] = str_to_fit[j];
 		j = ++end;
-		while (j < ft_strlen(str))
+		while (j < (int)ft_strlen(str))
 			new[i++] = str[j++];
 		new[i] = '\0';
 	}
@@ -94,7 +92,6 @@ int	handle_dollar_sign(t_data *data)
 {
 	int			end;
 	t_tokens	*curr;
-	char		*new;
 	int			i;
 
 	curr = data->t;

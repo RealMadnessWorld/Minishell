@@ -41,3 +41,11 @@ void	print_dbl(t_data data)
 // 	printf("str: %s\n", also_tmp->str);
 // 	printf("token: %d\n\n", also_tmp->token);
 // }
+
+// printf(CLR_RED"\n\n\t\t\tOUT OF SPLIT\n"CLR_RST);
+// while (data.cmd.cmdline[i])
+// {
+// 	printf("str[%d] = %s\n", i, data.cmd.cmdline[i]);
+// 	i++;
+// }
+// printf("\n\n");

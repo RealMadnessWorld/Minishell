@@ -22,16 +22,10 @@ int	main(int ac, char **av, char **envp)
 		data_init(&data);
 		data.cmd.str = readline("What is your command:\n");
 		printf(CLR_BLU"i am the string:\t %s\n"CLR_RST, data.cmd.str);
-		//add_history(data.cmd.str);
+		add_history(data.cmd.str);
 		split(data.cmd.str, '|', &data.cmd);
-		// printf(CLR_RED"\n\n\t\t\tOUT OF SPLIT\n"CLR_RST);
-		// while (data.cmd.cmdline[i])
-		// {
-		// 	printf("str[%d] = %s\n", i, data.cmd.cmdline[i]);
-		// 	i++;
-		// }
-		// printf("\n\n");
 		token_creater(&data);
+		handle_dollar_sign(&data);
 		printlst(data.t);
 		while(data.cmd.cmdline[i])
 		{

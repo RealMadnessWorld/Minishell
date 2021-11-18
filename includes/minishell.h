@@ -1,6 +1,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/****************************\
+*		   Includes			 *
+\****************************/
+
 # include "./../libft/includes/libft.h"
 # include "tokens.h"
 # include <readline/readline.h>
@@ -45,8 +49,8 @@ typedef struct s_data
 /****************************\
 *		  	 Split			 *
 \****************************/
-void	split(char const *str, char c, t_cmd *d);
-int		str_quotes_checker(int i, const char *str, int quotes);
+void		split(char const *str, char c, t_cmd *d);
+int			str_quotes_checker(int i, const char *str, int quotes);
 
 /****************************\
 *		  	 Tokens			 *
@@ -82,9 +86,16 @@ void		add(t_tokens *old, char *new);
 /****************************\
 *		  	Quotes			 *
 \****************************/
-int		handle_quotes(t_tokens *tkn_lst);
-char	*clean_str(char *str, int quotes, e_token *token);
-char	*allocate(char *str, int quotes, e_token *token);
+int			handle_quotes(t_tokens *tkn_lst);
+char		*clean_str(char *str, int quotes, e_token *token);
+char		*allocate(char *str, int quotes, e_token *token);
+
+/****************************\
+*		  	$$$$$$			 *
+\****************************/
+int			handle_dollar_sign(t_data *data);
+char		*expand_dollar(t_data *data, char *str, int start, int end);
+char		*find_var(char *str, int start, int end, t_data *data);
 
 /****************************\
 *		   Debbuging		 *
@@ -92,6 +103,5 @@ char	*allocate(char *str, int quotes, e_token *token);
 int			token_lstsize(t_tokens *lst);
 void		printlst(t_tokens *also_tmp);
 void		print_dbl(t_data data);
-
 
 #endif
