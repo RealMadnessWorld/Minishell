@@ -20,10 +20,10 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h> 
 # include <time.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include "ft_printf.h"
 # include "get_next_line.h"
 # include "colors.h"
 # include "keycode_mac.h"

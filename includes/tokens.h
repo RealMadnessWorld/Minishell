@@ -17,6 +17,7 @@ typedef enum	s_token
 	e_var,
 	e_double_bigger,
 	e_double_smaller,
+	e_n_flag,
 	is_nothing
 }			e_token;
 

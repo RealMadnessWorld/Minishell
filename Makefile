@@ -44,7 +44,7 @@ $(NAME): $(LIBFT_EXEC) $(OBJS)
 	gcc -o $(NAME) $(CFLAGS) -I $(INCDIR) $(OBJS) $(LIBFT_EXEC) -lreadline
 	mkdir -p objs
 	mv ${OBJS} objs
-	echo "$(_GREEN)Compilation complete mothfockaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
+	echo "$(_GREEN)Compilation complete mothafuckaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
 
 $(LIBFT_EXEC):
 	@${MAKE} -C $(LIBFT_DIR)
@@ -56,7 +56,7 @@ nowarn: $(LIBFT_EXEC) $(OBJS)
 	gcc -w $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o $(NAME) -lreadline
 	mkdir -p objs
 	mv ${OBJS} objs
-	echo "$(_GREEN)Compilation without warnings complete mothfockaaaaaaa!!!!!!$(_RESET)"
+	echo "$(_GREEN)Compilation without warnings complete mothafuckaaaaaaa!!!!!!$(_RESET)"
 
 clean:
 	rm -rf objs ${OBJS}

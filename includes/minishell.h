@@ -14,12 +14,6 @@
 *		    Structs			 *
 \****************************/
 
-typedef enum s_bool
-{
-	false,
-	true
-}			t_bool;
-
 typedef struct s_cmd
 {
 	char			**cmdline;
@@ -36,7 +30,6 @@ typedef	struct s_envars
 
 typedef struct s_data
 {
-	t_bool		has_pipe;
 	t_cmd		cmd;
 	t_envars	*envars_list;
 	t_tokens	*t;
@@ -65,9 +58,14 @@ int			token_str_checker(char **tmp, char *str, int x);
 void		re_check_tokens(t_tokens *t);
 
 /****************************\
+*		  Validations		 *
+\****************************/
+void	validations(t_data *d);
+
+/****************************\
 *		  Commandline		 *
 \****************************/
-int			check_cmd(char *str, t_data *d, char **envp);
+int			check_cmd(t_data *d, t_tokens *t);
 
 /****************************\
 *		  	 Utils			 *
@@ -75,6 +73,8 @@ int			check_cmd(char *str, t_data *d, char **envp);
 void		exit_func(t_data *d);
 void		be_free_my_child(t_tokens *lst);
 void		everyone_be_freeee(t_data *d);
+void		data_init(t_data *d);
+
 
 /****************************\
 *		  	  Env			 *
@@ -82,6 +82,11 @@ void		everyone_be_freeee(t_data *d);
 void		do_env(char **envp);
 t_envars	*set_envars_list(char **envp);
 void		add(t_tokens *old, char *new);
+
+/****************************\
+*		  	 Echo			 *
+\****************************/
+void	echo_fun(t_tokens *t);
 
 /****************************\
 *		  	Quotes			 *

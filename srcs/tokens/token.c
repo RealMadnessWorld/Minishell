@@ -19,10 +19,6 @@ void	token_check(t_tokens *t)
 		t->token = e_command;
 	else if (ft_strcmp(t->str, "|") == 0)
 		t->token = e_pipe;
-	// else if (ft_strncmp(t->str, "\"", 1) == 0)
-	// 	t->token = e_quotes;
-	// else if (ft_strncmp(t->str, "\'", 1) == 0)
-	// 	t->token = e_single_quotes;
 	else if (ft_strcmp(t->str, ">") == 0)
 		t->token = e_bigger;
 	else if (ft_strcmp(t->str, "<") == 0)
@@ -31,6 +27,8 @@ void	token_check(t_tokens *t)
 		t->token = e_double_bigger;
 	else if (ft_strcmp(t->str, "<<") == 0)
 		t->token = e_double_smaller;
+	else if (ft_strcmp(t->str, "-n") == 0)
+		t->token = e_n_flag;
 	else
 		t->token = is_nothing;
 }
