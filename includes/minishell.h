@@ -74,19 +74,36 @@ void		exit_func(t_data *d);
 void		be_free_my_child(t_tokens *lst);
 void		everyone_be_freeee(t_data *d);
 void		data_init(t_data *d);
-
+void		delete(t_envars *node);
 
 /****************************\
 *		  	  Env			 *
 \****************************/
-void		do_env(char **envp);
+void		do_env(t_envars *lst);
 t_envars	*set_envars_list(char **envp);
 void		add(t_tokens *old, char *new);
+t_envars	*add_node(char **line);
+char		**set_line(char *envl);
+
+/****************************\
+*		  	  Pwd			 *
+\****************************/
+void		do_pwd(t_envars *lst);
+
+/****************************\
+*		  	  Unset			 *
+\****************************/
+void		do_unset(t_envars *lst, char *to_unset);
+
+/****************************\
+*		  	  Export		 *
+\****************************/
+void		do_export(t_envars *lst, char *to_add);
 
 /****************************\
 *		  	 Echo			 *
 \****************************/
-void	echo_fun(t_tokens *t);
+void		echo_fun(t_tokens *t);
 
 /****************************\
 *		  	Quotes			 *
