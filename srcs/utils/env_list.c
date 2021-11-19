@@ -54,40 +54,6 @@ t_envars	*set_envars_list(char **envp)
 	return (list);
 }
 
-void	add_envar(char *str, t_envars *envars_lst)
-{
-	char		**line;
-	t_envars	*curr;
-
-	curr = envars_lst;
-	while (curr->next)
-		curr = curr->next;
-	line = set_line(str);
-	curr->next = add_node(line);
-}
-
-void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
-{
-	t_tokens	*curr;
-	int			i;
-
-	curr = tkn_lst;
-	i = -1;
-	while (curr)
-	{
-		if (curr->token == e_var)
-		{
-			while (curr->str[i++])
-			{
-				if (curr->str[i] == '=')
-					add_envar(curr->str, envars_lst);
-			}
-		}
-		i = 0;
-		curr = curr->next;
-	}
-}
-
 // int main(int ac, char **av, char **envp)
 // {
 // 	t_data		*data = malloc(sizeof(t_data));
