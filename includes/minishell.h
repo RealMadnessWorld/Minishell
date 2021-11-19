@@ -93,8 +93,7 @@ void		do_pwd(t_envars *lst);
 /****************************\
 *		  	  Unset			 *
 \****************************/
-void		do_unset(t_envars *lst, char *to_unset);
-
+void		do_unset(t_envars **lst, char *to_unset);
 /****************************\
 *		  	  Export		 *
 \****************************/

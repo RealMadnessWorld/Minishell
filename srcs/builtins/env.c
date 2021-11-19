@@ -20,16 +20,15 @@ void	do_env(t_envars *lst)
 // 	data = malloc(sizeof(t_data));
 // 	data->envars_list = set_envars_list(envp);
 // 	// do_pwd(data->envars_list);
-// 	do_env(data->envars_list);
-// 	printf("-----\t-----\t-----\t-----\t-----\t-----\n");
+// 	// do_env(data->envars_list);
+// 	// printf("-----\t-----\t-----\t-----\t-----\t-----\t-----\t-----\t-----\n");
 // 	do_export(data->envars_list, "testing=working");
 // 	do_env(data->envars_list);
-// 	printf("-----\t-----\t-----\t-----\t-----\t-----\n");
-// 	do_unset(data->envars_list, "testing");
-// 	do_unset(data->envars_list, "LANG");
-// 	do_unset(data->envars_list, "TERM_PROGRAM");
+// 	printf("-----\t-----\t-----\t-----\t-----\t-----\t-----\t-----\t-----\n");
+// 	do_unset(&(data->envars_list), "testing");
+// 	do_unset(&(data->envars_list), "LANG");
+// 	do_unset(&(data->envars_list), "SHELL");
 // 	do_export(data->envars_list, NULL);
-// 	// exit_func(data);
 
 // 	return (0);
 // }
