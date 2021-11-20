@@ -72,7 +72,7 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 	int			i;
 
 	curr = tkn_lst;
-	i = -1;
+	i = 0;
 	while (curr)
 	{
 		if (curr->token == e_var)

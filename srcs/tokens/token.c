@@ -1,5 +1,30 @@
 #include "../../includes/minishell.h"
 
+void	check_vars(t_tokens *t)
+{
+	t_tokens	*tmp;
+	int			i;
+	int			x;
+
+	tmp = t;
+	while (tmp)
+	{
+		i = -1;
+		x = 0;
+		if (tmp->token == is_nothing)
+		{
+			while (tmp->str[++i] != '\0')
+			{
+				if (tmp->str[i] == '=')
+					x++;
+			}
+		}
+		if (x == 1)
+			tmp->token = e_var;
+		tmp = tmp->next;
+	}
+}
+
 void	re_check_tokens(t_tokens *t)
 {
 	t_tokens	*tmp;
@@ -82,6 +107,7 @@ void	token_creater(t_data *d)
 		}
 		i++;
 	}
+	check_vars(d->t);
 	handle_quotes(d->t);
 	re_check_tokens(d->t);
 }

@@ -30,9 +30,9 @@ typedef	struct s_envars
 
 typedef struct s_data
 {
-	t_cmd		cmd;
-	t_envars	*envars_list;
-	t_tokens	*t;
+	t_cmd			cmd;
+	t_envars		*envars_list;
+	t_tokens		*t;
 }			t_data;
 
 /****************************\
@@ -56,11 +56,12 @@ void		token_lstadd_back(t_tokens **lst, t_tokens *new);
 int			is_command(char *str);
 int			token_str_checker(char **tmp, char *str, int x);
 void		re_check_tokens(t_tokens *t);
+void		check_vars(t_tokens *t);
 
 /****************************\
 *		  Validations		 *
 \****************************/
-void	validations(t_data *d);
+void		validations(t_data *d);
 
 /****************************\
 *		  Commandline		 *
@@ -79,14 +80,16 @@ void		data_init(t_data *d);
 /****************************\
 *		  	  Env			 *
 \****************************/
-void	env_print(t_data *data);
+void		env_print(t_data *data);
 t_envars	*set_envars_list(char **envp);
 void		add(t_tokens *old, char *new);
+void		parse_envars(t_tokens *tkn_lst, t_envars *envars_lst);
+void		add_envar(char *str, t_envars *envars_lst);
 
 /****************************\
 *		  	 Echo			 *
 \****************************/
-void	echo_fun(t_tokens *t);
+void		echo_fun(t_tokens *t);
 
 /****************************\
 *		  	Quotes			 *

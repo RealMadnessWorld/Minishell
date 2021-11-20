@@ -23,6 +23,7 @@ int	main(int ac, char **av, char **envp)
 		split(data.cmd.str, '|', &data.cmd);
 		token_creater(&data);
 		handle_dollar_sign(&data);
+		parse_envars(data.t, data.envars_list);
 		// printlst(data.t);
 		validations(&data);
 		everyone_be_freeee(&data);
