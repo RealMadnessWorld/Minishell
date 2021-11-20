@@ -79,7 +79,7 @@ void		data_init(t_data *d);
 /****************************\
 *		  	  Env			 *
 \****************************/
-void		do_env(char **envp);
+void	env_print(t_data *data);
 t_envars	*set_envars_list(char **envp);
 void		add(t_tokens *old, char *new);
 

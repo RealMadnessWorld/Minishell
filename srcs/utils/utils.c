@@ -14,3 +14,15 @@ void	add(t_tokens *old, char *new)
 	old->str = NULL;
 	old->str = new;
 }
+
+void	env_print(t_data *data)
+{
+	t_envars	*elist;
+
+	elist = data->envars_list;
+	while (elist)
+	{
+	printf("%s%s\n", elist->key, elist->value);
+	elist = elist->next;
+	}
+}
