@@ -28,3 +28,25 @@ void	do_export(t_envars *lst, char *to_add)
 	}
 	prev->next = add_node(new);
 }
+
+void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
+{
+	t_tokens	*curr;
+	int			i;
+
+	curr = tkn_lst;
+	i = 0;
+	while (curr)
+	{
+		if (curr->token == e_var)
+		{
+			while (curr->str[i++])
+			{
+				if (curr->str[i] == '=')
+					do_export(tkn_lst, curr->str);
+			}
+		}
+		i = 0;
+		curr = curr->next;
+	}
+}
