@@ -4,7 +4,7 @@ void	do_export(t_envars *lst, char *to_add)
 {
 	t_envars	*curr;
 	t_envars	*prev;
-	char		*new;
+	char		**new;
 
 	curr = lst;
 	prev = curr;
@@ -13,16 +13,18 @@ void	do_export(t_envars *lst, char *to_add)
 		do_env(lst);
 		return ;
 	}
-	new = ft_strdup(to_add);
+	new = set_line(to_add);
 	while (curr)
 	{
-		if (!(ft_strcmp(curr->key, to_add)))
+		if (!(ft_strcmp(curr->key, new[0])))
 		{
 			free(curr->value);
-			curr->value = new;
+			curr->value = new[1];
+			free(new[0]);
+			return ;
 		}
 		prev = curr;
 		curr = curr->next;
 	}
-	prev->next = add_node(set_line(new));
+	prev->next = add_node(new);
 }
