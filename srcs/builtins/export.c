@@ -43,7 +43,7 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 			while (curr->str[i++])
 			{
 				if (curr->str[i] == '=')
-					do_export(tkn_lst, curr->str);
+					do_export(envars_lst, curr->str);
 			}
 		}
 		i = 0;
