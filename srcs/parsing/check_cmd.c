@@ -13,7 +13,7 @@ int	check_cmd(t_data *d, t_tokens *t)
 	// if (str == "unset")
 	// 	return (/*deal with unset*/);
 	if (ft_strcmp(t->str, "env") == 0)
-		env_print(d);
+		do_env(d->envars_list);
 	if (ft_strcmp(t->str, "exit") == 0)
 		exit_func(d);
 	return (0);
