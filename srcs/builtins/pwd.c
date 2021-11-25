@@ -1,17 +1,11 @@
 #include "../../includes/minishell.h"
 
-void	do_pwd(t_envars *lst)
+void	do_pwd(void)
 {
-	t_envars	*curr;
+	char	*pwd;
 
-	curr = lst;
-	while (curr)
-	{
-		if (!(ft_strcmp(curr->key, "PWD")))
-		{
-			printf("%s\n", (curr->value + 1));
-			break ;
-		}
-		curr = curr->next;
-	}
+	pwd = getcwd(NULL, 4096);
+	ft_putendl_fd(pwd, 1);
+	free(pwd);
+	pwd = NULL;
 }
