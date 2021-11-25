@@ -20,7 +20,7 @@ static char			*update_home(t_envars *env, char *path)
 	return (path);
 }
 
-static int			change_home_directory(t_envars *env, char *path)
+static int			change_dir_update_pwds(t_envars *env, char *path)
 {
 	char	*pwd;
 
@@ -38,49 +38,48 @@ static int			change_home_directory(t_envars *env, char *path)
 			set_env(env, "PWD", pwd);
 			free(pwd);
 		}
-		return (1);
+		return (0);
 	}
 	free(pwd);
-	return (0);
+	return (1);
 }
 
 static int			set_directory(t_envars *env, char *path, int home)
 {
 	struct stat	st;
 
-	if (change_home_directory(env, path))
+	if (change_dir_update_pwds(env, path))
 		return (0);
 	//g_status = 1;
 	if (stat(path, &st) == -1)
 	{
-		return (printf("Error: No such file or directory"));
+		return (printf("Error: No such file or directory\n"));
 		//g_status = 127;
 	}
 	else if (!(st.st_mode & S_IXUSR))
-		return (printf("Error: Permission denied"));
+		return (printf("Error: Permission denied\n"));
 	else
-		return (printf("Error: Not a directory"));
+		return (printf("Error: Not a directory\n"));
 	if (home)
 		free(path);
-	return (1);
+	return (0);
 }
 
-int	do_cd(t_tokens *tkn_lst, t_data *data)
+int	do_cd(t_tokens *tkn_lst, t_envars *env)
 {
 	char		*home;
-	t_envars	*env;
 	char		*str;
 
 	home = NULL;
-	env = data->envars_list;
 	if (tkn_lst->next->next)
 		return (printf("Error: too many arguments\n"));
-	if (tkn_lst->next == NULL || tkn_lst->next == '\0'
+	if (tkn_lst->next == NULL || tkn_lst->next->str[0] == '\0'
 	|| (!(ft_strcmp(tkn_lst->next->str, "~")))
 	|| (!(ft_strcmp(tkn_lst->next->str, "--"))))
 	{
-		if (!(home = get_env(env, "HOME")))
-			return (printf("Error: HOME not set"));
+		home = get_env(env, "HOME");
+		if (!home)
+			return (printf("Error: HOME not set\n"));
 		return (set_directory(env, home, 1));
 	}
 	if (ft_strcmp(tkn_lst->next->str, "-") == 0)
@@ -91,33 +90,33 @@ int	do_cd(t_tokens *tkn_lst, t_data *data)
 		do_pwd();
 		return (1);
 	}
-	tkn_lst->next = update_home(env, tkn_lst->next->str);
+	tkn_lst->next->str = update_home(env, tkn_lst->next->str);
 	return (set_directory(env, tkn_lst->next->str, 0));
 }
 
-int main(int ac, char **av, char **envp)
-{
-	t_data		*data;
-	int			i = 1;
-	t_tokens	*first = malloc(sizeof(t_tokens));
-	t_tokens	*second = malloc(sizeof(t_tokens));
-	t_tokens	*third = malloc(sizeof(t_tokens));
-	t_tokens	*curr = first;
+// int main(int ac, char **av, char **envp)
+// {
+// 	t_data		*data;
+// 	int			i = 1;
+// 	t_tokens	*first = malloc(sizeof(t_tokens));
+// 	t_tokens	*second = malloc(sizeof(t_tokens));
+// 	// t_tokens	*third = malloc(sizeof(t_tokens));
+// 	t_tokens	*curr = first;
 
-	first->str = ft_strdup("cd");
-	second->str = ft_strdup("..");
-	third->str = ft_strdup("test");
-	first->next = second;
-	second->next = third;
-	third->next = NULL;
+// 	first->str = ft_strdup("cd");
+// 	second->str = ft_strdup("-");
+// 	// third->str = ft_strdup("test");
+// 	first->next = second;
+// 	second->next = NULL;
+// 	// third->next = NULL;
 
-	data = malloc(sizeof(t_data));
-	data->envars_list = set_envars_list(envp);
-	do_cd(first, data);
-	do_pwd();
-	do_env(data->envars_list);
-//	printf("11111\t11111\t11111\t11111\t11111\t11111\t11111\t11111\t11111\n");
-//	printf("22222\t22222\t22222\t22222\t22222\t22222\t22222\t22222\t22222\n");
+// 	data = malloc(sizeof(t_data));
+// 	data->envars_list = set_envars_list(envp);
+// 	do_cd(first, data->envars_list);
+// 	do_pwd();
+// 	do_env(data->envars_list);
+// //	printf("11111\t11111\t11111\t11111\t11111\t11111\t11111\t11111\t11111\n");
+// //	printf("22222\t22222\t22222\t22222\t22222\t22222\t22222\t22222\t22222\n");
 
-	return (0);
-}
+// 	return (0);
+// }
