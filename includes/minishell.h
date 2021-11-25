@@ -9,6 +9,7 @@
 # include "tokens.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/stat.h>
 
 /****************************\
 *		    Structs			 *
@@ -88,11 +89,14 @@ t_envars	*set_envars_list(char **envp);
 void		add(t_tokens *old, char *new);
 t_envars	*add_node(char **line);
 char		**set_line(char *envl);
+char		*get_env(t_envars *env, char *str);
+void		set_env(t_envars *env, char *key, char *value);
+
 
 /****************************\
 *		  	  Pwd			 *
 \****************************/
-void		do_pwd(t_envars *lst);
+void		do_pwd(void);
 
 /****************************\
 *		  	  Unset			 *
@@ -107,6 +111,11 @@ void		do_export(t_envars *lst, char *to_add);
 *		  	 Echo			 *
 \****************************/
 void		echo_fun(t_tokens *t);
+
+/****************************\
+*		  	 Cd				 *
+\****************************/
+int			do_cd(t_tokens *tkn_lst, t_envars *env);
 
 /****************************\
 *		  	Quotes			 *

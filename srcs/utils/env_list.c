@@ -75,28 +75,28 @@ char		*get_env(t_envars *env, char *str)
 	return (NULL);
 }
 
-void		set_env(t_envars *env, char *first_content, char *second_content)
+void		set_env(t_envars *env, char *key, char *value)
 {
-	t_envars	*element;
+	t_envars	*curr;
 	char		**to_add;
 
-	if (!first_content || !second_content)
+	if (!key || !value)
 		return ;
-	element = env;
+	curr = env;
 	to_add = malloc(sizeof(char *) * 3);
-	to_add[0] = first_content;
-	to_add[1] = second_content;
-	while (element)
+	to_add[0] = key;
+	to_add[1] = value;
+	while (curr)
 	{
-		if (ft_strcmp(first_content, element->key) == 0)
+		if (ft_strcmp(key, curr->key) == 0)
 		{
-			if (element->value)
-				free(element->value);
-			element->value = ft_strdup(second_content);
+			if (curr->value)
+				free(curr->value);
+			curr->value = ft_strdup(value);
 			free(to_add);
 			return ;
 		}
-		element = element->next;
+		curr = curr->next;
 	}
 	add_node(to_add);
 	free(to_add);

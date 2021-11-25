@@ -2,18 +2,18 @@
 
 static int	check_end(char *str, char aspas, int *quote_count, int *i)
 {
-	// if ((str[(*i) + 1] == '\0'))
-	// 	return (1);
 	(*i)++;
 	(*quote_count)++;
-	while (str[*i] != aspas && str[*i])
+	while (str[*i])
 	{
-		if (str[(*i) + 1] == '\0')
-			return (1);
+		if (str[(*i)] == aspas)
+		{
+			(*quote_count)++;
+			return (0);
+		}
 		(*i)++;
 	}
-	(*quote_count)++;
-	return (0);
+	return (1);
 }
 
 static int	check_quotes(char *str)
@@ -38,6 +38,8 @@ static int	check_quotes(char *str)
 				return (1);
 		}
 	}
+	if (quote_count % 2)
+		return (1);
 	return (quote_count);
 }
 
@@ -116,34 +118,34 @@ int	handle_quotes(t_tokens *tkn_lst)
 	return (0);
 }
 
-int main(int ac, char **av)
-{
-	t_tokens	*first = malloc(sizeof(t_tokens));
-	t_tokens	*second = malloc(sizeof(t_tokens));
-	t_tokens	*third = malloc(sizeof(t_tokens));
-	t_tokens	*curr = first;
-	int			i = 0;
+// int main(int ac, char **av)
+// {
+// 	t_tokens	*first = malloc(sizeof(t_tokens));
+// 	t_tokens	*second = malloc(sizeof(t_tokens));
+// 	t_tokens	*third = malloc(sizeof(t_tokens));
+// 	t_tokens	*curr = first;
+// 	int			i = 0;
 
-	first->str = ft_strdup("\"ola ola ola\"");
-	second->str = ft_strdup("\"\"hey \'I am \'cool\"\"");
-	third->str = ft_strdup("\"\"aspas?\"\"");
-	first->next = second;
-	second->next = third;
-	third->next = NULL;
-	handle_quotes(first);
-	while (curr)
-	{
-		printf("str\t%d = %s\n", i, curr->str);
-		printf("token\t%d = %d\n", i,  curr->token);
-		i++;
-		curr = curr->next;
-	}
-	curr = first;
-	while (curr)
-	{
-		free(curr->str);
-		free(curr);
-		curr = curr->next;
-	}
-	return (0);
-}
+// 	first->str = ft_strdup("\"ola\'\'\"\'ad\"e\"u\"s\'");
+// 	second->str = ft_strdup("\"\"hey\"\"\"\" I am cool\"\"");
+// 	third->str = ft_strdup("\'testing\"\'whats\"up\"");
+// 	first->next = second;
+// 	second->next = third;
+// 	third->next = NULL;
+// 	handle_quotes(first);
+// 	while (curr)
+// 	{
+// 		printf("str\t%d = %s\n", i, curr->str);
+// 		printf("token\t%d = %d\n", i,  curr->token);
+// 		i++;
+// 		curr = curr->next;
+// 	}
+// 	curr = first;
+// 	while (curr)
+// 	{
+// 		free(curr->str);
+// 		free(curr);
+// 		curr = curr->next;
+// 	}
+// 	return (0);
+// }
