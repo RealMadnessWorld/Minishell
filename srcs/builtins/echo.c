@@ -13,9 +13,15 @@ void	echo_fun(t_tokens *t)
 			n = true;
 			t = t->next;
 		}
-		// printf("what is me? %s\n", t->str)
-		if (t->token == e_quotes || t->token == e_single_quotes)
+		while(t)
+		{
+			if (t->token == e_pipe)
+				break;
 			ft_putstr_fd(t->str, 1);
+			if (t->next && t->next->token != e_pipe)
+				write(1, " ", 1);
+			t = t->next;
+		}
 	}
 	if (n == false)
 		write(1, "\n", 1);

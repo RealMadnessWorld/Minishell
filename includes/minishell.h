@@ -57,6 +57,9 @@ int			is_command(char *str);
 int			token_str_checker(char **tmp, char *str, int x);
 void		re_check_tokens(t_tokens *t);
 void		check_vars(t_tokens *t);
+int			commands_tokens(t_tokens *t);
+int			cd_parser(t_tokens *t);
+int			echo_parser(t_tokens *t);
 
 /****************************\
 *		  Validations		 *
@@ -76,6 +79,7 @@ void		be_free_my_child(t_tokens *lst);
 void		everyone_be_freeee(t_data *d);
 void		data_init(t_data *d);
 void		delete(t_envars *node);
+int			error_zero(char *error);
 
 /****************************\
 *		  	  Env			 *

@@ -1,10 +1,9 @@
-
 # -*- MakeFile -*-
 OS			= $(shell uname)
 
 MAKEFLAGS	+= -s
 
-CFLAGS		= -Wall -Werror -Wextra -g
+CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
 
 # # files
 # SRCS	= minishell.c split.c utils.c parsing/check_cmd.c tokens/token.c tokens/checkers.c tokens/t_utils.c

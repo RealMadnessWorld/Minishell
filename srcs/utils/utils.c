@@ -14,3 +14,9 @@ void	delete(t_envars *node)
 		free(node);
 		node = NULL;
 }
+
+int	error_zero(char *error)
+{
+	ft_putendl_fd(error, 1);
+	return (0);
+}

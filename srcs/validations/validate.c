@@ -24,6 +24,8 @@ void	validations(t_data *d)
 	t_tokens *tmp;
 
 	tmp = d->t;
+	if (!commands_tokens(tmp))
+		return ;
 	if (!verify_words(tmp))
 		return ;
 	tmp = d->t;

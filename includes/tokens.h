@@ -18,6 +18,8 @@ typedef enum	s_token
 	e_double_bigger,
 	e_double_smaller,
 	e_n_flag,
+	e_echo_print,
+	e_cd_path,
 	is_nothing
 }			e_token;
 
