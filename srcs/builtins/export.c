@@ -18,7 +18,8 @@ void	do_export(t_envars *lst, char *to_add)
 	{
 		if (!(ft_strcmp(curr->key, new[0])))
 		{
-			free(curr->value);
+			if (curr->value)
+				free(curr->value);
 			curr->value = new[1];
 			free(new[0]);
 			return ;

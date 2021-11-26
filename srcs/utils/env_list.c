@@ -26,7 +26,7 @@ char	**set_line(char *envl)
 	while (envl[i] != '=')
 		i++;
 	line[0] = ft_substr(envl, 0, i);
-	line[1] = ft_substr(envl, i, (ft_strlen(envl) - i));
+	line[1] = ft_substr(envl, ++i, (ft_strlen(envl) - i));
 	return (line);
 }
 
@@ -52,6 +52,54 @@ t_envars	*set_envars_list(char **envp)
 		prev->next = curr;
 	}
 	return (list);
+}
+
+char		*get_env(t_envars *env, char *str)
+{
+	t_envars	*curr;
+
+	curr = env;
+	if (curr == NULL || !curr)
+		return (NULL);
+	while (curr)
+	{
+		if (ft_strcmp(str, curr->key) == 0)
+		{
+			if (!curr->value)
+				return (NULL);
+			else
+				return (ft_strdup(curr->value));
+		}
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
+void		set_env(t_envars *env, char *key, char *value)
+{
+	t_envars	*curr;
+	char		**to_add;
+
+	if (!key || !value)
+		return ;
+	curr = env;
+	to_add = malloc(sizeof(char *) * 3);
+	to_add[0] = key;
+	to_add[1] = value;
+	while (curr)
+	{
+		if (ft_strcmp(key, curr->key) == 0)
+		{
+			if (curr->value)
+				free(curr->value);
+			curr->value = ft_strdup(value);
+			free(to_add);
+			return ;
+		}
+		curr = curr->next;
+	}
+	add_node(to_add);
+	free(to_add);
 }
 
 // int main(int ac, char **av, char **envp)
