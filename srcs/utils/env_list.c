@@ -26,7 +26,8 @@ char	**set_line(char *envl)
 	while (envl[i] != '=')
 		i++;
 	line[0] = ft_substr(envl, 0, i);
-	line[1] = ft_substr(envl, ++i, (ft_strlen(envl) - i));
+	i++;
+	line[1] = ft_substr(envl, i, (ft_strlen(envl) - i));
 	return (line);
 }
 

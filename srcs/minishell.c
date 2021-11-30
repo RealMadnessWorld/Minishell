@@ -25,8 +25,10 @@ int	main(int ac, char **av, char **envp)
 		handle_dollar_sign(&data);
 		parse_envars(data.t, data.envars_list);
 		// parse_envars(data.t, data.envars_list);
-		printlst(data.t);
+		// printlst(data.t);
 		validations(&data);
 		everyone_be_freeee(&data);
+		signal(SIGINT, do_i_have_signal);
+		signal(SIGINT, do_i_have_signal);
 	}
 }

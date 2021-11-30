@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
+# include <signal.h>
 
 /****************************\
 *		    Structs			 *
@@ -70,7 +71,7 @@ void		validations(t_data *d);
 /****************************\
 *		  Commandline		 *
 \****************************/
-int			check_cmd(t_data *d, t_tokens *t);
+void		check_cmd(t_data *d, t_tokens *t);
 
 /****************************\
 *		  	 Utils			 *
@@ -81,6 +82,8 @@ void		everyone_be_freeee(t_data *d);
 void		data_init(t_data *d);
 void		delete(t_envars *node);
 int			error_zero(char *error);
+void		do_i_have_signal(int sig);
+
 
 /****************************\
 *		  	  Env			 *

@@ -25,14 +25,16 @@ int	cd_parser(t_tokens *t)
 	t_tokens	*tmp;
 
 	tmp = t;
-	if (tmp->token != e_pipe)
+	if (tmp && tmp->token != e_pipe)
 	{
 		tmp->token = e_cd_path;
 		if (tmp->next && tmp->next->token != e_pipe)
 			return (0);
 	}
-	else
-		return (0);
+	else if (tmp && tmp->token == e_pipe)
+	{
+		//set home token
+	}
 	return (1);
 }
 
@@ -43,7 +45,6 @@ int	commands_tokens(t_tokens *t)
 	tmp = t;
 	while (tmp)
 	{
-		printf("str = %s\n", tmp->str);
 		if (ft_strcmp(tmp->str, "echo") == 0)
 		{
 			if (tmp->next == NULL)

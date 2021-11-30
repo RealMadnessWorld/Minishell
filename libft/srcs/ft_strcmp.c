@@ -19,7 +19,6 @@ int	ft_strcmp(char *s1, char *s2)
 
 	one = s1;
 	two = s2;
-	printf("im working\n");
 	if (!one && !two)
 		return (0);
 	if (ft_strlen(one) != ft_strlen(two))
