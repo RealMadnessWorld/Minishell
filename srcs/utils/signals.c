@@ -7,10 +7,14 @@ static void	ctrl_c_handler()
 	rl_redisplay();
 }
 
-void	do_i_have_signal(int sig)
+void	do_i_have_signal()
 {
-	if (sig == SIGINT)
-		ctrl_c_handler();
-	if (sig == SIGQUIT)
-		ctrl_c_handler();
+	struct sigaction ctrl_c;
+	struct sigaction ctrl_barra;
+
+	ctrl_c.sa_flags = SA_RESTART;
+	ctrl_c.sa_handler = &ctrl_c_handler;
+	sigaction(SIGINT, &ctrl_c, NULL);
+	ctrl_barra.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &ctrl_barra, NULL);
 }

@@ -82,7 +82,7 @@ void		everyone_be_freeee(t_data *d);
 void		data_init(t_data *d);
 void		delete(t_envars *node);
 int			error_zero(char *error);
-void		do_i_have_signal(int sig);
+void		do_i_have_signal();
 
 
 /****************************\

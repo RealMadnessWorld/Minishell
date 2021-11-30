@@ -15,6 +15,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	data.envars_list = set_envars_list(envp);
+	do_i_have_signal();
 	while (1)
 	{
 		data_init(&data);
@@ -28,7 +29,5 @@ int	main(int ac, char **av, char **envp)
 		// printlst(data.t);
 		validations(&data);
 		everyone_be_freeee(&data);
-		signal(SIGINT, do_i_have_signal);
-		signal(SIGINT, do_i_have_signal);
 	}
 }
