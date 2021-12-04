@@ -31,7 +31,7 @@ char	*find_var(char *str, int start, int end, t_data *data)
 		if (!(ft_strcmp(curr->key, to_find)))
 		{
 			free(to_find);
-			return ((curr->value) + 1);
+			return (curr->value);
 		}
 		curr = curr->next;
 	}
@@ -129,8 +129,9 @@ int	handle_dollar_sign(t_data *data)
 // 	data->envars_list = set_envars_list(envp);
 // 	elist = data->envars_list;
 
-// 	first->str = ft_strdup("$LOGNAM $SHELL $SHLVL cenas");
-// 	second->str = ft_strdup("principio $SHELL fim");
+// 	do_export(data->envars_list, "ola=adeus");
+// 	first->str = ft_strdup("principio $ola fim");
+// 	second->str = ft_strdup("$LOGNAM $SHELL $SHLVL cenas");
 // 	third->str = ft_strdup("cenas $SHLVL mais um sem $nada.");
 // 	first->next = second;
 // 	second->next = third;
