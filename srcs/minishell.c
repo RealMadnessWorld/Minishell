@@ -19,7 +19,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		data_init(&data);
-		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain?\n"CLR_RST);
+		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
 		add_history(data.cmd.str);
 		split(data.cmd.str, '|', &data.cmd);
 		token_creater(&data);
