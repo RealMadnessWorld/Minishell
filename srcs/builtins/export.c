@@ -13,6 +13,56 @@ void	export_func(t_data *d, t_tokens *t)
 	}
 }
 
+// void SortLinkedList()
+// {
+// 	t_envars	*node = NULL;
+// 	t_envars	*temp = NULL;
+// 	char		*tmpkey;
+// 	char		*tmpvalue;
+
+// 	node = g_data->envars_list;
+// 	while(node != NULL)
+// 	{
+// 		temp = node;
+// 		while (temp->next != NULL)
+// 		{
+// 			if(*temp->key > *temp->next->key)
+// 			{
+// 				tmpkey = temp->key;
+// 				tmpvalue = temp->value;
+// 				temp->key = temp->next->key;
+// 				temp->value = temp->next->value;
+// 				temp->next->key = tmpkey;
+// 				temp->next->value = tmpvalue;
+// 			}
+// 			temp = temp->next;
+// 		}
+// 		node = node->next;
+// 	}
+// }
+
+void	empty_export(void)
+{
+	t_envars	*lst;
+	t_envars	*curr;
+	t_envars	*curr_lowest;
+
+	curr = g_data->envars_list;
+	lst = g_data->envars_list;
+	while (lst)
+	{
+		curr_lowest = curr;
+		while (curr)
+		{
+			if (*curr->key < *curr_lowest->key)
+				curr_lowest = curr;
+			curr = curr->next;
+		}
+		printf("declare -x %s=\"%s\"\n", curr_lowest->key, curr_lowest->value);
+		lst = lst->next;
+	}
+}
+
 void	do_export(t_envars *lst, char *to_add)
 {
 	t_envars	*curr;
@@ -23,7 +73,7 @@ void	do_export(t_envars *lst, char *to_add)
 	prev = curr;
 	if (!to_add)
 	{
-		do_env(lst);
+		empty_export();
 		return ;
 	}
 	new = set_line(to_add);
@@ -65,17 +115,21 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 	}
 }
 
-// int main(int ac, char **av, char **envp)
-// {
-// 	t_data		*data;
-// 	int			i = 1;
-// 	t_tokens	*first = malloc(sizeof(t_tokens));
+int main(int ac, char **av, char **envp)
+{
+	// int			i = 1;
+	// t_tokens	*first = malloc(sizeof(t_tokens));
 
-// 	data = malloc(sizeof(t_data));
-// 	data->envars_list = set_envars_list(envp);
-// 	first->str = ft_strdup("testing=working");
-// 	first->token = e_var;
-// 	parse_envars(first, data->envars_list);
-// 	do_env(data->envars_list);
-// 	return (0);
-// }
+	// g_data = malloc(sizeof(t_data));
+	// g_data->envars_list = set_envars_list(envp);
+
+	// first->str = ft_strdup("testing=working");
+	// first->token = e_var;
+	// parse_envars(first, g_data->envars_list);
+	// do_export(g_data->envars_list, NULL);
+	char	*i = "Aviao";
+	char	*b = "Bota";
+	if (i > b)
+		printf("yeah\n");
+	return (0);
+}
