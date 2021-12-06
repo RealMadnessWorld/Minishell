@@ -3,12 +3,8 @@ OS			= $(shell uname)
 
 MAKEFLAGS	+= -s
 
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
-
-# # files
-# SRCS	= minishell.c split.c utils.c parsing/check_cmd.c tokens/token.c tokens/checkers.c tokens/t_utils.c
-# HEADER	= minishell.h tokens.h structs.h
-# OBJ		= $((addprefix $(OBJDIR)/,SRCS:.c=.o))
+CPPFLAGS	= -I ~/.brew/opt/readline/include
+CFLAGS		= $(CPPFLAGS) -Wall -Werror -Wextra -g -fsanitize=address
 
 NAME		= minishell
 
@@ -35,12 +31,12 @@ else
 endif
 
 .o: .c
-	gcc $(CFLAGS) -c $< -o $@
+	gcc $(CFLAGS) -c $< -o $@ -L ~/.brew/opt/readline/lib -lreadline
 
 all: $(NAME)
 
 $(NAME): $(LIBFT_EXEC) $(OBJS)
-	gcc -o $(NAME) $(CFLAGS) -I $(INCDIR) $(OBJS) $(LIBFT_EXEC) -lreadline
+	gcc -o $(NAME) $(CFLAGS) -I $(INCDIR) $(OBJS) $(LIBFT_EXEC) -L ~/.brew/opt/readline/lib -lreadline
 	mkdir -p objs
 	mv ${OBJS} objs
 	echo "$(_GREEN)Compilation complete mothafuckaaaaaaaaaaaaaaaa!!!!!!$(_RESET)"
