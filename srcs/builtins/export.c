@@ -47,11 +47,12 @@ void	empty_export(void)
 	t_envars	*curr;
 	t_envars	*curr_lowest;
 
-	curr = g_data->envars_list;
-	lst = g_data->envars_list;
+	curr = g_d->envars_list;
+	lst = g_d->envars_list;
+	curr_lowest = lst;
 	while (lst)
 	{
-		curr_lowest = curr;
+		curr = lst;
 		while (curr)
 		{
 			if (*curr->key < *curr_lowest->key)
@@ -73,7 +74,8 @@ void	do_export(t_envars *lst, char *to_add)
 	prev = curr;
 	if (!to_add)
 	{
-		empty_export();
+		do_env(lst);
+		//empty_export();
 		return ;
 	}
 	new = set_line(to_add);
@@ -115,21 +117,18 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 	}
 }
 
-int main(int ac, char **av, char **envp)
-{
-	// int			i = 1;
-	// t_tokens	*first = malloc(sizeof(t_tokens));
+// int main(int ac, char **av, char **envp)
+// {
+// 	int			i = 1;
+// 	t_tokens	*first = malloc(sizeof(t_tokens));
 
-	// g_data = malloc(sizeof(t_data));
-	// g_data->envars_list = set_envars_list(envp);
+// 	g_data = malloc(sizeof(t_data));
+// 	g_data->envars_list = set_envars_list(envp);
 
-	// first->str = ft_strdup("testing=working");
-	// first->token = e_var;
-	// parse_envars(first, g_data->envars_list);
-	// do_export(g_data->envars_list, NULL);
-	char	*i = "Aviao";
-	char	*b = "Bota";
-	if (i > b)
-		printf("yeah\n");
-	return (0);
-}
+// 	first->str = ft_strdup("testing=working");
+// 	first->token = e_var;
+// 	parse_envars(first, g_data->envars_list);
+// 	do_export(g_data->envars_list, NULL);
+
+// 	return (0);
+// }
