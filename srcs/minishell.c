@@ -14,7 +14,8 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	data.envars_list = set_envars_list(envp);
+	g_d->envars_list = set_envars_list(envp);
+	g_d->bin_paths = ft_split(get_env(g_d->envars_list, "PATH"), ':');
 	do_i_have_signal();
 	while (1)
 	{

@@ -34,8 +34,14 @@ typedef struct s_data
 {
 	t_cmd			cmd;
 	t_envars		*envars_list;
+	char			**bin_paths;
+	int				env_size;
 	t_tokens		*t;
+	int				nr_pipes;
+	int				*pipes;
 }			t_data;
+
+t_data	*g_d;
 
 /****************************\
 *		   Functions		 *
@@ -71,7 +77,7 @@ void		validations(t_data *d);
 /****************************\
 *		  Commandline		 *
 \****************************/
-void		check_cmd(t_data *d, t_tokens *t);
+void		do_builtin(t_data *d, t_tokens *t);
 
 /****************************\
 *		  	 Utils			 *
