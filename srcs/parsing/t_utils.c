@@ -52,3 +52,16 @@ int	token_lstsize(t_tokens *lst)
 	}
 	return (i);
 }
+
+int	env_lstsize(t_envars *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}

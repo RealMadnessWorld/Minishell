@@ -30,13 +30,21 @@ typedef	struct s_envars
 	struct s_envars	*next;
 }			t_envars;
 
+typedef struct s_exec
+{
+	char			**env;
+	char			**t;
+	char			*path;
+}			t_exec;
+
 typedef struct s_data
 {
 	t_cmd			cmd;
 	t_envars		*envars_list;
+	t_tokens		*t;
+	t_exec			*exec;
 	char			**bin_paths;
 	int				env_size;
-	t_tokens		*t;
 	int				nr_pipes;
 	int				*pipes;
 }			t_data;
@@ -73,6 +81,7 @@ int			echo_parser(t_tokens *t);
 *		  Validations		 *
 \****************************/
 void		validations(t_data *d);
+void		check_cmd(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Commandline		 *
@@ -89,7 +98,9 @@ void		data_init(t_data *d);
 void		delete(t_envars *node);
 int			error_zero(char *error);
 void		do_i_have_signal();
-
+char		**conv_tokens(t_tokens *t);
+char		**conv_env(t_envars *t);
+int			env_lstsize(t_envars *lst);
 
 /****************************\
 *		  	  Env			 *
@@ -104,7 +115,6 @@ t_envars	*add_node(char **line);
 char		**set_line(char *envl);
 char		*get_env(t_envars *env, char *str);
 void		set_env(t_envars *env, char *key, char *value);
-
 
 /****************************\
 *		  	  Pwd			 *
