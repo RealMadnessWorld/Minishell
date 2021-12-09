@@ -4,7 +4,7 @@ OS			= $(shell uname)
 MAKEFLAGS	+= -s
 
 CPPFLAGS	= -I ~/.brew/opt/readline/include
-CFLAGS		= $(CPPFLAGS) -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		= $(CPPFLAGS) -Wall -Werror -Wextra -g #-fsanitize=address
 
 NAME		= minishell
 
@@ -45,7 +45,7 @@ $(LIBFT_EXEC):
 	@${MAKE} -C $(LIBFT_DIR)
 
 debug:
-	gcc $(CFLAGS) $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o debug -lreadline
+	gcc -o $(NAME) $(CFLAGS) -I $(INCDIR) $(OBJS) debug $(LIBFT_EXEC) -L ~/.brew/opt/readline/lib -lreadline
 
 nowarn: $(LIBFT_EXEC) $(OBJS)
 	gcc -w $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o $(NAME) -lreadline

@@ -14,20 +14,20 @@
 // 	return (1);
 // }
 
-void	validations(t_data *d)
-{
-	t_tokens *tmp;
+// void	validations(t_data *d)
+// {
+// 	t_tokens *tmp;
 
-	tmp = d->t;
-	if (!commands_tokens(tmp))
-		return ;
-	// if (!verify_words(tmp))
-	// 	return ;
-	tmp = d->t;
-	while(tmp)
-	{
-		if (tmp->token == e_command || tmp->token == is_nothing)
-			check_cmd(d, tmp);
-		tmp = tmp->next;
-	}
-}
+// 	tmp = d->t;
+// 	if (!commands_tokens(tmp))
+// 		return ;
+// 	// if (!verify_words(tmp))
+// 	// 	return ;
+// 	tmp = d->t;
+// 	while(tmp)
+// 	{
+// 		if (tmp->token == e_command || tmp->token == is_nothing)
+// 			check_cmd(d, tmp);
+// 		tmp = tmp->next;
+// 	}
+// }

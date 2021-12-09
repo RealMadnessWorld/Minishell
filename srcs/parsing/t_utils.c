@@ -40,19 +40,6 @@ void	token_lstadd_back(t_tokens **lst, t_tokens *new)
 	temp->next = new;
 }
 
-int	token_lstsize(t_tokens *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
 int	env_lstsize(t_envars *lst)
 {
 	int	i;

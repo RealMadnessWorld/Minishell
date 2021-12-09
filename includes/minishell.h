@@ -46,7 +46,7 @@ typedef struct s_data
 	char			**bin_paths;
 	int				env_size;
 	int				nr_pipes;
-	int				*pipes;
+	int				**pipes;
 }			t_data;
 
 t_data	*g_d;
@@ -78,10 +78,9 @@ int			cd_parser(t_tokens *t);
 int			echo_parser(t_tokens *t);
 
 /****************************\
-*		  Validations		 *
+*		  Execute		 *
 \****************************/
-void		validations(t_data *d);
-void		check_cmd(t_data *d, t_tokens *t);
+void		executor(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Commandline		 *
@@ -100,6 +99,8 @@ int			error_zero(char *error);
 void		do_i_have_signal();
 char		**conv_tokens(t_tokens *t);
 char		**conv_env(t_envars *t);
+t_tokens	**conv_cmds(t_tokens *t, int nr_pipes);
+int			count_pipes(t_tokens *t);
 int			env_lstsize(t_envars *lst);
 
 /****************************\
