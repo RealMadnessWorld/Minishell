@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
+# include<sys/wait.h>
 # include <signal.h>
 # include <errno.h>
 
