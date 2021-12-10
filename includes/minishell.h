@@ -104,6 +104,9 @@ char		**conv_env(t_envars *t);
 t_tokens	**conv_cmds(t_tokens *t, int nr_pipes);
 int			count_pipes(t_tokens *t);
 int			env_lstsize(t_envars *lst);
+void		order(t_envars *t);
+int			ordered(t_envars *t);
+void		print_export(t_envars *t);
 
 /****************************\
 *		  	  Env			 *

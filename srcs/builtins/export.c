@@ -10,8 +10,9 @@ void	do_export(t_envars *lst, char *to_add)
 	prev = curr;
 	if (!to_add)
 	{
-		do_env(lst);
-		//empty_export();
+		while (!ordered(lst))
+			order(lst);
+		print_export(lst);
 		return ;
 	}
 	new = set_line(to_add);
