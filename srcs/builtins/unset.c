@@ -1,19 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	unset_func(t_data *d, t_tokens *t)
-{
-	t_tokens	*curr;
-
-	curr = t->next;
-	do_unset(&d->envars_list, t->str);
-	while (curr->next && curr->next->token != e_pipe)
-	{
-		do_unset(&d->envars_list, t->str);
-		curr = curr->next;
-	}
-}
-
-void	do_unset(t_envars **lst, char *to_unset)
+static void	do_unset(t_envars **lst, char *to_unset)
 {
 	t_envars	*curr;
 	t_envars	*last;
@@ -35,6 +22,19 @@ void	do_unset(t_envars **lst, char *to_unset)
 			break ;
 		}
 		last = curr;
+		curr = curr->next;
+	}
+}
+
+void	unset_func(t_envars **env, t_tokens *t)
+{
+	t_tokens	*curr;
+
+	curr = t->next;
+	do_unset(env, curr->str);
+	while (curr && curr->token != e_pipe)
+	{
+		do_unset(env, curr->str);
 		curr = curr->next;
 	}
 }

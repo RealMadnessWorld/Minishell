@@ -6,5 +6,4 @@ void	exit_func(t_data *d)
 	everyone_be_freeee(d);
 	printf(CLR_CYN"Bye daddy! Have a great day! 🖤🖤🖤\n"CLR_RST);
 	exit(EXIT_SUCCESS);
-	printf("passou?\n");
 }

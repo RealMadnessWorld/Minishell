@@ -43,3 +43,21 @@ void	everyone_be_freeee(t_data *d)
 		d->pipes = NULL;
 	}
 }
+
+void	free_envars_lst(t_envars *env)
+{
+	t_envars	*curr;
+
+	curr = env;
+	if (curr)
+	{
+		while (curr)
+		{
+			free(curr->key);
+			free(curr->value);
+			curr = curr->next;
+		}
+	}
+	free(env);
+	env = NULL;
+}

@@ -1,69 +1,5 @@
 #include "../../includes/minishell.h"
 
-void	export_func(t_data *d, t_tokens *t)
-{
-	t_tokens	*curr;
-
-	curr = t->next;
-	do_export(d->envars_list, t->str);
-	while (curr->next && curr->next->token != e_pipe)
-	{
-		do_export(d->envars_list, t->str);
-		curr = curr->next;
-	}
-}
-
-// void SortLinkedList()
-// {
-// 	t_envars	*node = NULL;
-// 	t_envars	*temp = NULL;
-// 	char		*tmpkey;
-// 	char		*tmpvalue;
-
-// 	node = g_data->envars_list;
-// 	while(node != NULL)
-// 	{
-// 		temp = node;
-// 		while (temp->next != NULL)
-// 		{
-// 			if(*temp->key > *temp->next->key)
-// 			{
-// 				tmpkey = temp->key;
-// 				tmpvalue = temp->value;
-// 				temp->key = temp->next->key;
-// 				temp->value = temp->next->value;
-// 				temp->next->key = tmpkey;
-// 				temp->next->value = tmpvalue;
-// 			}
-// 			temp = temp->next;
-// 		}
-// 		node = node->next;
-// 	}
-// }
-
-void	empty_export(void)
-{
-	t_envars	*lst;
-	t_envars	*curr;
-	t_envars	*curr_lowest;
-
-	curr = g_d->envars_list;
-	lst = g_d->envars_list;
-	curr_lowest = lst;
-	while (lst)
-	{
-		curr = lst;
-		while (curr)
-		{
-			if (*curr->key < *curr_lowest->key)
-				curr_lowest = curr;
-			curr = curr->next;
-		}
-		printf("declare -x %s=\"%s\"\n", curr_lowest->key, curr_lowest->value);
-		lst = lst->next;
-	}
-}
-
 void	do_export(t_envars *lst, char *to_add)
 {
 	t_envars	*curr;
@@ -93,6 +29,21 @@ void	do_export(t_envars *lst, char *to_add)
 		curr = curr->next;
 	}
 	prev->next = add_node(new);
+}
+
+
+void	export_func(t_envars *env, t_tokens *t)
+{
+	t_tokens	*curr;
+
+	curr = t->next;
+	do_export(env, curr->str);
+	curr = curr->next;
+	while (curr && curr->token != e_pipe)
+	{
+		do_export(env, curr->str);
+		curr = curr->next;
+	}
 }
 
 void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)

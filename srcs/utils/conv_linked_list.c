@@ -60,7 +60,8 @@ char	**conv_tokens(t_tokens *t)
 	t_tokens	*curr;
 
 	i = 0;
-	cmd_lst = (char **)malloc(sizeof(char *) * command_size(t) + 1);
+	cmd_lst = (char **)malloc(sizeof(char *) * (command_size(t) + 1));
+	printf("com size %d\n", command_size(t));
 	curr = t;
 	if (!cmd_lst)
 		return (0);
@@ -70,27 +71,27 @@ char	**conv_tokens(t_tokens *t)
 		curr = curr->next;
 		i++;
 	}
-	// str[i] = NULL;
+	cmd_lst[i] = NULL;
 	return (cmd_lst);
 }
 
-char	**conv_env(t_envars *t)
+char	**conv_env(t_envars *env)
 {
-	char	**str;
-	int		i;
+	int			i;
+	char		**str;
+	t_envars	*curr;
 
 	i = 0;
-	str = (char **)malloc(sizeof(char *) * env_lstsize(t) + 1);
+	str = (char **)malloc(sizeof(char *) * (env_lstsize(env) + 1));
+	curr = env;
 	if (!str)
 		return (0);
-	while (t)
+	while (curr)
 	{
-		ft_strjoin(t->key, "=");
-		str[i] = ft_strdup(ft_strjoin_path(t->key, "=", t->value));
-		t = t->next;
+		str[i] = ft_strdup(ft_strjoin_path(curr->key, "=", curr->value));
+		curr = curr->next;
 		i++;
 	}
-	i = 0;
-	// str[i] = NULL;
+	str[i] = NULL;
 	return (str);
 }

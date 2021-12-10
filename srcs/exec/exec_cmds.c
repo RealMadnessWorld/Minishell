@@ -26,7 +26,6 @@ static void	manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos)
 
 static void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
 {
-	wait(NULL);
 	if (x)
 	{
 		if (x->env)
@@ -83,25 +82,35 @@ static int	exec_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	pid_t	pid;
 
 	i = 0;
-	x = check_cmd(d, t);
-	if (x == NULL && t->token != e_command)
-	{
-		printf("bash: %s: command not found\n", t->str);
-		return (-1);
-	}
-	pid = fork();
-	if (pid == 0)
+	if (t->token == e_command)
 	{
 		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
-		if (t->token == e_command)
-		{
-			do_builtin(d, t);
-			return (0);
-		}
-		else if (x)
-			execve(x->path, x->t, x->env);
+		do_builtin(d, t);
+		close_pipes(d->nr_pipes, d->pipes, pipe_pos, NULL);
 	}
-	close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
+	else
+	{
+		x = check_cmd(d, t);
+		// printf("path = %s\n", x->path);
+		// printf("env = %s\n", *x->env);
+		// printf("env = %s\n", x->env[12]);
+		// printf("t = %s\n", *x->t);
+		if (x == NULL)
+			return (printf("bash: %s: command not found\n", t->str));
+		pid = fork();
+		if (pid == 0)
+		{
+			manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
+			execve(x->path, x->t, x->env);
+    		perror("execve fail");
+			exit(0);
+		}
+		else
+		{
+			wait(NULL);
+			close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
+		}
+	}
 	return (0);
 }
 
@@ -118,7 +127,7 @@ void	executor(t_data *d, t_tokens *t)
 		cmd_array = conv_cmds(t, d->nr_pipes);
 	if (!commands_tokens(t))
 		return ;
-	if (d->nr_pipes)
+	if (d->nr_pipes > 0)
 	{
 		d->pipes = malloc(sizeof(int *) * d->nr_pipes);
 		while (i < d->nr_pipes)

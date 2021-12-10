@@ -11,6 +11,7 @@
 # include <readline/history.h>
 # include <sys/stat.h>
 # include <signal.h>
+# include <errno.h>
 
 /****************************\
 *		    Structs			 *
@@ -64,7 +65,7 @@ int			str_quotes_checker(int i, const char *str, int quotes);
 /****************************\
 *		  	 Tokens			 *
 \****************************/
-void		token_creater(t_data *d);
+int			token_creater(t_data *d);
 void		token_check(t_tokens *t);
 t_tokens	*token_lstnew(char *content);
 t_tokens	*token_lstlast(t_tokens *lst);
@@ -90,9 +91,9 @@ void		do_builtin(t_data *d, t_tokens *t);
 /****************************\
 *		  	 Utils			 *
 \****************************/
-void		exit_func(t_data *d);
 void		be_free_my_child(t_tokens *lst);
 void		everyone_be_freeee(t_data *d);
+void		free_envars_lst(t_envars *env);
 void		data_init(t_data *d);
 void		delete(t_envars *node);
 int			error_zero(char *error);
@@ -118,27 +119,14 @@ char		*get_env(t_envars *env, char *str);
 void		set_env(t_envars *env, char *key, char *value);
 
 /****************************\
-*		  	  Pwd			 *
+*		  	  Builtins		 *
 \****************************/
+void		exit_func(t_data *d);
 void		do_pwd(void);
-
-/****************************\
-*		  	  Unset			 *
-\****************************/
-void		do_unset(t_envars **lst, char *to_unset);
-/****************************\
-*		  	  Export		 *
-\****************************/
+void		unset_func(t_envars **env, t_tokens *t);
 void		do_export(t_envars *lst, char *to_add);
-
-/****************************\
-*		  	 Echo			 *
-\****************************/
+void		export_func(t_envars *lst, t_tokens *t);
 void		echo_fun(t_tokens *t);
-
-/****************************\
-*		  	 Cd				 *
-\****************************/
 int			do_cd(t_tokens *tkn_lst, t_envars *env);
 
 /****************************\

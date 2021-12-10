@@ -87,7 +87,7 @@ int	token_str_checker(char **tmp, char *str, int x)
 	return (i);
 }
 
-void	token_creater(t_data *d)
+int	token_creater(t_data *d)
 {
 	int			i;
 	int			j;
@@ -108,6 +108,8 @@ void	token_creater(t_data *d)
 		i++;
 	}
 	check_vars(d->t);
-	handle_quotes(d->t);
+	if (handle_quotes(d->t))
+		return (1);
 	re_check_tokens(d->t);
+	return (0);
 }

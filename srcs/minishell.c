@@ -20,18 +20,22 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	data.envars_list = set_envars_list(envp);
 	do_i_have_signal();
-	// while (1)
-	// {
+	while (1)
+	{
 		data_init(&data);
-		// data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
-		data.cmd.str = ft_strdup("cd ..");
+		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
 		add_history(data.cmd.str);
 		split(data.cmd.str, '|', &data.cmd);
-		token_creater(&data);
+		if (token_creater(&data))
+		{
+			everyone_be_freeee(&data);
+			continue ;
+		}
 		handle_dollar_sign(&data);
 		parse_envars(data.t, data.envars_list);
 		// printlst(data.t);
 		executor(&data, data.t);
 		everyone_be_freeee(&data);
-	// }
+	}
+	free_envars_lst(data.envars_list);
 }
