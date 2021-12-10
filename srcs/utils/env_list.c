@@ -10,8 +10,8 @@ t_envars *add_node(char **line)
 			node->key = ft_strdup(line[0]);
 			node->value = ft_strdup(line[1]);
 			node->next = NULL;
-			free(line[0]);
-			free(line[1]);
+			free(line);
+			line = NULL;
 	}
 	return (node);
 }
@@ -87,6 +87,7 @@ void		set_env(t_envars *env, char *key, char *value)
 	to_add = malloc(sizeof(char *) * 3);
 	to_add[0] = key;
 	to_add[1] = value;
+	to_add[2] = NULL;
 	while (curr)
 	{
 		if (ft_strcmp(key, curr->key) == 0)
@@ -95,13 +96,12 @@ void		set_env(t_envars *env, char *key, char *value)
 				free(curr->value);
 			curr->value = ft_strdup(value);
 			free(to_add);
+			to_add = NULL;
 			return ;
 		}
 		curr = curr->next;
 	}
 	add_node(to_add);
-	free(to_add);
-	to_add = NULL;
 }
 
 // int main(int ac, char **av, char **envp)

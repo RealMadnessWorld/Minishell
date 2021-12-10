@@ -77,11 +77,9 @@ static t_exec	*check_cmd(t_data *d, t_tokens *t)
 
 static int	exec_cmd(t_data *d, t_tokens *t, int pipe_pos)
 {
-	// int		i;
 	t_exec	*x;
 	pid_t	pid;
 
-	// i = 0;
 	if (t->token == e_command)
 	{
 		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
