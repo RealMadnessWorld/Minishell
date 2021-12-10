@@ -93,9 +93,8 @@ void		do_builtin(t_data *d, t_tokens *t);
 *		  	 Utils			 *
 \****************************/
 void		be_free_my_child(t_tokens *lst);
-void		everyone_be_freeee(t_data *d);
-void		free_envars_lst(t_envars *env);
-void		data_init(t_data *d);
+int			everyone_be_freeee(t_data *d);
+void		free_envars_list(t_envars *env);
 void		delete(t_envars *node);
 int			error_zero(char *error);
 void		do_i_have_signal();
@@ -111,6 +110,7 @@ void		print_export(t_envars *t);
 /****************************\
 *		  	  Env			 *
 \****************************/
+
 void		env_print(t_data *data);
 void		parse_envars(t_tokens *tkn_lst, t_envars *envars_lst);
 void		add_envar(char *str, t_envars *envars_lst);

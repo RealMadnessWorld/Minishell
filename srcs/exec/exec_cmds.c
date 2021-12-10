@@ -9,13 +9,13 @@ static void	manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos)
 			close(pipe_fd[pipe_pos][0]);
 			dup2(pipe_fd[pipe_pos][1], 1);
 		}
-		else if (pipe_pos > 0 && (pipe_pos < nr_pipes - 1))
+		else if (pipe_pos > 0 && pipe_pos < (nr_pipes - 1))
 		{
 			close(pipe_fd[pipe_pos][0]);
 			dup2(pipe_fd[pipe_pos - 1][0], 0);
 			dup2(pipe_fd[pipe_pos][1], 1);
 		}
-		else if (pipe_pos == nr_pipes - 1)
+		else if (pipe_pos == (nr_pipes - 1))
 		{
 			close(pipe_fd[pipe_pos][1]);
 			close(pipe_fd[pipe_pos][0]);
@@ -41,7 +41,7 @@ static void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
 			close (pipe_fd[pipe_pos][1]);
 		else if (pipe_pos > 0 && pipe_pos < (nr_pipes - 1))
 			close(pipe_fd[pipe_pos][1]);
-		else if (pipe_pos == nr_pipes)
+		else if (pipe_pos == (nr_pipes - 1))
 		{
 			close(pipe_fd[pipe_pos][1]);
 			close(pipe_fd[pipe_pos][0]);
@@ -89,10 +89,6 @@ static int	exec_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	else
 	{
 		x = check_cmd(d, t);
-		// printf("path = %s\n", x->path);
-		// printf("env = %s\n", *x->env);
-		// printf("env = %s\n", x->env[12]);
-		// printf("t = %s\n", *x->t);
 		if (x == NULL)
 			return (printf("bash: %s: command not found\n", t->str));
 		pid = fork();
@@ -117,25 +113,27 @@ void	executor(t_data *d, t_tokens *t)
 	int			i;
 	t_tokens	**cmd_array;
 
-	i = 0;
+	i = -1;
 	d->bin_paths = ft_split(get_env(d->envars_list, "PATH"), ':');
 	d->nr_pipes = count_pipes(t);
 	cmd_array = NULL;
-	if (d->nr_pipes > 0)
-		cmd_array = conv_cmds(t, d->nr_pipes);
 	if (!commands_tokens(t))
 		return ;
 	if (d->nr_pipes > 0)
 	{
-		d->pipes = malloc(sizeof(int *) * d->nr_pipes);
-		while (i < d->nr_pipes)
+		cmd_array = conv_cmds(t, d->nr_pipes);
+		d->pipes = malloc(sizeof(int *) * (d->nr_pipes * 2));
+		while (++i < d->nr_pipes * 2)
 		{
 			d->pipes[i] = malloc(sizeof(int) * 2);
-			pipe(d->pipes[i++]);
+			pipe(d->pipes[i]);
 		}
 		i = -1;
 		while (++i < d->nr_pipes)
+		{
+			printf("cmd %s\n", cmd_array[i]->str);
 			exec_cmd(d, cmd_array[i], i);
+		}
 	}
 	else
 		exec_cmd(d, t, -1);

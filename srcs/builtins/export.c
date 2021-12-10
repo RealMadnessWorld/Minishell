@@ -32,7 +32,6 @@ void	do_export(t_envars *lst, char *to_add)
 	prev->next = add_node(new);
 }
 
-
 void	export_func(t_envars *env, t_tokens *t)
 {
 	t_tokens	*curr;
