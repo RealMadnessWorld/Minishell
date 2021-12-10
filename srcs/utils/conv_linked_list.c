@@ -23,7 +23,7 @@ t_tokens	**conv_cmds(t_tokens *t, int nr_pipes)
 
 	curr = t;
 	i = 0;
-	new = (t_tokens **)malloc(sizeof(t_tokens *) * nr_pipes + 1);
+	new = (t_tokens **)malloc(sizeof(t_tokens *) * (nr_pipes + 2));
 	new[i] = t;
 	i++;
 	while (curr)
@@ -35,6 +35,9 @@ t_tokens	**conv_cmds(t_tokens *t, int nr_pipes)
 		}
 		curr = curr->next;
 	}
+	new[i] = NULL;
+	// printf("1st command = %s\n", new[0]->str);
+	// printf("2st command = %s\n", new[1]->str);
 	return (new);
 }
 
@@ -61,7 +64,6 @@ char	**conv_tokens(t_tokens *t)
 
 	i = 0;
 	cmd_lst = (char **)malloc(sizeof(char *) * (command_size(t) + 1));
-	printf("com size %d\n", command_size(t));
 	curr = t;
 	if (!cmd_lst)
 		return (0);
