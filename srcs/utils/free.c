@@ -4,12 +4,15 @@ void	be_free_my_child(t_tokens *lst)
 {
 	t_tokens	*tmp;
 
-	while (lst != NULL)
+	if (lst)
 	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp->str);
-		free(tmp);
+		while (lst != NULL)
+		{
+			tmp = lst;
+			lst = lst->next;
+			free(tmp->str);
+			free(tmp);
+		}
 	}
 }
 
@@ -17,24 +20,31 @@ static void	free_cmd(t_cmd *cmd)
 {
 	int	i;
 
-	i = 0;
-	while (cmd->cmdline[i])
+	i = -1;
+	if (cmd)
 	{
-		free(cmd->cmdline[i]);
-		cmd->cmdline[i] = NULL;
+		if (cmd->cmdline)
+		{
+			while (cmd->cmdline[++i])
+			{
+				free(cmd->cmdline[i]);
+				cmd->cmdline[i] = NULL;
+			}
+			free(cmd->cmdline);
+			cmd->cmdline = NULL;
+		}
 	}
-	free(cmd->cmdline);
-	cmd->cmdline = NULL;
 }
 
-void	everyone_be_freeee(t_data *d)
+int	everyone_be_freeee(t_data *d)
 {
 	int	i;
 
 	i = 0;
 	be_free_my_child(d->t);
 	free_cmd(&d->cmd);
-	free(d->cmd.str);
+	if (d->cmd.str)
+		free(d->cmd.str);
 	if (d->pipes)
 	{
 		while (i < d->nr_pipes)
@@ -42,9 +52,10 @@ void	everyone_be_freeee(t_data *d)
 		free(d->pipes);
 		d->pipes = NULL;
 	}
+	return (1);
 }
 
-void	free_envars_lst(t_envars *env)
+void	free_envars_list(t_envars *env)
 {
 	t_envars	*curr;
 

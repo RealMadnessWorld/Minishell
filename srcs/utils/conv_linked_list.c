@@ -36,8 +36,6 @@ t_tokens	**conv_cmds(t_tokens *t, int nr_pipes)
 		curr = curr->next;
 	}
 	new[i] = NULL;
-	// printf("1st command = %s\n", new[0]->str);
-	// printf("2st command = %s\n", new[1]->str);
 	return (new);
 }
 
