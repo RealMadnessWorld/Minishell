@@ -31,14 +31,14 @@ void	everyone_be_freeee(t_data *d)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	be_free_my_child(d->t);
 	free_cmd(&d->cmd);
 	free(d->cmd.str);
 	if (d->pipes)
 	{
-		while (d->pipes[++i])
-			free(d->pipes[i]);
+		while (i < d->nr_pipes)
+			free(d->pipes[i++]);
 		free(d->pipes);
 		d->pipes = NULL;
 	}
