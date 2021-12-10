@@ -101,6 +101,7 @@ void		set_env(t_envars *env, char *key, char *value)
 	}
 	add_node(to_add);
 	free(to_add);
+	to_add = NULL;
 }
 
 // int main(int ac, char **av, char **envp)

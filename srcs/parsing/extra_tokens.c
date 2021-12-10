@@ -53,12 +53,6 @@ int	commands_tokens(t_tokens *t)
 			if (!echo_parser(tmp))
 				return (error_zero("What am I? A mind reader? 👿"));
 		}
-		if (ft_strcmp(tmp->str, "cd") == 0)
-		{
-			tmp = tmp->next;
-			if (!cd_parser(tmp))
-				return (error_zero(CLR_RED"What am I? A multitasker? 👿"CLR_RST));
-		}
 		tmp = tmp->next;
 	}
 	return (1);

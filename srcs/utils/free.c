@@ -29,7 +29,35 @@ static void	free_cmd(t_cmd *cmd)
 
 void	everyone_be_freeee(t_data *d)
 {
+	int	i;
+
+	i = -1;
 	be_free_my_child(d->t);
 	free_cmd(&d->cmd);
 	free(d->cmd.str);
+	if (d->pipes)
+	{
+		while (d->pipes[++i])
+			free(d->pipes[i]);
+		free(d->pipes);
+		d->pipes = NULL;
+	}
+}
+
+void	free_envars_lst(t_envars *env)
+{
+	t_envars	*curr;
+
+	curr = env;
+	if (curr)
+	{
+		while (curr)
+		{
+			free(curr->key);
+			free(curr->value);
+			curr = curr->next;
+		}
+	}
+	free(env);
+	env = NULL;
 }

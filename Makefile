@@ -45,7 +45,7 @@ $(LIBFT_EXEC):
 	@${MAKE} -C $(LIBFT_DIR)
 
 debug:
-	gcc $(CFLAGS) $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o debug -lreadline
+	gcc -o $(NAME) $(CFLAGS) -I $(INCDIR) $(OBJS) debug $(LIBFT_EXEC) -L ~/.brew/opt/readline/lib -lreadline
 
 nowarn: $(LIBFT_EXEC) $(OBJS)
 	gcc -w $(LIBFT_EXEC) $(OBJS) -I $(INCDIR) $(LIB_INC) -o $(NAME) -lreadline

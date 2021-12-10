@@ -1,18 +1,5 @@
 #include "../../includes/minishell.h"
 
-void	export_func(t_data *d, t_tokens *t)
-{
-	t_tokens	*curr;
-
-	curr = t->next;
-	do_export(d->envars_list, t->str);
-	while (curr->next && curr->next->token != e_pipe)
-	{
-		do_export(d->envars_list, t->str);
-		curr = curr->next;
-	}
-}
-
 void	do_export(t_envars *lst, char *to_add)
 {
 	t_envars	*curr;
@@ -24,6 +11,7 @@ void	do_export(t_envars *lst, char *to_add)
 	if (!to_add)
 	{
 		do_env(lst);
+		//empty_export();
 		return ;
 	}
 	new = set_line(to_add);
@@ -41,6 +29,21 @@ void	do_export(t_envars *lst, char *to_add)
 		curr = curr->next;
 	}
 	prev->next = add_node(new);
+}
+
+
+void	export_func(t_envars *env, t_tokens *t)
+{
+	t_tokens	*curr;
+
+	curr = t->next;
+	do_export(env, curr->str);
+	curr = curr->next;
+	while (curr && curr->token != e_pipe)
+	{
+		do_export(env, curr->str);
+		curr = curr->next;
+	}
 }
 
 void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
@@ -67,15 +70,16 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 
 // int main(int ac, char **av, char **envp)
 // {
-// 	t_data		*data;
 // 	int			i = 1;
 // 	t_tokens	*first = malloc(sizeof(t_tokens));
 
-// 	data = malloc(sizeof(t_data));
-// 	data->envars_list = set_envars_list(envp);
+// 	g_data = malloc(sizeof(t_data));
+// 	g_data->envars_list = set_envars_list(envp);
+
 // 	first->str = ft_strdup("testing=working");
 // 	first->token = e_var;
-// 	parse_envars(first, data->envars_list);
-// 	do_env(data->envars_list);
+// 	parse_envars(first, g_data->envars_list);
+// 	do_export(g_data->envars_list, NULL);
+
 // 	return (0);
 // }

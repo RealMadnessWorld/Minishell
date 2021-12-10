@@ -4,6 +4,10 @@ void	data_init(t_data *d)
 {
 	d->t = NULL;
 	d->cmd.i = 0;
+	d->nr_pipes = 0;
+	d->pipes = NULL;
+	d->exec = NULL;
+	d->bin_paths = NULL;
 	// d = malloc(sizeof(t_data));
 	// d->envars_list = set_envars_list(envp);
 }
@@ -22,12 +26,16 @@ int	main(int ac, char **av, char **envp)
 		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
 		add_history(data.cmd.str);
 		split(data.cmd.str, '|', &data.cmd);
-		token_creater(&data);
+		if (token_creater(&data))
+		{
+			everyone_be_freeee(&data);
+			continue ;
+		}
 		handle_dollar_sign(&data);
 		parse_envars(data.t, data.envars_list);
-		// parse_envars(data.t, data.envars_list);
 		// printlst(data.t);
-		validations(&data);
+		executor(&data, data.t);
 		everyone_be_freeee(&data);
 	}
+	free_envars_lst(data.envars_list);
 }

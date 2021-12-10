@@ -10,7 +10,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
+# include<sys/wait.h>
 # include <signal.h>
+# include <errno.h>
 
 /****************************\
 *		    Structs			 *
@@ -30,12 +32,26 @@ typedef	struct s_envars
 	struct s_envars	*next;
 }			t_envars;
 
+typedef struct s_exec
+{
+	char			**env;
+	char			**t;
+	char			*path;
+}			t_exec;
+
 typedef struct s_data
 {
 	t_cmd			cmd;
 	t_envars		*envars_list;
 	t_tokens		*t;
+	t_exec			*exec;
+	char			**bin_paths;
+	int				env_size;
+	int				nr_pipes;
+	int				**pipes;
 }			t_data;
+
+t_data	*g_d;
 
 /****************************\
 *		   Functions		 *
@@ -50,7 +66,7 @@ int			str_quotes_checker(int i, const char *str, int quotes);
 /****************************\
 *		  	 Tokens			 *
 \****************************/
-void		token_creater(t_data *d);
+int			token_creater(t_data *d);
 void		token_check(t_tokens *t);
 t_tokens	*token_lstnew(char *content);
 t_tokens	*token_lstlast(t_tokens *lst);
@@ -64,26 +80,30 @@ int			cd_parser(t_tokens *t);
 int			echo_parser(t_tokens *t);
 
 /****************************\
-*		  Validations		 *
+*		  Execute		 *
 \****************************/
-void		validations(t_data *d);
+void		executor(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Commandline		 *
 \****************************/
-void		check_cmd(t_data *d, t_tokens *t);
+void		do_builtin(t_data *d, t_tokens *t);
 
 /****************************\
 *		  	 Utils			 *
 \****************************/
-void		exit_func(t_data *d);
 void		be_free_my_child(t_tokens *lst);
 void		everyone_be_freeee(t_data *d);
+void		free_envars_lst(t_envars *env);
 void		data_init(t_data *d);
 void		delete(t_envars *node);
 int			error_zero(char *error);
 void		do_i_have_signal();
-
+char		**conv_tokens(t_tokens *t);
+char		**conv_env(t_envars *t);
+t_tokens	**conv_cmds(t_tokens *t, int nr_pipes);
+int			count_pipes(t_tokens *t);
+int			env_lstsize(t_envars *lst);
 
 /****************************\
 *		  	  Env			 *
@@ -99,29 +119,15 @@ char		**set_line(char *envl);
 char		*get_env(t_envars *env, char *str);
 void		set_env(t_envars *env, char *key, char *value);
 
-
 /****************************\
-*		  	  Pwd			 *
+*		  	  Builtins		 *
 \****************************/
+void		exit_func(t_data *d);
 void		do_pwd(void);
-
-/****************************\
-*		  	  Unset			 *
-\****************************/
-void		do_unset(t_envars **lst, char *to_unset);
-/****************************\
-*		  	  Export		 *
-\****************************/
+void		unset_func(t_envars **env, t_tokens *t);
 void		do_export(t_envars *lst, char *to_add);
-
-/****************************\
-*		  	 Echo			 *
-\****************************/
+void		export_func(t_envars *lst, t_tokens *t);
 void		echo_fun(t_tokens *t);
-
-/****************************\
-*		  	 Cd				 *
-\****************************/
 int			do_cd(t_tokens *tkn_lst, t_envars *env);
 
 /****************************\
