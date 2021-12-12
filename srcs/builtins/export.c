@@ -1,18 +1,34 @@
 #include "../../includes/minishell.h"
 
+t_envars	*copy_envars(t_envars *t)
+{
+	t_envars *copy;
+
+	copy = NULL;
+	while (t)
+	{
+		env_add_lst(&copy, env_new(t->key, t->value));
+		t = t->next;
+	}
+	return (copy);
+}
+
 void	do_export(t_envars *lst, char *to_add)
 {
 	t_envars	*curr;
 	t_envars	*prev;
+	t_envars	*copy;
 	char		**new;
 
 	curr = lst;
 	prev = curr;
 	if (!to_add)
 	{
-		while (!ordered(lst))
-			order(lst);
-		print_export(lst);
+		copy = copy_envars(lst);
+		while (!ordered(copy))
+			order(copy);
+		print_export(copy);
+		free(copy);
 		return ;
 	}
 	new = set_line(to_add);

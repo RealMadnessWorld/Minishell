@@ -35,9 +35,9 @@ t_envars	*set_envars_list(char **envp)
 {
 	t_envars	*list;
 	t_envars	*curr;
+	t_envars	*prev;
 	char		**line;
 	int			i;
-	t_envars	*prev;
 
 	i = 0;
 	curr = NULL;

@@ -10,7 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
-# include<sys/wait.h>
+# include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
 
@@ -106,6 +106,9 @@ int			env_lstsize(t_envars *lst);
 void		order(t_envars *t);
 int			ordered(t_envars *t);
 void		print_export(t_envars *t);
+t_envars	*env_last(t_envars *t);
+t_envars	*env_new(char *key, char *value);
+void		env_add_lst(t_envars **t, t_envars *new);
 
 /****************************\
 *		  	  Env			 *
