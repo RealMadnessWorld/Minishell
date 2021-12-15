@@ -39,12 +39,23 @@ typedef struct s_exec
 	char			*path;
 }			t_exec;
 
+typedef struct s_fd
+{
+	char			*in_name;
+	int				in;
+	int				in_original;
+	char			*out_name;
+	int				out;
+	int				out_original;
+}			t_fd;
+
 typedef struct s_data
 {
 	t_cmd			cmd;
 	t_envars		*envars_list;
 	t_tokens		*t;
 	t_exec			*exec;
+	t_fd			fd;
 	char			**bin_paths;
 	int				env_size;
 	int				nr_pipes;
@@ -80,7 +91,7 @@ int			cd_parser(t_tokens *t);
 int			echo_parser(t_tokens *t);
 
 /****************************\
-*		  Execute		 *
+*			Execute			 *
 \****************************/
 void		executor(t_data *d, t_tokens *t);
 
@@ -90,7 +101,15 @@ void		executor(t_data *d, t_tokens *t);
 void		do_builtin(t_data *d, t_tokens *t);
 
 /****************************\
-*		  	 Utils			 *
+*		  Redirections		 *
+\****************************/
+void		set_fd_names(t_data *d, t_tokens *t);
+int			open_fd(t_data *d);
+void		restart_fd(t_data *d);
+
+
+/****************************\
+*			 Utils			 *
 \****************************/
 void		be_free_my_child(t_tokens *lst);
 int			everyone_be_freeee(t_data *d);
@@ -109,6 +128,8 @@ void		print_export(t_envars *t);
 t_envars	*env_last(t_envars *t);
 t_envars	*env_new(char *key, char *value);
 void		env_add_lst(t_envars **t, t_envars *new);
+int			redirections_tokens(t_tokens *t);
+
 
 /****************************\
 *		  	  Env			 *

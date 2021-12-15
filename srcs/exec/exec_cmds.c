@@ -90,7 +90,8 @@ static int	exec_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	{
 		x = check_cmd(d, t);
 		if (x == NULL)
-			return (printf("bash: %s: command not found\n", t->str));
+			printf(CLR_RED"I don't know wtf is \"%s\"...🤨\nPlease speak binary!\n"CLR_RST, t->str);
+		// return (printf("bash: %s: command not found\n", t->str));
 		pid = fork();
 		if (pid == 0)
 		{
@@ -119,6 +120,12 @@ void	executor(t_data *d, t_tokens *t)
 	cmd_array = NULL;
 	if (!commands_tokens(t))
 		return ;
+	if (!open_fd(d))
+	{
+		printf("bro, idk what happened BUTT I cant find that file...\n");
+		printf("maybe you have virtual 🐀 in your computer?\n");
+		return ;
+	}
 	if (d->nr_pipes > 0)
 	{
 		cmd_array = conv_cmds(t, d->nr_pipes);
