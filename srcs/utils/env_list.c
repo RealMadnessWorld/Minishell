@@ -99,9 +99,13 @@ void		set_env(t_envars *env, char *key, char *value)
 			to_add = NULL;
 			return ;
 		}
+		if (curr->next == NULL)
+		{
+			curr->next = add_node(to_add);
+			return ;
+		}
 		curr = curr->next;
 	}
-	add_node(to_add);
 }
 
 // int main(int ac, char **av, char **envp)

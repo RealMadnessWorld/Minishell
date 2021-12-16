@@ -89,7 +89,7 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 	{
 		x = check_cmd(d, t);
 		if (x == NULL)
-			printf(CLR_RED"I don't know wtf is \"%s\"...🤨\nPlease speak binary!\n"CLR_RST, t->str);
+			return (printf(CLR_RED"I don't know wtf is \"%s\"...🤨\nPlease speak binary!\n"CLR_RST, t->str));
 		//tem de parar na linha 92;
 		// return (printf("bash: %s: command not found\n", t->str));
 		pid = fork();
