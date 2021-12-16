@@ -12,6 +12,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	data.envars_list = set_envars_list(envp);
 	do_i_have_signal();
+	//falta cuidar da primeira linha do subject - n intrepretar ; ou '\'
 	while (1)
 	{
 		data_init(&data);

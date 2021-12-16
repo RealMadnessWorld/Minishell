@@ -2,25 +2,24 @@
 
 static void	manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos)
 {
-	if (pipe_pos > -1)
+	if (pipe_pos == 0)
 	{
-		if (pipe_pos == 0)
-		{
-			close(pipe_fd[pipe_pos][0]);
-			dup2(pipe_fd[pipe_pos][1], 1);
-		}
-		else if (pipe_pos > 0 && pipe_pos < (nr_pipes - 1))
-		{
-			close(pipe_fd[pipe_pos][0]);
-			dup2(pipe_fd[pipe_pos - 1][0], 0);
-			dup2(pipe_fd[pipe_pos][1], 1);
-		}
-		else if (pipe_pos == (nr_pipes - 1))
-		{
-			close(pipe_fd[pipe_pos][1]);
-			close(pipe_fd[pipe_pos][0]);
-			dup2(pipe_fd[pipe_pos - 1][0], 0);
-		}
+		close(pipe_fd[0][0]);
+		dup2(pipe_fd[0][1], STDOUT_FILENO);
+		close(pipe_fd[0][1]);
+	}
+	else if (nr_pipes > 1 && pipe_pos > 0 && pipe_pos < nr_pipes)
+	{
+		close(pipe_fd[pipe_pos][0]);
+		dup2(pipe_fd[pipe_pos - 1][0], STDIN_FILENO);
+		close(pipe_fd[pipe_pos - 1][0]);
+		dup2(pipe_fd[pipe_pos][1], STDOUT_FILENO);
+		close(pipe_fd[pipe_pos][1]);
+	}
+	else if (pipe_pos == nr_pipes)
+	{
+		dup2(pipe_fd[pipe_pos - 1][0], STDIN_FILENO);
+		close(pipe_fd[pipe_pos - 1][0]);
 	}
 }
 
@@ -35,17 +34,20 @@ static void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
 		if (x->t)
 			free(x->t);
 	}
-	if (pipe_pos > -1)
+	if (pipe_pos == 0)
 	{
-		if (pipe_pos == 0)
-			close (pipe_fd[pipe_pos][1]);
-		else if (pipe_pos > 0 && pipe_pos < (nr_pipes - 1))
-			close(pipe_fd[pipe_pos][1]);
-		else if (pipe_pos == (nr_pipes - 1))
-		{
-			close(pipe_fd[pipe_pos][1]);
-			close(pipe_fd[pipe_pos][0]);
-		}
+		if (close (pipe_fd[pipe_pos][1]) == -1)
+			perror("close 1");
+	}
+	else if (nr_pipes > 1 && pipe_pos > 0 && pipe_pos < nr_pipes)
+	{
+		if (close(pipe_fd[pipe_pos][1]) == -1)
+			perror("close 2");
+	}
+	else if (pipe_pos == nr_pipes)
+	{
+		if (close(pipe_fd[pipe_pos - 1][0]) == -1)
+			perror("close 3");
 	}
 }
 
@@ -75,38 +77,80 @@ static t_exec	*check_cmd(t_data *d, t_tokens *t)
 	return NULL;
 }
 
-static int	exec_cmd(t_data *d, t_tokens *t, int pipe_pos)
+static int	exec_cmd(t_data *d, t_tokens *t)
 {
 	t_exec	*x;
 	pid_t	pid;
 
+	x = NULL;
 	if (t->token == e_command)
-	{
-		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
 		do_builtin(d, t);
-		close_pipes(d->nr_pipes, d->pipes, pipe_pos, NULL);
-	}
 	else
 	{
 		x = check_cmd(d, t);
 		if (x == NULL)
 			printf(CLR_RED"I don't know wtf is \"%s\"...🤨\nPlease speak binary!\n"CLR_RST, t->str);
+		//tem de parar na linha 92;
 		// return (printf("bash: %s: command not found\n", t->str));
 		pid = fork();
 		if (pid == 0)
 		{
-			manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
-			execve(x->path, x->t, x->env);
-    		perror("execve fail");
+			if (execve(x->path, x->t, x->env) == -1)
+    			perror("execve fail");
 			exit(0);
 		}
 		else
-		{
 			wait(NULL);
-			close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
-		}
 	}
 	return (0);
+}
+
+static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
+{
+	t_exec	*x;
+	pid_t	pid;
+
+	x = NULL;
+	pid = fork();
+	if (pid == 0)
+	{
+		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
+		if (t->token == e_command)
+			do_builtin(d, t);
+		else
+		{
+			x = check_cmd(d, t);
+			if (x == NULL)
+				return (printf("bash: %s: command not found\n", t->str));
+			if (execve(x->path, x->t, x->env) == -1)
+    			perror("execve fail");
+		}
+		exit(0);
+	}
+	else
+	{
+		wait(&pid);
+		close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
+	}
+	return (0);
+}
+
+void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
+{
+	int	i;
+
+	i = -1;
+	if (nr_pipes == 1)
+	{
+		while (++i <= nr_pipes)
+			exec_piped_cmd(d, cmd_array[i], i);
+	}
+	else
+	{
+		while (++i < (nr_pipes + 1))
+			exec_piped_cmd(d, cmd_array[i], i);
+	}
+
 }
 
 void	executor(t_data *d, t_tokens *t)
@@ -129,19 +173,17 @@ void	executor(t_data *d, t_tokens *t)
 	if (d->nr_pipes > 0)
 	{
 		cmd_array = conv_cmds(t, d->nr_pipes);
-		d->pipes = malloc(sizeof(int *) * (d->nr_pipes * 2));
-		while (++i < d->nr_pipes * 2)
-		{
-			d->pipes[i] = malloc(sizeof(int) * 2);
-			pipe(d->pipes[i]);
-		}
-		i = -1;
+		d->pipes = malloc(sizeof(int *) * (d->nr_pipes + 1));
 		while (++i < d->nr_pipes)
 		{
-			printf("cmd %s\n", cmd_array[i]->str);
-			exec_cmd(d, cmd_array[i], i);
+			d->pipes[i] = malloc(sizeof(int) * 2);
+			if (pipe(d->pipes[i]) == -1)
+				perror("pipe");
 		}
+		d->pipes[i] = NULL;
+		do_pipes(cmd_array, d->nr_pipes, d);
+		close_n_free_pipes(d);
 	}
 	else
-		exec_cmd(d, t, -1);
+		exec_cmd(d, t);
 }

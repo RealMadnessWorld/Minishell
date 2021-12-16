@@ -111,9 +111,6 @@ void		restart_fd(t_data *d);
 /****************************\
 *			 Utils			 *
 \****************************/
-void		be_free_my_child(t_tokens *lst);
-int			everyone_be_freeee(t_data *d);
-void		free_envars_list(t_envars *env);
 void		delete(t_envars *node);
 int			error_zero(char *error);
 void		do_i_have_signal();
@@ -130,6 +127,14 @@ t_envars	*env_new(char *key, char *value);
 void		env_add_lst(t_envars **t, t_envars *new);
 int			redirections_tokens(t_tokens *t);
 
+
+/****************************\
+*		  	 Free			 *
+\****************************/
+void		be_free_my_child(t_tokens *lst);
+int			everyone_be_freeee(t_data *d);
+void		free_envars_list(t_envars *env);
+void		close_n_free_pipes(t_data *d);
 
 /****************************\
 *		  	  Env			 *
