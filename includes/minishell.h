@@ -134,7 +134,7 @@ int			redirections_tokens(t_tokens *t);
 void		be_free_my_child(t_tokens *lst);
 int			everyone_be_freeee(t_data *d);
 void		free_envars_list(t_envars *env);
-void		close_n_free_pipes(t_data *d);
+void		free_pipes(t_data *d);
 
 /****************************\
 *		  	  Env			 *

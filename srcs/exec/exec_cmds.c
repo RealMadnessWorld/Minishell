@@ -143,12 +143,18 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 	if (nr_pipes == 1)
 	{
 		while (++i <= nr_pipes)
-			exec_piped_cmd(d, cmd_array[i], i);
+			{
+				if (exec_piped_cmd(d, cmd_array[i], i))
+					break ;
+			}
 	}
 	else
 	{
 		while (++i < (nr_pipes + 1))
-			exec_piped_cmd(d, cmd_array[i], i);
+		{
+			if (exec_piped_cmd(d, cmd_array[i], i))
+				break ;
+		}
 	}
 
 }
@@ -182,7 +188,7 @@ void	executor(t_data *d, t_tokens *t)
 		}
 		d->pipes[i] = NULL;
 		do_pipes(cmd_array, d->nr_pipes, d);
-		close_n_free_pipes(d);
+		free_pipes(d);
 	}
 	else
 		exec_cmd(d, t);
