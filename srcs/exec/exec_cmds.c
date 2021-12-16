@@ -126,7 +126,12 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 		{
 			x = check_cmd(d, t);
 			if (x == NULL)
-				return (printf("bash: %s: command not found\n", t->str));
+			{
+				ft_putstr_fd("bash: ", 2);
+				ft_putstr_fd(t->str, 2);
+				ft_putstr_fd(": command not found\n", 2);
+				exit(1);
+			}
 			if (execve(x->path, x->t, x->env) == -1)
     			perror("execve fail");
 		}
