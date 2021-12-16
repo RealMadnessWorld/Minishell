@@ -20,6 +20,7 @@ typedef enum	s_token
 	e_n_flag,
 	e_echo_print,
 	e_cd_path,
+	e_fd,
 	is_nothing
 }			e_token;
 

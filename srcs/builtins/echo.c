@@ -15,7 +15,7 @@ void	echo_fun(t_tokens *t)
 		}
 		while(t)
 		{
-			if (t->token == e_pipe)
+			if (t->token == e_pipe || !redirections_tokens(t))
 				break;
 			ft_putstr_fd(t->str, 1);
 			if (t->next && t->next->token != e_pipe)

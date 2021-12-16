@@ -43,6 +43,7 @@ int	everyone_be_freeee(t_data *d)
 	i = 0;
 	be_free_my_child(d->t);
 	free_cmd(&d->cmd);
+	restart_fd(d);
 	if (d->cmd.str)
 		free(d->cmd.str);
 	if (d->pipes)
