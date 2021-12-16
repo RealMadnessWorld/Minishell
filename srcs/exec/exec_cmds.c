@@ -59,8 +59,13 @@ static t_exec	*check_cmd(t_data *d, t_tokens *t)
 
 	i = 0;
 	x = malloc(sizeof(t_exec));
-	if (t->token == e_command)
-		return NULL;
+	if (!(access(t->str, F_OK)))
+	{
+		x->path = t->str;
+		x->env = conv_env(d->envars_list);
+		x->t = conv_tokens(t);
+		return (x);
+	}
 	while (d->bin_paths[i] != NULL)
 	{
 		x->path = ft_strjoin_path(d->bin_paths[i], "/", t->str);
