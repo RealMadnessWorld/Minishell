@@ -15,6 +15,7 @@ int	count_pipes(t_tokens *t)
 	}
 	return (i);
 }
+
 t_tokens	**conv_cmds(t_tokens *t, int nr_pipes)
 {
 	t_tokens	*curr;

@@ -92,9 +92,6 @@ void		do_builtin(t_data *d, t_tokens *t);
 /****************************\
 *		  	 Utils			 *
 \****************************/
-void		be_free_my_child(t_tokens *lst);
-int			everyone_be_freeee(t_data *d);
-void		free_envars_list(t_envars *env);
 void		delete(t_envars *node);
 int			error_zero(char *error);
 void		do_i_have_signal();
@@ -106,6 +103,14 @@ int			env_lstsize(t_envars *lst);
 void		order(t_envars *t);
 int			ordered(t_envars *t);
 void		print_export(t_envars *t);
+
+/****************************\
+*		  	 Free			 *
+\****************************/
+void		be_free_my_child(t_tokens *lst);
+int			everyone_be_freeee(t_data *d);
+void		free_envars_list(t_envars *env);
+void		close_n_free_pipes(t_data *d);
 
 /****************************\
 *		  	  Env			 *

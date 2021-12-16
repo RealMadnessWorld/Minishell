@@ -72,3 +72,22 @@ void	free_envars_list(t_envars *env)
 	free(env);
 	env = NULL;
 }
+
+void close_n_free_pipes(t_data *d)
+{
+	int	i;
+
+	i = -1;
+	// while(++i < d->nr_pipes)
+	// {
+	// 	if (close(d->pipes[i][0]) == -1)
+	// 		perror("close");
+	// 	if (close(d->pipes[i][1]) == -1)
+	// 		perror("close");
+	// }
+	// i = -1;
+	while(++i < d->nr_pipes)
+		free(d->pipes[i]);
+	free(d->pipes);
+	d->pipes = NULL;
+}
