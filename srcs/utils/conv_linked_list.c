@@ -1,21 +1,5 @@
 #include "../../includes/minishell.h"
 
-int	count_pipes(t_tokens *t)
-{
-	t_tokens	*curr;
-	int			i;
-
-	curr = t;
-	i = 0;
-	while (curr)
-	{
-		if (curr->token == e_pipe)
-			i++;
-		curr = curr->next;
-	}
-	return (i);
-}
-
 t_tokens	**conv_cmds(t_tokens *t, int nr_pipes)
 {
 	t_tokens	*curr;
