@@ -8,8 +8,7 @@ int	open_fd(t_data *d)
 		if (d->fd.out == -1)
 			return 0;
 		d->fd.out_original = dup(STDOUT_FILENO);
-		d->fd.out = dup2(d->fd.out, STDOUT_FILENO);
-		close(d->fd.out);
+		dup2(d->fd.out, STDOUT_FILENO);
 	}
 	if (d->fd.in_name)
 	{
@@ -17,8 +16,7 @@ int	open_fd(t_data *d)
 		if (d->fd.in == -1)
 			return 0;
 		d->fd.in_original = dup(STDIN_FILENO);
-		d->fd.in = dup2(d->fd.in, STDIN_FILENO);
-		close(d->fd.in);
+		dup2(d->fd.in, STDIN_FILENO);
 	}
 	return 1;
 }

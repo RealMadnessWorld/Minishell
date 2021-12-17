@@ -47,6 +47,8 @@ typedef struct s_fd
 	char			*out_name;
 	int				out;
 	int				out_original;
+	int				i_out;
+	int				i_in;
 }			t_fd;
 
 typedef struct s_data
@@ -106,7 +108,8 @@ void		do_builtin(t_data *d, t_tokens *t);
 void		set_fd_names(t_data *d, t_tokens *t);
 int			open_fd(t_data *d);
 void		restart_fd(t_data *d);
-
+int			check_fd_already_redin(t_data *d);
+int			check_fd_already_redout(t_data *d);
 
 /****************************\
 *			 Utils			 *

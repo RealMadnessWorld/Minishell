@@ -43,6 +43,8 @@ static void	data_init(t_data *d)
 	d->bin_paths = NULL;
 	d->fd.in_name = NULL;
 	d->fd.out_name = NULL;
+	d->fd.i_in = 0;
+	d->fd.i_out = 0;
 }
 
 static int	skip_spaces_get_cmd(char *str)
