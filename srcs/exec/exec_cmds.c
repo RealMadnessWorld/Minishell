@@ -1,56 +1,5 @@
 #include "../../includes/minishell.h"
 
-static void	manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos)
-{
-	if (pipe_pos == 0)
-	{
-		close(pipe_fd[0][0]);
-		dup2(pipe_fd[0][1], STDOUT_FILENO);
-		close(pipe_fd[0][1]);
-	}
-	else if (nr_pipes > 1 && pipe_pos > 0 && pipe_pos < nr_pipes)
-	{
-		close(pipe_fd[pipe_pos][0]);
-		dup2(pipe_fd[pipe_pos - 1][0], STDIN_FILENO);
-		close(pipe_fd[pipe_pos - 1][0]);
-		dup2(pipe_fd[pipe_pos][1], STDOUT_FILENO);
-		close(pipe_fd[pipe_pos][1]);
-	}
-	else if (pipe_pos == nr_pipes)
-	{
-		dup2(pipe_fd[pipe_pos - 1][0], STDIN_FILENO);
-		close(pipe_fd[pipe_pos - 1][0]);
-	}
-}
-
-static void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
-{
-	if (x)
-	{
-		if (x->env)
-			free(x->env);
-		if (x->path)
-			free(x->path);
-		if (x->t)
-			free(x->t);
-	}
-	if (pipe_pos == 0)
-	{
-		if (close (pipe_fd[pipe_pos][1]) == -1)
-			perror("close 1");
-	}
-	else if (nr_pipes > 1 && pipe_pos > 0 && pipe_pos < nr_pipes)
-	{
-		if (close(pipe_fd[pipe_pos][1]) == -1)
-			perror("close 2");
-	}
-	else if (pipe_pos == nr_pipes)
-	{
-		if (close(pipe_fd[pipe_pos - 1][0]) == -1)
-			perror("close 3");
-	}
-}
-
 static t_exec	*check_cmd(t_data *d, t_tokens *t)
 {
 	int		i;
@@ -95,8 +44,6 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 		x = check_cmd(d, t);
 		if (x == NULL)
 			return (printf(CLR_RED"I don't know wtf is \"%s\"...🤨\nPlease speak binary!\n"CLR_RST, t->str));
-		//tem de parar na linha 92;
-		// return (printf("bash: %s: command not found\n", t->str));
 		pid = fork();
 		if (pid == 0)
 		{
@@ -126,12 +73,7 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 		{
 			x = check_cmd(d, t);
 			if (x == NULL)
-			{
-				ft_putstr_fd("bash: ", 2);
-				ft_putstr_fd(t->str, 2);
-				ft_putstr_fd(": command not found\n", 2);
-				exit(1);
-			}
+				pipe_error(t->str);
 			if (execve(x->path, x->t, x->env) == -1)
     			perror("execve fail");
 		}

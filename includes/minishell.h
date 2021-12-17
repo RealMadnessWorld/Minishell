@@ -103,6 +103,14 @@ void		executor(t_data *d, t_tokens *t);
 void		do_builtin(t_data *d, t_tokens *t);
 
 /****************************\
+*		  Pipes				 *
+\****************************/
+void		manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos);
+void		close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x);
+int			count_pipes(t_tokens *t);
+void		pipe_error(char *str);
+
+/****************************\
 *		  Redirections		 *
 \****************************/
 void		set_fd_names(t_data *d, t_tokens *t);
@@ -120,7 +128,6 @@ void		do_i_have_signal();
 char		**conv_tokens(t_tokens *t);
 char		**conv_env(t_envars *t);
 t_tokens	**conv_cmds(t_tokens *t, int nr_pipes);
-int			count_pipes(t_tokens *t);
 int			env_lstsize(t_envars *lst);
 void		order(t_envars *t);
 int			ordered(t_envars *t);
