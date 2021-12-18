@@ -1,5 +1,18 @@
 #include "../../includes/minishell.h"
 
+int	redirections_char(char *t)
+{
+	if (ft_strcmp(t, ">") == 0)
+		return (0);
+	else if (ft_strcmp(t, "<") == 0)
+		return (0);
+	else if (ft_strcmp(t, ">>") == 0)
+		return (0);
+	else if (ft_strcmp(t, "<<") == 0)
+		return (0);
+	return (1);
+}
+
 int	redirections_tokens(t_tokens *t)
 {
 	if (ft_strcmp(t->str, ">") == 0)

@@ -1,33 +1,121 @@
 #include "../../includes/minishell.h"
 
+// void	set_fd_str(t_data *d, char *str)
+// {
+// 	if (ft_strcmp("<", d->fd.curr_red) == 0)
+// 	{
+// 		check_fd_already_redin(d);
+// 		if (!d->fd.curr_name)
+// 		{
+// 			printf("Where is the file you beautiful bastard?\n");
+// 			return ;
+// 		}
+// 		else
+// 			d->fd.in_name = ft_strdup(str);
+// 	}
+// 	else if (ft_strcmp(">", d->fd.curr_red) == 0)
+// 	{
+// 		check_fd_already_redout(d);
+// 		if (!d->fd.curr_name)
+// 		{
+// 			printf("Where is the file you beautiful bastard?\n");
+// 			return ;
+// 		}
+// 		d->fd.out_name = ft_strdup(str);
+// 	}
+// }
+
 void	set_fd_names(t_data *d, t_tokens *t)
 {
-	while (t)
+	t_tokens *l;
+	t_tokens *tmp;
+
+	tmp = t;
+	l = t;
+	while (tmp)
 	{
-		if (t->token == e_smaller)
+		if (tmp->token == e_smaller)
 		{
 			check_fd_already_redin(d);
-			if (!t->next)
+			if (!tmp->next)
 			{
-				printf ("Where is the file you beautiful bastard?\n");
+				printf("Where is the file you beautiful bastard?\n");
 				return ;
 			}
-			d->fd.in_name = ft_strdup(t->next->str);
-			t->next->token = e_fd;
+			d->fd.in_name = ft_strdup(tmp->next->str);
+			tmp->next->token = e_fd;
+			delete_redirection(&l);
+			tmp = l;
 		}
-		else if (t->token == e_bigger)
+		else if (tmp->token == e_bigger || tmp->token == e_double_bigger)
 		{
-			printf("%i\n", d->fd.out);
 			check_fd_already_redout(d);
-			if (!t->next)
+			if (!tmp->next)
 			{
-				printf ("Where is the file you beautiful bastard?\n");
+				printf("Where is the file you beautiful bastard?\n");
 				return ;
 			}
-			d->fd.out_name = ft_strdup(t->next->str);
-			t->next->token = e_fd;
+			d->fd.out_name = ft_strdup(tmp->next->str);
+			tmp->next->token = e_fd;
+			delete_redirection(&l);
+			tmp = l;
 		}
-		t = t->next;
+		if (tmp->next)
+		{
+			if (tmp->next == NULL)
+				return ;
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	delete_util(t_tokens **t)
+{
+	t_tokens *tmp;
+
+	tmp = *t;
+	free(tmp->str);
+	free(tmp->next->str);
+	free(tmp->next);
+	free(tmp);
+	tmp = NULL;
+}
+
+void	delete_redirection(t_tokens **t)
+{
+	t_tokens *tmp;
+	t_tokens *list;
+
+	tmp = *t;
+	if (tmp->token == e_smaller || tmp->token == e_bigger || tmp->token == e_double_bigger)
+	{
+		list = tmp->next->next->next;
+		tmp->str = list->str;
+		tmp->token = list->token;
+		tmp->next = list->next;
+		free(list);
+		return ;
+	}
+	list = *t;
+	if (tmp->next)
+		tmp = list->next;
+	while (list)
+	{
+		if (tmp->token == e_smaller || tmp->token == e_bigger || tmp->token == e_double_bigger)
+		{
+			if (!tmp->next->next)
+			{
+				delete_util(&tmp);
+				list->next = NULL;
+				return ;
+			}
+			else
+				list->next = list->next->next->next;
+			delete_util(&tmp);
+			return ;
+		}
+
+		list = list->next;
 	}
 }
 
@@ -35,8 +123,6 @@ int	check_fd_already_redin(t_data *d)
 {
 	if (d->fd.i_in != 0)
 	{
-		printf("The in\n");
-		printf("inside the in\n");
 		d->fd.in = open(d->fd.in_name, O_WRONLY | O_CREAT, 0777);
 		if (d->fd.in == -1)
 		{
@@ -53,8 +139,6 @@ int	check_fd_already_redout(t_data *d)
 {
 	if (d->fd.i_out != 0)
 	{
-		printf("The out\n");
-		printf("inside the out\n");
 		d->fd.out = open(d->fd.out_name, O_WRONLY | O_CREAT, 0777);
 		if (d->fd.in == -1)
 		{
