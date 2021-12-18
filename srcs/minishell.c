@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-int	g_status = 0;
 static void	data_init(t_data *d);
 static int	skip_spaces_get_cmd(char *str);
 static int	free_on_if(char *str);

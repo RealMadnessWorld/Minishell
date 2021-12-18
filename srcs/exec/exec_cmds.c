@@ -74,23 +74,21 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	{
 		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
 		if (t->token == e_command)
-			return (do_builtin(d, t));
+			exit(do_builtin(d, t));
 		else
 		{
 			x = check_cmd(d, t);
 			if (x == NULL)
-				return (throw_error(t->str, 127));
-			return (execve(x->path, x->t, x->env) == -1);
+				exit(throw_error(t->str, 127));
+			execve(x->path, x->t, x->env);
 		}
+		exit(1);
 	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-       		g_status = WEXITSTATUS(status);
-		close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
-	}
-	return (0);
+	waitpid(pid, &status, 0);
+	close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
+	if (WIFEXITED(status))
+		g_status = WEXITSTATUS(status);
+	return (g_status);
 }
 
 void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
@@ -101,14 +99,13 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 	if (nr_pipes == 1)
 	{
 		while (++i <= nr_pipes)
-			exec_piped_cmd(d, cmd_array[i], i);
+			g_status = exec_piped_cmd(d, cmd_array[i], i);
 	}
 	else
 	{
 		while (++i < (nr_pipes + 1))
-			exec_piped_cmd(d, cmd_array[i], i);
+			g_status =  exec_piped_cmd(d, cmd_array[i], i);
 	}
-
 }
 
 void	executor(t_data *d, t_tokens *t)
