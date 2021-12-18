@@ -67,7 +67,10 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 	int		i;
 	int		j;
 
-	str_to_fit = find_var(str, start, end, data);
+	if (!ft_isalnum(str[start + 2]))
+		str_to_fit = ft_itoa(g_status);
+	else
+		str_to_fit = find_var(str, start, end, data);
 	i = -1;
 	j = -1;
 	if (str_to_fit)
@@ -90,7 +93,6 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 
 int	handle_dollar_sign(t_data *data)
 {
-	int			end;
 	t_tokens	*curr;
 	int			i;
 
@@ -104,8 +106,11 @@ int	handle_dollar_sign(t_data *data)
 			{
 				if (curr->str[i] == '$')
 				{
-					end = get_limits(curr->str, i);
-					add(curr, expand_dollar(data, curr->str, i, end));
+					if (curr->str[i + 1] == '?')
+						add(curr, expand_dollar(data, curr->str, i, (i + 1)));
+					else if (ft_isalnum(curr->str[i + 1]))
+						add(curr, expand_dollar(data, curr->str, i,
+						 get_limits(curr->str, i)));
 					i = -1;
 				}
 			}

@@ -13,7 +13,7 @@ t_envars	*copy_envars(t_envars *t)
 	return (copy);
 }
 
-void	do_export(t_envars *lst, char *to_add)
+int	do_export(t_envars *lst, char *to_add)
 {
 	t_envars	*curr;
 	t_envars	*prev;
@@ -29,7 +29,7 @@ void	do_export(t_envars *lst, char *to_add)
 			order(copy);
 		print_export(copy);
 		free(copy);
-		return ;
+		return (0);
 	}
 	new = set_line(to_add);
 	while (curr)
@@ -40,15 +40,16 @@ void	do_export(t_envars *lst, char *to_add)
 				free(curr->value);
 			curr->value = new[1];
 			free(new[0]);
-			return ;
+			return (0);
 		}
 		prev = curr;
 		curr = curr->next;
 	}
 	prev->next = add_node(new);
+	return (0);
 }
 
-void	export_func(t_envars *env, t_tokens *t)
+int	export_func(t_envars *env, t_tokens *t)
 {
 	t_tokens	*curr;
 
@@ -60,6 +61,7 @@ void	export_func(t_envars *env, t_tokens *t)
 		do_export(env, curr->str);
 		curr = curr->next;
 	}
+	return (0);
 }
 
 void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)

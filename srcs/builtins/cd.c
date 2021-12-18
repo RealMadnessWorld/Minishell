@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-static char			*update_home(t_envars *env, char *path)
+static char	*update_home(t_envars *env, char *path)
 {
 	char		*tmp;
 	char		*tmp2;
@@ -20,7 +20,7 @@ static char			*update_home(t_envars *env, char *path)
 	return (path);
 }
 
-static int			change_dir_update_pwds(t_envars *env, char *path)
+static int	change_dir_update_pwds(t_envars *env, char *path)
 {
 	char	*pwd;
 
@@ -44,25 +44,25 @@ static int			change_dir_update_pwds(t_envars *env, char *path)
 	return (0);
 }
 
-static int			set_directory(t_envars *env, char *path, int home)
+static int	set_directory(t_envars *env, char *path, int home)
 {
 	struct stat	st;
 
 	if (change_dir_update_pwds(env, path))
 		return (0);
-	//g_status = 1;
+	g_status = 1;
 	if (stat(path, &st) == -1)
 	{
-		return (printf("Error: No such file or directory\n"));
-		//g_status = 127;
+		g_status = 127;
+		printf("Error: No such file or directory\n");
 	}
 	else if (!(st.st_mode & S_IXUSR))
-		return (printf("Error: Permission denied\n"));
+		printf("Error: Permission denied\n");
 	else
-		return (printf("Error: Not a directory\n"));
+		printf("Error: Not a directory\n");
 	if (home)
 		free(path);
-	return (0);
+	return (g_status);
 }
 
 int	do_cd(t_tokens *tkn_lst, t_envars *env)
@@ -71,9 +71,9 @@ int	do_cd(t_tokens *tkn_lst, t_envars *env)
 	char		*old_pwd;
 
 	home = NULL;
-	if (tkn_lst->next && tkn_lst->next->next
-		&& tkn_lst->next->next->token != e_pipe)
-		return (printf(CLR_RED"What am I? A multitasker? 👿\n"CLR_RST));
+	// if (tkn_lst->next && tkn_lst->next->next
+	// 	&& tkn_lst->next->next->token != e_pipe)
+	// 	return (printf(CLR_RED"What am I? A multitasker? 👿\n"CLR_RST));
 	if (tkn_lst->next == NULL || tkn_lst->next->str[0] == '\0'
 	|| tkn_lst->next->str[0] == '\n'
 	|| (!(ft_strcmp(tkn_lst->next->str, "~")))
