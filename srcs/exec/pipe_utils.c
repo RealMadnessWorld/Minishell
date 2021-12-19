@@ -66,3 +66,29 @@ void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
 			perror("close 3");
 	}
 }
+
+int	only_redir(t_tokens *t)
+{
+	int	i;
+
+	i = 0;
+
+	if (t->str[i] == '<' || t->str[i] == '>' ||
+		(t->str[i] == '>' && t->str[i + 1] == '>'))
+	{
+		return (1);
+	}
+	return (0);
+}
+
+void	execve_handler(t_data *d, t_tokens *t)
+{
+	t_exec	*x;
+	//start_fd
+
+	if ()
+	x = check_cmd(d, t);
+	if (x == NULL)
+		exit(throw_error(t->str, 127));
+	execve(x->path, x->t, x->env);
+}
