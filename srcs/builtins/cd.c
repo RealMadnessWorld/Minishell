@@ -53,7 +53,7 @@ static int	set_directory(t_envars *env, char *path, int home)
 	g_status = 1;
 	if (stat(path, &st) == -1)
 	{
-		g_status = 127;
+		g_status = 1;
 		printf("Error: No such file or directory\n");
 	}
 	else if (!(st.st_mode & S_IXUSR))

@@ -74,7 +74,7 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	{
 		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
 		if (t->token == e_command)
-			exit(do_builtin(d, t));
+			exit(do_builtin(d, t) * 256);
 		else
 		{
 			x = check_cmd(d, t);
@@ -87,7 +87,7 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	waitpid(pid, &status, 0);
 	close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
 	if (WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
+		g_status = (WEXITSTATUS(status) / 265);
 	return (g_status);
 }
 
