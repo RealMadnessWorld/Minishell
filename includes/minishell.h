@@ -67,7 +67,7 @@ typedef struct s_data
 	int				**pipes;
 }			t_data;
 
-t_data	*g_d;
+int	g_status;
 
 /****************************\
 *		   Functions		 *
@@ -103,7 +103,7 @@ void		executor(t_data *d, t_tokens *t);
 /****************************\
 *		  Commandline		 *
 \****************************/
-void		do_builtin(t_data *d, t_tokens *t);
+int			do_builtin(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Pipes				 *
@@ -142,7 +142,7 @@ t_envars	*env_last(t_envars *t);
 t_envars	*env_new(char *key, char *value);
 void		env_add_lst(t_envars **t, t_envars *new);
 int			redirections_tokens(t_tokens *t);
-
+int			throw_error(char *str, int err);
 
 /****************************\
 *		  	 Free			 *
@@ -159,7 +159,6 @@ void		free_pipes(t_data *d);
 void		env_print(t_data *data);
 void		parse_envars(t_tokens *tkn_lst, t_envars *envars_lst);
 void		add_envar(char *str, t_envars *envars_lst);
-void		do_env(t_envars *lst);
 t_envars	*set_envars_list(char **envp);
 void		add(t_tokens *old, char *new);
 t_envars	*add_node(char **line);
@@ -170,12 +169,13 @@ void		set_env(t_envars *env, char *key, char *value);
 /****************************\
 *		  	  Builtins		 *
 \****************************/
-void		exit_func(t_data *d);
-void		do_pwd(void);
-void		unset_func(t_envars **env, t_tokens *t);
-void		do_export(t_envars *lst, char *to_add);
-void		export_func(t_envars *lst, t_tokens *t);
-void		echo_fun(t_tokens *t);
+int			do_env(t_envars *lst);
+int			exit_func(t_data *d);
+int			do_pwd(void);
+int			unset_func(t_envars **env, t_tokens *t);
+int			do_export(t_envars *lst, char *to_add);
+int			export_func(t_envars *lst, t_tokens *t);
+int			echo_fun(t_tokens *t);
 int			do_cd(t_tokens *tkn_lst, t_envars *env);
 
 /****************************\

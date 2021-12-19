@@ -20,3 +20,16 @@ int	error_zero(char *error)
 	ft_putendl_fd(error, 1);
 	return (0);
 }
+
+int	throw_error(char *str, int err)
+{
+	if (err == 127)
+	{
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		g_status = 127;
+		return (127);
+	}
+	return (1);
+}

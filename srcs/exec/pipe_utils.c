@@ -1,13 +1,5 @@
 #include "../../includes/minishell.h"
 
-void	pipe_error(char *str)
-{
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	exit(1);
-}
-
 int	count_pipes(t_tokens *t)
 {
 	t_tokens	*curr;
