@@ -5,7 +5,7 @@ void	set_fd_names(t_data *d, t_tokens *t)
 	t_tokens *tmp;
 
 	tmp = t;
-	while (tmp)
+	while (tmp && tmp->token != e_pipe)
 	{
 		if (tmp->token == e_smaller)
 		{
@@ -18,7 +18,7 @@ void	set_fd_names(t_data *d, t_tokens *t)
 			d->fd.in_name = ft_strdup(tmp->next->str);
 			tmp->next->token = e_fd;
 		}
-		else if (tmp->token == e_bigger || tmp->token == e_double_bigger)
+		else if (tmp->token == e_bigger)
 		{
 			check_fd_already_redout(d);
 			if (!tmp->next)

@@ -124,6 +124,7 @@ int			check_fd_already_redout(t_data *d);
 void		delete_redirection(t_tokens **t);
 int			redirections_char(char *t);
 void		set_fd_str(t_data *d, char *str);
+int			handle_fd(t_data *d, t_tokens *t);
 
 /****************************\
 *			 Utils			 *
@@ -170,7 +171,7 @@ void		set_env(t_envars *env, char *key, char *value);
 *		  	  Builtins		 *
 \****************************/
 int			do_env(t_envars *lst);
-int			exit_func(t_data *d);
+void		exit_func(t_data *d, t_tokens *t);
 int			do_pwd(void);
 int			unset_func(t_envars **env, t_tokens *t);
 int			do_export(t_envars *lst, char *to_add);
