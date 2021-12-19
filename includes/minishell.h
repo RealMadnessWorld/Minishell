@@ -124,6 +124,7 @@ int			check_fd_already_redout(t_data *d);
 void		delete_redirection(t_tokens **t);
 int			redirections_char(char *t);
 void		set_fd_str(t_data *d, char *str);
+int			handle_fd(t_data *d, t_tokens *t);
 
 /****************************\
 *			 Utils			 *

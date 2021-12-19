@@ -116,12 +116,6 @@ void	executor(t_data *d, t_tokens *t)
 	cmd_array = NULL;
 	if (!commands_tokens(t))
 		return ;
-	if (!open_fd(d))
-	{
-		printf("bro, idk what happened BUTT I cant find that file...\n");
-		printf("maybe you have virtual 🐀 in your computer?\n");
-		return ;
-	}
 	if (d->nr_pipes > 0)
 	{
 		cmd_array = conv_cmds(t, d->nr_pipes);
