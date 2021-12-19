@@ -2,6 +2,7 @@
 
 void	do_builtin(t_data *d, t_tokens *t)
 {
+	set_fd_names(d, t);
 	if (ft_strcmp(t->str, "cd") == 0)
 		do_cd(t, d->envars_list);
 	if (ft_strcmp(t->str, "echo") == 0)
@@ -21,4 +22,5 @@ void	do_builtin(t_data *d, t_tokens *t)
 		do_env(d->envars_list);
 	if (ft_strcmp(t->str, "exit") == 0)
 		exit_func(d);
+	restart_fd(d);
 }
