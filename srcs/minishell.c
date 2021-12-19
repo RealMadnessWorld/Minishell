@@ -59,7 +59,6 @@ static int	skip_spaces_get_cmd(char **str)
 		new = ft_strdup(tmp);
 		free(*str);
 		*str = new;
-		printf("new is .%s.\n", new);
 		return (0);
 	}
 	free(*str);

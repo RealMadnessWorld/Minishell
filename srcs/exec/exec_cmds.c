@@ -47,10 +47,7 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 			return (throw_error(t->str, 127));
 		pid = fork();
 		if (pid == 0)
-		{
-			if (execve(x->path, x->t, x->env) == -1)
-				return (execve(x->path, x->t, x->env) == -1);
-		}
+			execve(x->path, x->t, x->env);
 		else
 		{
 			waitpid(pid, &status, 0);
@@ -59,7 +56,7 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 			close_pipes(d->nr_pipes, d->pipes, -1, x);
 		}
 	}
-	return (0);
+	return (g_status);
 }
 
 static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
@@ -87,7 +84,7 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	waitpid(pid, &status, 0);
 	close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
 	if (WIFEXITED(status))
-		g_status = (WEXITSTATUS(status) / 265);
+		g_status = (WEXITSTATUS(status) / 256);
 	return (g_status);
 }
 
