@@ -26,7 +26,7 @@ static void	do_unset(t_envars **lst, char *to_unset)
 	}
 }
 
-void	unset_func(t_envars **env, t_tokens *t)
+int	unset_func(t_envars **env, t_tokens *t)
 {
 	t_tokens	*curr;
 
@@ -37,4 +37,5 @@ void	unset_func(t_envars **env, t_tokens *t)
 		do_unset(env, curr->str);
 		curr = curr->next;
 	}
+	return (0);
 }

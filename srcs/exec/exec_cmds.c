@@ -35,32 +35,35 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 {
 	t_exec	*x;
 	pid_t	pid;
+	int		status;
 
 	x = NULL;
 	if (t->token == e_command)
-		do_builtin(d, t);
+		g_status = do_builtin(d, t);
 	else
 	{
 		x = check_cmd(d, t);
 		if (x == NULL)
-			return (printf(CLR_RED"I don't know wtf is \"%s\"...🤨\nPlease speak binary!\n"CLR_RST, t->str));
+			return (throw_error(t->str, 127));
 		pid = fork();
 		if (pid == 0)
-		{
-			if (execve(x->path, x->t, x->env) == -1)
-    			perror("execve fail");
-			exit(0);
-		}
+			execve(x->path, x->t, x->env);
 		else
-			wait(NULL);
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+       			g_status = WEXITSTATUS(status);
+			close_pipes(d->nr_pipes, d->pipes, -1, x);
+		}
 	}
-	return (0);
+	return (g_status);
 }
 
 static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 {
 	t_exec	*x;
 	pid_t	pid;
+	int		status;
 
 	x = NULL;
 	pid = fork();
@@ -68,23 +71,21 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	{
 		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
 		if (t->token == e_command)
-			do_builtin(d, t);
+			exit(do_builtin(d, t) * 256);
 		else
 		{
 			x = check_cmd(d, t);
 			if (x == NULL)
-				pipe_error(t->str);
-			if (execve(x->path, x->t, x->env) == -1)
-    			perror("execve fail");
+				exit(throw_error(t->str, 127));
+			execve(x->path, x->t, x->env);
 		}
-		exit(0);
+		exit(1);
 	}
-	else
-	{
-		wait(&pid);
-		close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
-	}
-	return (0);
+	waitpid(pid, &status, 0);
+	close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
+	if (WIFEXITED(status))
+		g_status = (WEXITSTATUS(status) / 256);
+	return (g_status);
 }
 
 void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
@@ -95,20 +96,20 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 	if (nr_pipes == 1)
 	{
 		while (++i <= nr_pipes)
+<<<<<<< HEAD
 		{
 			if (exec_piped_cmd(d, cmd_array[i], i))
 				break ;
 		}
+=======
+			g_status = exec_piped_cmd(d, cmd_array[i], i);
+>>>>>>> exitstat
 	}
 	else
 	{
 		while (++i < (nr_pipes + 1))
-		{
-			if (exec_piped_cmd(d, cmd_array[i], i))
-				break ;
-		}
+			g_status =  exec_piped_cmd(d, cmd_array[i], i);
 	}
-
 }
 
 void	executor(t_data *d, t_tokens *t)
