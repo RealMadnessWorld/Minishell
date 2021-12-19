@@ -21,8 +21,8 @@ int	do_builtin(t_data *d, t_tokens *t)
 		return (do_env(d->envars_list));
 	if (ft_strcmp(t->str, "exit") == 0)
 	{
-		exit_func(d);
-		return (0);
+		exit_func(d, t);
+		return (1);
 	}
 	return (2);
 }
