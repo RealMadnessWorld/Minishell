@@ -19,7 +19,7 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
        			g_status = WEXITSTATUS(status);
-			close_pipes(d->nr_pipes, d->pipes, -1, x);
+			close_pipes(d->nr_pipes, d->pipes, -1);
 		}
 	}
 	return (g_status);
@@ -43,8 +43,7 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 		exit(1);
 	}
 	waitpid(pid, &status, 0);
-	ft_putstr_fd(*x->t, 2);
-	close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
+	close_pipes(d->nr_pipes, d->pipes, pipe_pos);
 	if (WIFEXITED(status))
 		g_status = (WEXITSTATUS(status) / 256);
 	return (g_status);

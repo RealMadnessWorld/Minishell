@@ -110,7 +110,7 @@ int			do_builtin(t_data *d, t_tokens *t);
 *		  Pipes				 *
 \****************************/
 void		manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos);
-void		close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x);
+void		close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos);
 int			count_pipes(t_tokens *t);
 void		pipe_error(char *str);
 int			only_redir(t_data *d, t_tokens *t);
@@ -130,7 +130,7 @@ int			do_red_weirdoc(t_data *d, t_tokens *tmp);
 int			do_red_bigger(t_data *d, t_tokens *tmp);
 int			do_red_smaller(t_data *d, t_tokens *tmp);
 int			choose_out(t_data *d);
-
+int			choose_in(t_data *d);
 
 /****************************\
 *			 Utils			 *

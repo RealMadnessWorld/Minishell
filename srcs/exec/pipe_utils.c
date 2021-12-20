@@ -39,17 +39,8 @@ void	manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos)
 	}
 }
 
-void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
+void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos)
 {
-	if (x)
-	{
-		if (x->env)
-			free(x->env);
-		if (x->path)
-			free(x->path);
-		if (x->t)
-			free(x->t);
-	}
 	if (pipe_pos == 0)
 	{
 		if (close (pipe_fd[pipe_pos][1]) == -1)

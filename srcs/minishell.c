@@ -15,8 +15,11 @@ int	main(int ac, char **av, char **envp)
 	//falta cuidar da primeira linha do subject - n intrepretar ; ou '\'
 	while (1)
 	{
+		printf("1\n");
 		data_init(&data);
+		printf("2\n");
 		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
+		printf("3\n");
 		if (*data.cmd.str == ' ' && skip_spaces_get_cmd(&(data.cmd.str)))
 			continue ;
 		if (*data.cmd.str == '\0' && free_on_if(data.cmd.str))
@@ -37,6 +40,7 @@ static void	data_init(t_data *d)
 {
 	d->t = NULL;
 	d->cmd.i = 0;
+	d->cmd.str = NULL;
 	d->nr_pipes = 0;
 	d->pipes = NULL;
 	d->exec = NULL;

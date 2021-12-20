@@ -19,8 +19,7 @@ int	open_fd(t_data *d)
 	if (d->fd.out_name)
 		return (choose_out(d));
 	if (d->fd.in_name)
-	{
-	}
+		return (choose_in(d));
 	return (1);
 }
 
@@ -130,13 +129,18 @@ static t_exec	*check_cmd(t_data *d, t_tokens *t)
 
 void	execve_handler(t_data *d, t_tokens *t, t_exec *x)
 {
+	int i = 1;
 	x = check_cmd(d, t);
 	if (x == NULL)
 		exit(throw_error(t->str, 127));
 	if (its_redir(t))
 	{
+		// printf("%d\n", i++);
 		handle_fd(d, t);
+		// ft_putstr_fd("2\n", 2);
 		trim_redir(x->t);
+		// ft_putstr_fd("3\n", 2);
+		printf("%d\n", i++);
 		execve(x->path, x->t, x->env);
 	}
 	execve(x->path, x->t, x->env);
