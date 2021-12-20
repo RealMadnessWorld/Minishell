@@ -31,10 +31,9 @@ int	choose_out(t_data *d)
 		if (d->fd.out == -1)
 			return (0);
 		d->fd.out_original = dup(STDOUT_FILENO);
-		printf("d->fd.out_original = %d\n", d->fd.out_original);
-		printf("d->fd.out = %d\n", d->fd.out);
-		dup2(d->fd.out, STDOUT_FILENO);
-		printf("nao chega aqui\n");
+		// printf("d->fd.out_original = %d\n", d->fd.out_original);
+		// printf("d->fd.out = %p\n", d);
+		dup2(d->fd.out, 1);
 	}
 	if (d->fd.append == 1)
 	{

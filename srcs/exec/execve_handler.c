@@ -9,7 +9,7 @@ static int	its_redir(t_tokens *t)
 	while (tmp && tmp->token != e_pipe)
 	{
 		if (tmp->token == e_smaller || tmp->token == e_bigger ||
-			tmp->token == e_double_bigger)
+			tmp->token == e_double_bigger || tmp->token == e_double_smaller)
 			return (1);
 		tmp = tmp->next;
 	}
