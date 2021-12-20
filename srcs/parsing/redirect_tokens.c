@@ -1,65 +1,60 @@
 #include "../../includes/minishell.h"
 
-// void	set_fd_str(t_data *d, char *str)
-// {
-// 	if (ft_strcmp("<", d->fd.curr_red) == 0)
-// 	{
-// 		check_fd_already_redin(d);
-// 		if (!d->fd.curr_name)
-// 		{
-// 			printf("Where is the file you beautiful bastard?\n");
-// 			return ;
-// 		}
-// 		else
-// 			d->fd.in_name = ft_strdup(str);
-// 	}
-// 	else if (ft_strcmp(">", d->fd.curr_red) == 0)
-// 	{
-// 		check_fd_already_redout(d);
-// 		if (!d->fd.curr_name)
-// 		{
-// 			printf("Where is the file you beautiful bastard?\n");
-// 			return ;
-// 		}
-// 		d->fd.out_name = ft_strdup(str);
-// 	}
-// }
-
-void	set_fd_names(t_data *d, t_tokens *t)
+void	set_smaller(t_data *d, t_tokens *t)
 {
-	t_tokens *l;
+
+}
+
+void	set_bigger(t_data *d, t_tokens *t)
+{
 	t_tokens *tmp;
 
 	tmp = t;
-	l = t;
+	check_fd_already_redout(d);
+	if (!tmp->next)
+	{
+		printf("Where is the file you beautiful bastard?\n");
+		return ;
+	}
+	d->fd.out_name = ft_strdup(tmp->next->str);
+	tmp->next->token = e_fd;
+	delete_redirection(&tmp);
+}
+
+void	set_double_bigger(t_data *d, t_tokens *t)
+{
+
+}
+
+void	set_smaller(t_data *d, t_tokens *t)
+{
+	t_tokens *tmp;
+
+	tmp = t;
+	check_fd_already_redin(d);
+	if (!tmp->next)
+	{
+		printf("Where is the file you beautiful bastard?\n");
+		return ;
+	}
+	d->fd.in_name = ft_strdup(tmp->next->str);
+	tmp->next->token = e_fd;
+	delete_redirection(&tmp);
+}
+
+void	set_fd_names(t_data *d, t_tokens *t)
+{
+	t_tokens *tmp;
+
+	tmp = t;
 	while (tmp)
 	{
 		if (tmp->token == e_smaller)
-		{
-			check_fd_already_redin(d);
-			if (!tmp->next)
-			{
-				printf("Where is the file you beautiful bastard?\n");
-				return ;
-			}
-			d->fd.in_name = ft_strdup(tmp->next->str);
-			tmp->next->token = e_fd;
-			delete_redirection(&l);
-			tmp = l;
-		}
-		else if (tmp->token == e_bigger || tmp->token == e_double_bigger)
-		{
-			check_fd_already_redout(d);
-			if (!tmp->next)
-			{
-				printf("Where is the file you beautiful bastard?\n");
-				return ;
-			}
-			d->fd.out_name = ft_strdup(tmp->next->str);
-			tmp->next->token = e_fd;
-			delete_redirection(&l);
-			tmp = l;
-		}
+			set_smaller(d, tmp);
+		else if (tmp->token == e_bigger)
+			set_bigger(d, t);
+		else if (tmp->token == e_double_bigger)
+			set_double_bigger(d, t);
 		if (tmp->next)
 		{
 			if (tmp->next == NULL)
@@ -126,7 +121,7 @@ int	check_fd_already_redin(t_data *d)
 		d->fd.in = open(d->fd.in_name, O_WRONLY | O_CREAT, 0777);
 		if (d->fd.in == -1)
 		{
-			printf("couldn't open that fila mate... sorry (not really)\n");
+			printf("couldn't %s, mate... sorry (not really)\n", d->fd.in_name);
 			return (0);
 		}
 		close(d->fd.in);
@@ -142,7 +137,7 @@ int	check_fd_already_redout(t_data *d)
 		d->fd.out = open(d->fd.out_name, O_WRONLY | O_CREAT, 0777);
 		if (d->fd.in == -1)
 		{
-			printf("couldn't open that fila mate... sorry (not really)\n");
+			printf("couldn't %s, mate... sorry (not really)\n", d->fd.out_name);
 			return (0);
 		}
 		close(d->fd.out);

@@ -21,7 +21,7 @@ int	open_fd(t_data *d)
 	return 1;
 }
 
-// int	check_double_red(t_data *d)
+// int	double_open(t_data *d)
 // {
-// 	// if (d->fd)
+// 	if (d->fd.out_name)
 // }
