@@ -67,7 +67,7 @@ void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
 	}
 }
 
-int	only_redir(t_tokens *t)
+int	only_redir(t_data *d, t_tokens *t)
 {
 	int	i;
 
@@ -76,26 +76,9 @@ int	only_redir(t_tokens *t)
 	if (t->str[i] == '<' || t->str[i] == '>' ||
 		(t->str[i] == '>' && t->str[i + 1] == '>'))
 	{
-		// handle_fd(d)
+		handle_fd(d, t);
 		return (1);
 	}
 	return (0);
 }
 
-void	execve_handler(t_data *d, t_tokens *t)
-{
-	t_exec	*x;
-	//start_fd
-
-	x = check_cmd(d, t);
-	if (x == NULL)
-		exit(throw_error(t->str, 127));
-	if (its_redir(x->t))
-	{
-		if (!handle_fd(d, t))
-			return (0);
-		x->t = trim_redir(x->t);
-		execve(x->path, x->t, x->env);
-	}
-	execve(x->path, x->t, x->env);
-}

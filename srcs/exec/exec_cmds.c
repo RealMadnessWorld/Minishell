@@ -1,36 +1,5 @@
 #include "../../includes/minishell.h"
 
-static t_exec	*check_cmd(t_data *d, t_tokens *t)
-{
-	int		i;
-	int		invalid;
-	t_exec	*x;
-
-	i = 0;
-	x = malloc(sizeof(t_exec));
-	if (!(access(t->str, F_OK)))
-	{
-		x->path = t->str;
-		x->env = conv_env(d->envars_list);
-		x->t = conv_tokens(t);
-		return (x);
-	}
-	while (d->bin_paths[i] != NULL)
-	{
-		x->path = ft_strjoin_path(d->bin_paths[i], "/", t->str);
-		invalid = access(x->path, F_OK);
-		if (!invalid)
-		{
-			x->env = conv_env(d->envars_list);
-			x->t = conv_tokens(t);
-			return (x);
-		}
-		free(x->path);
-		i++;
-	}
-	return NULL;
-}
-
 static int	exec_cmd(t_data *d, t_tokens *t)
 {
 	t_exec	*x;
@@ -42,12 +11,9 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 		g_status = do_builtin(d, t);
 	else
 	{
-		x = check_cmd(d, t);
-		if (x == NULL)
-			return (throw_error(t->str, 127));
 		pid = fork();
 		if (pid == 0)
-			execve(x->path, x->t, x->env);
+			execve_handler(d, t, x);
 		else
 		{
 			waitpid(pid, &status, 0);
@@ -73,15 +39,11 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 		if (t->token == e_command)
 			exit(do_builtin(d, t) * 256);
 		else
-		{
-			x = check_cmd(d, t);
-			if (x == NULL)
-				exit(throw_error(t->str, 127));
-			execve(x->path, x->t, x->env);
-		}
+			execve_handler(d, t, x);
 		exit(1);
 	}
 	waitpid(pid, &status, 0);
+	ft_putstr_fd(*x->t, 2);
 	close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
 	if (WIFEXITED(status))
 		g_status = (WEXITSTATUS(status) / 256);

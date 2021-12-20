@@ -99,6 +99,7 @@ int			echo_parser(t_tokens *t);
 *			Execute			 *
 \****************************/
 void		executor(t_data *d, t_tokens *t);
+void		execve_handler(t_data *d, t_tokens *t, t_exec *x);
 
 /****************************\
 *		  Commandline		 *
@@ -112,6 +113,7 @@ void		manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos);
 void		close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x);
 int			count_pipes(t_tokens *t);
 void		pipe_error(char *str);
+int			only_redir(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Redirections		 *
@@ -125,6 +127,7 @@ void		delete_redirection(t_tokens **t);
 int			redirections_char(char *t);
 void		set_fd_str(t_data *d, char *str);
 int			handle_fd(t_data *d, t_tokens *t);
+
 
 /****************************\
 *			 Utils			 *

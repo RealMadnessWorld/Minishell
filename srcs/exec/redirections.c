@@ -49,59 +49,6 @@ static int	its_redir(t_tokens *t)
 	return (0);
 }
 
-// static int	count_allocs(t_data *d, char **cmd, int *s, int *e)
-// {
-// 	int		i;
-// 	char	*tmp;
-// 	int		j;
-
-// 	i = 0;
-// 	j = 0;
-// 	tmp = *cmd;
-// 	while (tmp[i++])
-// 	{
-// 		if (tmp[i] == '<' || tmp[i] == '>' ||
-// 			(tmp[i] == '>' && tmp[i + 1] == '>'))
-// 			{
-// 				(*s) = i;
-// 				j = i++;
-// 				while (ft_strcmp(tmp[j], d->fd.out_name))
-// 					j++;
-// 				(*e) = j++;
-// 				i = j;
-// 				while (tmp[i])
-// 					i++;
-// 			}
-// 	}
-// 	return (i);
-// }
-
-// static char	**trim_redir(t_data *d, char **cmd)
-// {
-// 	int		s;
-// 	int		e;
-// 	int		i;
-// 	char	**newcmd;
-// 	char	*str;
-
-// 	s = 0;
-// 	e = 0;
-// 	i = count_allocs(d, cmd, &s, &e);
-// 	newcmd = malloc(sizeof(char *) * (i + 1));
-// 	str = *newcmd;
-// 	i = -1;
-// 	while ((*cmd)[++i])
-// 	{
-// 		if (i < s || i > e)
-// 			(str)++ = ft_strdup((*cmd)[i]);
-// 		free((*cmd)[i]);
-// 		free(cmd[i]);
-// 		cmd[i] = NULL;
-// 		i++;
-// 	}
-// 	return (&newcmd);
-// }
-
 static void trim_redir(char **cmd)
 {
     int i;
@@ -125,18 +72,45 @@ static void trim_redir(char **cmd)
     }
 }
 
-void	execve_handler(t_data *d, t_tokens *t)
+static t_exec	*check_cmd(t_data *d, t_tokens *t)
 {
+	int		i;
+	int		invalid;
 	t_exec	*x;
-	//start_fd
 
+	i = 0;
+	x = malloc(sizeof(t_exec));
+	if (!(access(t->str, F_OK)))
+	{
+		x->path = t->str;
+		x->env = conv_env(d->envars_list);
+		x->t = conv_tokens(t);
+		return (x);
+	}
+	while (d->bin_paths[i] != NULL)
+	{
+		x->path = ft_strjoin_path(d->bin_paths[i], "/", t->str);
+		invalid = access(x->path, F_OK);
+		if (!invalid)
+		{
+			x->env = conv_env(d->envars_list);
+			x->t = conv_tokens(t);
+			return (x);
+		}
+		free(x->path);
+		i++;
+	}
+	return (NULL);
+}
+
+void	execve_handler(t_data *d, t_tokens *t, t_exec *x)
+{
 	x = check_cmd(d, t);
 	if (x == NULL)
 		exit(throw_error(t->str, 127));
-	if (its_redir(x->t))
+	if (its_redir(t))
 	{
-		if (!handle_fd(d, t))
-			return (0);
+		handle_fd(d, t);
 		trim_redir(x->t);
 		execve(x->path, x->t, x->env);
 	}
