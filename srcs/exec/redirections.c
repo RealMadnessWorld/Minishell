@@ -9,9 +9,9 @@ int	handle_fd(t_data *d, t_tokens *t)
 		printf("maybe you have virtual 🐀 in your computer?\n");
 		return (0);
 	}
-	return (1);
 	d->fd.weirdoc = 0;
 	d->fd.append = 0;
+	return (1);
 }
 
 int	open_fd(t_data *d)
@@ -31,7 +31,10 @@ int	choose_out(t_data *d)
 		if (d->fd.out == -1)
 			return (0);
 		d->fd.out_original = dup(STDOUT_FILENO);
+		printf("d->fd.out_original = %d\n", d->fd.out_original);
+		printf("d->fd.out = %d\n", d->fd.out);
 		dup2(d->fd.out, STDOUT_FILENO);
+		printf("nao chega aqui\n");
 	}
 	if (d->fd.append == 1)
 	{
@@ -57,88 +60,26 @@ int	choose_in(t_data *d)
 	return 1;
 }
 
-static int	its_redir(t_tokens *t)
+void	close_start_fd(t_data *d)
 {
-	t_tokens *tmp;
-
-	tmp = t;
-
-	while (tmp && tmp->token != e_pipe)
+	if (d->fd.in_name != NULL)
 	{
-		if (tmp->token == e_smaller || tmp->token == e_bigger ||
-			tmp->token == e_double_bigger)
-			return (1);
-		tmp = tmp->next;
+		free(d->fd.in_name);
+		dup2(d->fd.in_original, 0);
+		close(d->fd.in_original);
+		close(d->fd.in);
+		d->fd.in_name = NULL;
+		d->fd.in = -1;
+		d->fd.in_original = -1;
 	}
-	return (0);
-}
-
-static void trim_redir(char **cmd)
-{
-    int i;
-
-    i = 0;
-    while(cmd[i])
-    {
-        if (*cmd[i] == '<' || *cmd[i] == '>')
-        {
-            while(cmd[i])
-            {
-                free(cmd[i]);
-                cmd[i] = NULL;
-                i++;
-            }
-            free(cmd[i]);
-            cmd[i] = NULL;
-            return ;
-        }
-        i++;
-    }
-}
-
-static t_exec	*check_cmd(t_data *d, t_tokens *t)
-{
-	int		i;
-	int		invalid;
-	t_exec	*x;
-
-	i = 0;
-	x = malloc(sizeof(t_exec));
-	if (!(access(t->str, F_OK)))
+	if (d->fd.out_name)
 	{
-		x->path = t->str;
-		x->env = conv_env(d->envars_list);
-		x->t = conv_tokens(t);
-		return (x);
+		free(d->fd.out_name);
+		dup2(d->fd.out_original, 1);
+		close(d->fd.out_original);
+		close(d->fd.out);
+		d->fd.out_name = NULL;
+		d->fd.out = -1;
+		d->fd.out_original = -1;
 	}
-	while (d->bin_paths[i] != NULL)
-	{
-		x->path = ft_strjoin_path(d->bin_paths[i], "/", t->str);
-		invalid = access(x->path, F_OK);
-		if (!invalid)
-		{
-			x->env = conv_env(d->envars_list);
-			x->t = conv_tokens(t);
-			return (x);
-		}
-		free(x->path);
-		i++;
-	}
-	return (NULL);
-}
-
-void	execve_handler(t_data *d, t_tokens *t)
-{
-	t_exec	*x;
-
-	x = check_cmd(d, t);
-	if (x == NULL)
-		exit(throw_error(t->str, 127));
-	if (its_redir(t))
-	{
-		handle_fd(d, t);
-		trim_redir(x->t);
-		execve(x->path, x->t, x->env);
-	}
-	execve(x->path, x->t, x->env);
 }

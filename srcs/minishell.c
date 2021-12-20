@@ -28,9 +28,7 @@ int	main(int ac, char **av, char **envp)
 		parse_envars(data.t, data.envars_list);
 		// printlst(data.t);
 		executor(&data, data.t);
-		printf("antes %s\n", data.cmd.str);
 		everyone_be_freeee(&data);
-		printf("depois %s\n", data.cmd.str);
 	}
 	free_envars_list(data.envars_list);
 }
