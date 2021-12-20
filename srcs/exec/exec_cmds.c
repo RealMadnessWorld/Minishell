@@ -1,66 +1,33 @@
 #include "../../includes/minishell.h"
 
-static t_exec	*check_cmd(t_data *d, t_tokens *t)
-{
-	int		i;
-	int		invalid;
-	t_exec	*x;
-
-	i = 0;
-	x = malloc(sizeof(t_exec));
-	if (!(access(t->str, F_OK)))
-	{
-		x->path = t->str;
-		x->env = conv_env(d->envars_list);
-		x->t = conv_tokens(t);
-		return (x);
-	}
-	while (d->bin_paths[i] != NULL)
-	{
-		x->path = ft_strjoin_path(d->bin_paths[i], "/", t->str);
-		invalid = access(x->path, F_OK);
-		if (!invalid)
-		{
-			x->env = conv_env(d->envars_list);
-			x->t = conv_tokens(t);
-			return (x);
-		}
-		free(x->path);
-		i++;
-	}
-	return NULL;
-}
-
 static int	exec_cmd(t_data *d, t_tokens *t)
 {
-	t_exec	*x;
 	pid_t	pid;
+	int		status;
 
-	x = NULL;
 	if (t->token == e_command)
-		do_builtin(d, t);
+		g_status = do_builtin(d, t);
 	else
 	{
-		x = check_cmd(d, t);
-		if (x == NULL)
-			return (printf(CLR_RED"I don't know wtf is \"%s\"...🤨\nPlease speak binary!\n"CLR_RST, t->str));
 		pid = fork();
 		if (pid == 0)
-		{
-			if (execve(x->path, x->t, x->env) == -1)
-    			perror("execve fail");
-			exit(0);
-		}
+			execve_handler(d, t);
 		else
-			wait(NULL);
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+       			g_status = WEXITSTATUS(status);
+			close_pipes(d->nr_pipes, d->pipes, -1);
+		}
 	}
-	return (0);
+	return (g_status);
 }
 
 static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 {
 	t_exec	*x;
 	pid_t	pid;
+	int		status;
 
 	x = NULL;
 	pid = fork();
@@ -68,23 +35,16 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	{
 		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
 		if (t->token == e_command)
-			do_builtin(d, t);
+			exit(do_builtin(d, t) * 256);
 		else
-		{
-			x = check_cmd(d, t);
-			if (x == NULL)
-				pipe_error(t->str);
-			if (execve(x->path, x->t, x->env) == -1)
-    			perror("execve fail");
-		}
-		exit(0);
+			execve_handler(d, t);
+		exit(1);
 	}
-	else
-	{
-		wait(&pid);
-		close_pipes(d->nr_pipes, d->pipes, pipe_pos, x);
-	}
-	return (0);
+	waitpid(pid, &status, 0);
+	close_pipes(d->nr_pipes, d->pipes, pipe_pos);
+	if (WIFEXITED(status))
+		g_status = (WEXITSTATUS(status) / 256);
+	return (g_status);
 }
 
 void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
@@ -95,20 +55,14 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 	if (nr_pipes == 1)
 	{
 		while (++i <= nr_pipes)
-		{
-			if (exec_piped_cmd(d, cmd_array[i], i))
-				break ;
-		}
+			g_status = exec_piped_cmd(d, cmd_array[i], i);
 	}
 	else
 	{
 		while (++i < (nr_pipes + 1))
-		{
-			if (exec_piped_cmd(d, cmd_array[i], i))
-				break ;
-		}
+			g_status =  exec_piped_cmd(d, cmd_array[i], i);
 	}
-
+	unlink(".heredoc");
 }
 
 void	executor(t_data *d, t_tokens *t)
@@ -122,12 +76,6 @@ void	executor(t_data *d, t_tokens *t)
 	cmd_array = NULL;
 	if (!commands_tokens(t))
 		return ;
-	if (!open_fd(d))
-	{
-		printf("bro, idk what happened BUTT I cant find that file...\n");
-		printf("maybe you have virtual 🐀 in your computer?\n");
-		return ;
-	}
 	if (d->nr_pipes > 0)
 	{
 		cmd_array = conv_cmds(t, d->nr_pipes);

@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	echo_fun(t_tokens *t)
+int	echo_fun(t_tokens *t)
 {
 	bool	n;
 
@@ -25,4 +25,5 @@ void	echo_fun(t_tokens *t)
 	}
 	if (n == false)
 		write(1, "\n", 1);
+	return (0);
 }

@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	do_env(t_envars *lst)
+int	do_env(t_envars *lst)
 {
 	t_envars	*elist;
 	elist = lst;
@@ -10,6 +10,7 @@ void	do_env(t_envars *lst)
 		printf("%s=%s\n", elist->key, elist->value);
 		elist = elist->next;
 	}
+	return (0);
 }
 
 // int main(int ac, char **av, char **envp)

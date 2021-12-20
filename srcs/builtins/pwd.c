@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	do_pwd(void)
+int	do_pwd(void)
 {
 	char	*pwd;
 
@@ -8,4 +8,5 @@ void	do_pwd(void)
 	ft_putendl_fd(pwd, 1);
 	free(pwd);
 	pwd = NULL;
+	return (0);
 }

@@ -41,17 +41,17 @@ typedef struct s_exec
 
 typedef struct s_fd
 {
-	char			*curr_red;
-	char			*curr_name;
 	char			*in_name;
 	int				in;
 	int				in_original;
 	char			*out_name;
 	int				out;
 	int				out_original;
+	int				weirdoc;
+	int				heredoc_fd;
+	int				append;
 	int				i_out;
 	int				i_in;
-	int				empty;
 }			t_fd;
 
 typedef struct s_data
@@ -67,7 +67,7 @@ typedef struct s_data
 	int				**pipes;
 }			t_data;
 
-t_data	*g_d;
+int	g_status;
 
 /****************************\
 *		   Functions		 *
@@ -99,31 +99,39 @@ int			echo_parser(t_tokens *t);
 *			Execute			 *
 \****************************/
 void		executor(t_data *d, t_tokens *t);
+void		execve_handler(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Commandline		 *
 \****************************/
-void		do_builtin(t_data *d, t_tokens *t);
+int			do_builtin(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Pipes				 *
 \****************************/
 void		manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos);
-void		close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x);
+void		close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos);
 int			count_pipes(t_tokens *t);
 void		pipe_error(char *str);
+int			only_redir(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Redirections		 *
 \****************************/
-void		set_fd_names(t_data *d, t_tokens *t);
+int			set_fd_names(t_data *d, t_tokens *t);
 int			open_fd(t_data *d);
 void		restart_fd(t_data *d);
 int			check_fd_already_redin(t_data *d);
 int			check_fd_already_redout(t_data *d);
-void		delete_redirection(t_tokens **t);
-int			redirections_char(char *t);
-void		set_fd_str(t_data *d, char *str);
+int			check_fd_already_append(t_data *d);
+int			handle_fd(t_data *d, t_tokens *t);
+int			do_red_append(t_data *d, t_tokens *tmp);
+int			do_red_weirdoc(t_data *d, t_tokens *tmp);
+int			do_red_bigger(t_data *d, t_tokens *tmp);
+int			do_red_smaller(t_data *d, t_tokens *tmp);
+int			choose_out(t_data *d);
+int			choose_in(t_data *d);
+void		close_start_fd(t_data *d);
 
 /****************************\
 *			 Utils			 *
@@ -142,7 +150,7 @@ t_envars	*env_last(t_envars *t);
 t_envars	*env_new(char *key, char *value);
 void		env_add_lst(t_envars **t, t_envars *new);
 int			redirections_tokens(t_tokens *t);
-
+int			throw_error(char *str, int err);
 
 /****************************\
 *		  	 Free			 *
@@ -159,7 +167,6 @@ void		free_pipes(t_data *d);
 void		env_print(t_data *data);
 void		parse_envars(t_tokens *tkn_lst, t_envars *envars_lst);
 void		add_envar(char *str, t_envars *envars_lst);
-void		do_env(t_envars *lst);
 t_envars	*set_envars_list(char **envp);
 void		add(t_tokens *old, char *new);
 t_envars	*add_node(char **line);
@@ -170,12 +177,13 @@ void		set_env(t_envars *env, char *key, char *value);
 /****************************\
 *		  	  Builtins		 *
 \****************************/
-void		exit_func(t_data *d);
-void		do_pwd(void);
-void		unset_func(t_envars **env, t_tokens *t);
-void		do_export(t_envars *lst, char *to_add);
-void		export_func(t_envars *lst, t_tokens *t);
-void		echo_fun(t_tokens *t);
+int			do_env(t_envars *lst);
+void		exit_func(t_data *d, t_tokens *t);
+int			do_pwd(void);
+int			unset_func(t_envars **env, t_tokens *t);
+int			do_export(t_envars *lst, char *to_add);
+int			export_func(t_envars *lst, t_tokens *t);
+int			echo_fun(t_tokens *t);
 int			do_cd(t_tokens *tkn_lst, t_envars *env);
 
 /****************************\
