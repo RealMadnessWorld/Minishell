@@ -47,5 +47,6 @@ int	throw_error(char *str, int err)
 		g_status = 1;
 		return (1);
 	}
+	g_status = 1;
 	return (1);
 }
