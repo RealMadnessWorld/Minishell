@@ -39,17 +39,8 @@ void	manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos)
 	}
 }
 
-void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
+void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos)
 {
-	if (x)
-	{
-		if (x->env)
-			free(x->env);
-		if (x->path)
-			free(x->path);
-		if (x->t)
-			free(x->t);
-	}
 	if (pipe_pos == 0)
 	{
 		if (close (pipe_fd[pipe_pos][1]) == -1)
@@ -66,3 +57,19 @@ void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos, t_exec *x)
 			perror("close 3");
 	}
 }
+
+int	only_redir(t_data *d, t_tokens *t)
+{
+	int	i;
+
+	i = 0;
+
+	if (t->str[i] == '<' || t->str[i] == '>' ||
+		(t->str[i] == '>' && t->str[i + 1] == '>'))
+	{
+		handle_fd(d, t);
+		return (1);
+	}
+	return (0);
+}
+

@@ -37,6 +37,7 @@ static void	data_init(t_data *d)
 {
 	d->t = NULL;
 	d->cmd.i = 0;
+	d->cmd.str = NULL;
 	d->nr_pipes = 0;
 	d->pipes = NULL;
 	d->exec = NULL;

@@ -16,7 +16,7 @@ void	be_free_my_child(t_tokens *lst)
 	}
 }
 
-static void	free_cmd(t_cmd *cmd)
+static void	free_cmdline(t_cmd *cmd)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ int	everyone_be_freeee(t_data *d)
 
 	i = 0;
 	be_free_my_child(d->t);
-	free_cmd(&d->cmd);
+	free_cmdline(&d->cmd);
 	restart_fd(d);
 	if (d->cmd.str)
 	{
