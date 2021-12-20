@@ -37,7 +37,7 @@ int	check_fd_already_redin(t_data *d)
 {
 	if (d->fd.i_in != 0)
 	{
-		d->fd.in = open(d->fd.in_name, O_WRONLY | O_CREAT, 0777);
+		d->fd.in = open(d->fd.in_name, O_WRONLY);
 		if (d->fd.in == -1)
 		{
 			printf("couldn't open that fila mate... sorry (not really)\n");
@@ -84,12 +84,13 @@ int	check_fd_already_append(t_data *d)
 void	restart_fd(t_data *d)
 {
 	close_start_fd(d);
-	d->fd.weirdoc = -1;
-	if (d->fd.heredoc_fd != -1)
+	if (d->fd.heredoc_fd != 0)
 	{
-		d->fd.heredoc_fd = -1;
+		
+		d->fd.heredoc_fd = 0;
 		dup2(d->fd.in_original, 0);
 	}
+	d->fd.weirdoc = 0;
 	d->fd.i_in = 0;
 	d->fd.i_out = 0;
 }

@@ -6,7 +6,10 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 	int		status;
 
 	if (t->token == e_command)
+	{
 		g_status = do_builtin(d, t);
+		restart_fd(d);
+	}
 	else
 	{
 		pid = fork();
@@ -28,6 +31,7 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	t_exec	*x;
 	pid_t	pid;
 	int		status;
+	int		ret;
 
 	x = NULL;
 	pid = fork();
@@ -35,7 +39,11 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	{
 		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
 		if (t->token == e_command)
-			exit(do_builtin(d, t) * 256);
+		{
+			ret = do_builtin(d, t);
+			restart_fd(d);
+			exit(ret * 256);
+		}
 		else
 			execve_handler(d, t);
 		exit(1);

@@ -3,7 +3,7 @@
 int	do_builtin(t_data *d, t_tokens *t)
 {
 	if (!handle_fd(d, t))
-		return (0);
+		return (127);
 	if (ft_strcmp(t->str, "cd") == 0)
 		return (do_cd(t, d->envars_list));
 	if (ft_strcmp(t->str, "echo") == 0)
