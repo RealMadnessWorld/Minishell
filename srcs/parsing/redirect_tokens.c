@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	set_fd_names(t_data *d, t_tokens *t)
+int	set_fd_names(t_data *d, t_tokens *t)
 {
 	t_tokens *tmp;
 
@@ -9,28 +9,27 @@ void	set_fd_names(t_data *d, t_tokens *t)
 	{
 		if (tmp->token == e_smaller)
 		{
-			check_fd_already_redin(d);
-			if (!tmp->next)
-			{
-				printf("Where is the file you beautiful bastard?\n");
-				return ;
-			}
-			d->fd.in_name = ft_strdup(tmp->next->str);
-			tmp->next->token = e_fd;
+			if (!do_red_smaller(d, tmp))
+				return (0);
 		}
 		else if (tmp->token == e_bigger)
 		{
-			check_fd_already_redout(d);
-			if (!tmp->next)
-			{
-				printf("Where is the file you beautiful bastard?\n");
-				return ;
-			}
-			d->fd.out_name = ft_strdup(tmp->next->str);
-			tmp->next->token = e_fd;
+			if (!do_red_bigger(d,tmp))
+				return (0);
+		}
+		else if (tmp->token == e_double_smaller)
+		{
+			if (!do_red_weirdoc(d, tmp))
+				return (0);
+		}
+		else if (tmp->token == e_double_bigger)
+		{
+			if (!do_red_append(d, tmp))
+				return (0);
 		}
 		tmp = tmp->next;
 	}
+	return (1);
 }
 
 
@@ -54,7 +53,23 @@ int	check_fd_already_redout(t_data *d)
 {
 	if (d->fd.i_out != 0)
 	{
-		d->fd.out = open(d->fd.out_name, O_WRONLY | O_CREAT, 0777);
+		d->fd.out = open(d->fd.out_name, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+		if (d->fd.in == -1)
+		{
+			printf("couldn't open that fila mate... sorry (not really)\n");
+			return (0);
+		}
+		close(d->fd.out);
+	}
+	d->fd.i_out++;
+	return (1);
+}
+
+int	check_fd_already_append(t_data *d)
+{
+	if (d->fd.i_out != 0)
+	{
+		d->fd.out = open(d->fd.out_name, O_WRONLY | O_APPEND | O_CREAT, 0777);
 		if (d->fd.in == -1)
 		{
 			printf("couldn't open that fila mate... sorry (not really)\n");

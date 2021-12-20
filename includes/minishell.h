@@ -41,17 +41,17 @@ typedef struct s_exec
 
 typedef struct s_fd
 {
-	char			*curr_red;
-	char			*curr_name;
 	char			*in_name;
 	int				in;
 	int				in_original;
 	char			*out_name;
 	int				out;
 	int				out_original;
+	int				weirdoc;
+	int				heredoc_fd;
+	int				append;
 	int				i_out;
 	int				i_in;
-	int				empty;
 }			t_fd;
 
 typedef struct s_data
@@ -118,15 +118,18 @@ int			only_redir(t_data *d, t_tokens *t);
 /****************************\
 *		  Redirections		 *
 \****************************/
-void		set_fd_names(t_data *d, t_tokens *t);
+int			set_fd_names(t_data *d, t_tokens *t);
 int			open_fd(t_data *d);
 void		restart_fd(t_data *d);
 int			check_fd_already_redin(t_data *d);
 int			check_fd_already_redout(t_data *d);
-void		delete_redirection(t_tokens **t);
-int			redirections_char(char *t);
-void		set_fd_str(t_data *d, char *str);
+int			check_fd_already_append(t_data *d);
 int			handle_fd(t_data *d, t_tokens *t);
+int			do_red_append(t_data *d, t_tokens *tmp);
+int			do_red_weirdoc(t_data *d, t_tokens *tmp);
+int			do_red_bigger(t_data *d, t_tokens *tmp);
+int			do_red_smaller(t_data *d, t_tokens *tmp);
+int			choose_out(t_data *d);
 
 
 /****************************\
