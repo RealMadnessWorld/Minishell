@@ -99,7 +99,7 @@ int			echo_parser(t_tokens *t);
 *			Execute			 *
 \****************************/
 void		executor(t_data *d, t_tokens *t);
-void		execve_handler(t_data *d, t_tokens *t, t_exec *x);
+void		execve_handler(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Commandline		 *

@@ -15,11 +15,8 @@ int	main(int ac, char **av, char **envp)
 	//falta cuidar da primeira linha do subject - n intrepretar ; ou '\'
 	while (1)
 	{
-		printf("1\n");
 		data_init(&data);
-		printf("2\n");
 		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
-		printf("3\n");
 		if (*data.cmd.str == ' ' && skip_spaces_get_cmd(&(data.cmd.str)))
 			continue ;
 		if (*data.cmd.str == '\0' && free_on_if(data.cmd.str))
@@ -31,7 +28,9 @@ int	main(int ac, char **av, char **envp)
 		parse_envars(data.t, data.envars_list);
 		// printlst(data.t);
 		executor(&data, data.t);
+		printf("antes %s\n", data.cmd.str);
 		everyone_be_freeee(&data);
+		printf("depois %s\n", data.cmd.str);
 	}
 	free_envars_list(data.envars_list);
 }
