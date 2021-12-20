@@ -41,8 +41,6 @@ int	do_red_weirdoc(t_data *d, t_tokens *tmp)
 		free(str);
 	else
 	{
-	printf("str -> %s\n", str);
-	printf("next->str -> %s\n", tmp->next->str);
 		while (1)
 		{
 			str = readline(">");
@@ -50,7 +48,8 @@ int	do_red_weirdoc(t_data *d, t_tokens *tmp)
 			if (ft_strcmp(tmp->next->str, str) == 0)
 			{
 				free(str);
-				break ;
+				d->fd.weirdoc = 1;
+				return (1);
 			}
 			free(str);
 		}

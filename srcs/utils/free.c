@@ -45,7 +45,10 @@ int	everyone_be_freeee(t_data *d)
 	free_cmd(&d->cmd);
 	restart_fd(d);
 	if (d->cmd.str)
+	{
 		free(d->cmd.str);
+		d->cmd.str = NULL;
+	}
 	if (d->pipes)
 	{
 		while (i < d->nr_pipes)

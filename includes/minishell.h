@@ -128,6 +128,7 @@ int			do_red_weirdoc(t_data *d, t_tokens *tmp);
 int			do_red_bigger(t_data *d, t_tokens *tmp);
 int			do_red_smaller(t_data *d, t_tokens *tmp);
 int			choose_out(t_data *d);
+int			choose_in(t_data *d);
 
 /****************************\
 *			 Utils			 *

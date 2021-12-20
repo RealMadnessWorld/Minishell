@@ -19,8 +19,7 @@ int	open_fd(t_data *d)
 	if (d->fd.out_name)
 		return (choose_out(d));
 	if (d->fd.in_name)
-	{
-	}
+		return (choose_in(d));
 	return (1);
 }
 
