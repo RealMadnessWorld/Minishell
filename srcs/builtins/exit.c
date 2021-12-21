@@ -62,7 +62,10 @@ void	exit_func(t_data *d, t_tokens *t)
 			if (not_int((t->next->str)))
 				exit_nbr = throw_error("exit", 255);
 			else if (t->next->next)
-				exit_nbr = throw_error("exit", 1);
+			{
+				g_status = throw_error("exit", 1);
+				return ;
+			}
 			else if ((ft_atoi(t->next->str)) > 255)
 				exit_nbr = (ft_atoi(t->next->str)) % 255;
 			else

@@ -92,7 +92,6 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 				continue ;
 			}
 			g_status = exec_piped_cmd(d, cmd_array[i], i);
-		}
 	}
 	else
 	{
@@ -105,7 +104,6 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 				continue ;
 			}
 			g_status =  exec_piped_cmd(d, cmd_array[i], i);
-		}
 	}
 	unlink(".heredoc");
 }
@@ -119,9 +117,11 @@ void	executor(t_data *d, t_tokens *t)
 	d->bin_paths = ft_split(get_env(d->envars_list, "PATH"), ':');
 	d->nr_pipes = count_pipes(t);
 	cmd_array = NULL;
-	if (!commands_tokens(t))
+	if (t->token == e_var)
+		do_export(d->envars_list, t->str);
+	else if (!commands_tokens(t))
 		return ;
-	if (d->nr_pipes > 0)
+	else if (d->nr_pipes > 0)
 	{
 		cmd_array = conv_cmds(t, d->nr_pipes);
 		d->pipes = malloc(sizeof(int *) * (d->nr_pipes + 1));

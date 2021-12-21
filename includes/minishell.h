@@ -153,6 +153,7 @@ t_envars	*env_new(char *key, char *value);
 void		env_add_lst(t_envars **t, t_envars *new);
 int			redirections_tokens(t_tokens *t);
 int			throw_error(char *str, int err);
+t_envars	*copy_envars(t_envars *t);
 
 /****************************\
 *		  	 Free			 *

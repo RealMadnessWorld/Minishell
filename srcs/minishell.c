@@ -12,7 +12,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	data.envars_list = set_envars_list(envp);
 	do_i_have_signal();
-	//falta cuidar da primeira linha do subject - n intrepretar ; ou '\'
 	while (1)
 	{
 		data_init(&data);
@@ -26,8 +25,6 @@ int	main(int ac, char **av, char **envp)
 		if (!token_creater(&data))
 			continue ;
 		handle_dollar_sign(&data);
-		parse_envars(data.t, data.envars_list);
-		// printlst(data.t);
 		executor(&data, data.t);
 		everyone_be_freeee(&data);
 	}

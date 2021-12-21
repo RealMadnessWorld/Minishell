@@ -1,18 +1,5 @@
 #include "../../includes/minishell.h"
 
-t_envars	*copy_envars(t_envars *t)
-{
-	t_envars *copy;
-
-	copy = NULL;
-	while (t)
-	{
-		env_add_lst(&copy, env_new(t->key, t->value));
-		t = t->next;
-	}
-	return (copy);
-}
-
 static int	empty_export(t_envars *lst)
 {
 	t_envars	*copy;
@@ -84,21 +71,12 @@ int	export_func(t_envars *env, t_tokens *t)
 void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 {
 	t_tokens	*curr;
-	int			i;
 
 	curr = tkn_lst;
-	i = 0;
 	while (curr)
 	{
 		if (curr->token == e_var)
-		{
-			while (curr->str[i++])
-			{
-				if (curr->str[i] == '=')
-					do_export(envars_lst, curr->str);
-			}
-		}
-		i = 0;
+			do_export(envars_lst, curr->str);
 		curr = curr->next;
 	}
 }
