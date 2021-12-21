@@ -13,28 +13,29 @@ t_envars	*copy_envars(t_envars *t)
 	return (copy);
 }
 
-int	do_export(t_envars *lst, char *to_add)
+static int	empty_export(t_envars *lst)
+{
+	t_envars	*copy;
+
+	copy = copy_envars(lst);
+	while (!ordered(copy))
+		order(copy);
+	print_export(copy);
+	free(copy);
+	copy = NULL;
+	return (0);
+}
+
+int exp_keyvalue(t_envars *lst, char **new)
 {
 	t_envars	*curr;
 	t_envars	*prev;
-	t_envars	*copy;
-	char		**new;
 
 	curr = lst;
 	prev = curr;
-	if (!to_add)
-	{
-		copy = copy_envars(lst);
-		while (!ordered(copy))
-			order(copy);
-		print_export(copy);
-		free(copy);
-		return (0);
-	}
-	new = set_line(to_add);
 	while (curr)
 	{
-		if (!(ft_strcmp(curr->key, new[0])))
+		if (!(ft_strcmp(curr->key, new[0])) && new[1])
 		{
 			if (curr->value)
 				free(curr->value);
@@ -42,6 +43,8 @@ int	do_export(t_envars *lst, char *to_add)
 			free(new[0]);
 			return (0);
 		}
+		else if (!(ft_strcmp(curr->key, new[0])) && new[1] == NULL)
+			return (0);
 		prev = curr;
 		curr = curr->next;
 	}
@@ -49,16 +52,30 @@ int	do_export(t_envars *lst, char *to_add)
 	return (0);
 }
 
+int	do_export(t_envars *lst, char *to_add)
+{
+	char		**new;
+
+	if (!to_add)
+		return (empty_export(lst));
+	if (!(ft_isalpha(*to_add)) && *to_add != '_')
+		return(throw_error("export", 1));
+	new = set_line(to_add);
+	return (exp_keyvalue(lst, new));
+}
+
 int	export_func(t_envars *env, t_tokens *t)
 {
 	t_tokens	*curr;
 
 	curr = t->next;
-	do_export(env, curr->str);
+	if (do_export(env, curr->str))
+		return (1);
 	curr = curr->next;
 	while (curr && curr->token != e_pipe)
 	{
-		do_export(env, curr->str);
+		if (do_export(env, curr->str))
+			return (1);
 		curr = curr->next;
 	}
 	return (0);

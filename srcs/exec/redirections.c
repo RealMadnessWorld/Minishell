@@ -9,6 +9,8 @@ int	handle_fd(t_data *d, t_tokens *t)
 		printf("maybe you have virtual 🐀 in your computer?\n");
 		return (0);
 	}
+	d->fd.weirdoc = 0;
+	d->fd.append = 0;
 	return (1);
 }
 

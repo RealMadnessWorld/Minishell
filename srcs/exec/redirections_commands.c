@@ -32,7 +32,8 @@ int	do_red_weirdoc(t_data *d, t_tokens *tmp)
 {
 	char	*str;
 
-	d->fd.heredoc_fd = open(".tmp.heredoc", O_RDWR | O_APPEND | O_CREAT, 0644);
+	printf("tmp->next %s\n",tmp->next->str);
+	d->fd.heredoc_fd = open(".tmp.heredoc", O_RDWR | O_CREAT, 0777);
 	if (d->fd.heredoc_fd == -1)
 		return (0);
 	while (1)

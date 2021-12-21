@@ -1,10 +1,31 @@
 #include "../../includes/minishell.h"
 
+int	only_redirs(t_tokens *t)
+{
+	t_tokens	*curr;
+
+	curr = t;
+	while (curr && curr->token != e_pipe)
+	{
+		if (curr->token != e_smaller && curr->token != e_bigger &&
+			curr->token != e_double_bigger && curr->token != e_double_smaller &&
+			curr->token != e_fd)
+			return (0);
+		curr = curr->next;
+	}
+	return (1);
+}
+
 static int	exec_cmd(t_data *d, t_tokens *t)
 {
 	pid_t	pid;
 	int		status;
 
+	if (only_redirs(t))
+	{
+		handle_fd(d, t);
+		return (1);
+	}
 	if (t->token == e_command)
 	{
 		g_status = do_builtin(d, t);
@@ -20,7 +41,6 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
        			g_status = WEXITSTATUS(status);
-			close_pipes(d->nr_pipes, d->pipes, -1);
 		}
 	}
 	return (g_status);
@@ -61,12 +81,26 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 	if (nr_pipes == 1)
 	{
 		while (++i <= nr_pipes)
+		{
+			if (only_redirs(cmd_array[i]))
+			{
+				handle_fd(d, cmd_array[i]);
+				continue ;
+			}
 			g_status = exec_piped_cmd(d, cmd_array[i], i);
+		}
 	}
 	else
 	{
 		while (++i < (nr_pipes + 1))
+		{
+			if (only_redirs(cmd_array[i]))
+			{
+				handle_fd(d, cmd_array[i]);
+				continue ;
+			}
 			g_status =  exec_piped_cmd(d, cmd_array[i], i);
+		}
 	}
 	unlink(".heredoc");
 }
