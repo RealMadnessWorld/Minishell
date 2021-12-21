@@ -17,7 +17,7 @@ int	set_fd_names(t_data *d, t_tokens *t)
 			if (!do_red_bigger(d,tmp))
 				return (0);
 		}
-		else if (tmp->token == e_double_smaller)
+		else if (tmp->token == e_double_smaller && d->fd.heredoc_count == 1)
 		{
 			if (!do_red_weirdoc(d, tmp))
 				return (0);
@@ -29,6 +29,7 @@ int	set_fd_names(t_data *d, t_tokens *t)
 		}
 		tmp = tmp->next;
 	}
+	d->fd.heredoc_count =1;
 	return (1);
 }
 

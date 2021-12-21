@@ -10,7 +10,9 @@ int	only_redirs(t_tokens *t)
 		if (curr->token != e_smaller && curr->token != e_bigger &&
 			curr->token != e_double_bigger && curr->token != e_double_smaller &&
 			curr->token != e_fd)
+			{
 			return (0);
+			}
 		curr = curr->next;
 	}
 	return (1);
@@ -23,7 +25,8 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 
 	if (only_redirs(t))
 	{
-		handle_fd(d, t);
+		set_fd_names(d, t);
+		restart_fd(d);
 		return (1);
 	}
 	if (t->token == e_command)
@@ -85,6 +88,7 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 			if (only_redirs(cmd_array[i]))
 			{
 				handle_fd(d, cmd_array[i]);
+				restart_fd(d);
 				continue ;
 			}
 			g_status = exec_piped_cmd(d, cmd_array[i], i);
@@ -96,7 +100,8 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 		{
 			if (only_redirs(cmd_array[i]))
 			{
-				handle_fd(d, cmd_array[i]);
+				set_fd_names(d, cmd_array[i]);
+				restart_fd(d);
 				continue ;
 			}
 			g_status =  exec_piped_cmd(d, cmd_array[i], i);

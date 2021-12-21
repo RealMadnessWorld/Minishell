@@ -111,6 +111,8 @@ int	token_creater(t_data *d)
 	if (handle_quotes(d->t))
 		return (1);
 	re_check_tokens(d->t);
-	// set_fd_names(d, d->t);
-	return (0);
+	if (!set_fd(d->t))
+		return (0);
+	set_fd_names(d, d->t);
+	return (1);
 }

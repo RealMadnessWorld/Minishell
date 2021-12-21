@@ -16,21 +16,19 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		data_init(&data);
-		// ft_putstr_fd("readline\n", 2);
 		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
-		// ft_putstr_fd("out the readline\n", 2);
 		if (*data.cmd.str == ' ' && skip_spaces_get_cmd(&(data.cmd.str)))
 			continue ;
 		if (*data.cmd.str == '\0' && free_on_if(data.cmd.str))
 			continue ;
 		add_history(data.cmd.str);
 		split(data.cmd.str, '|', &data.cmd);
-		token_creater(&data);
+		if (!token_creater(&data))
+			continue ;
 		handle_dollar_sign(&data);
 		parse_envars(data.t, data.envars_list);
 		// printlst(data.t);
 		executor(&data, data.t);
-		// ft_putstr_fd("sai\n", 2);
 		everyone_be_freeee(&data);
 	}
 	free_envars_list(data.envars_list);
@@ -51,7 +49,7 @@ static void	data_init(t_data *d)
 	d->fd.i_out = 0;
 	d->fd.weirdoc = 0;
 	d->fd.append = 0;
-	// ft_putstr_fd("init\n", 2);
+	d->fd.heredoc_count = 0;
 }
 
 static int	skip_spaces_get_cmd(char **str)
@@ -63,7 +61,7 @@ static int	skip_spaces_get_cmd(char **str)
 	new = *str;
 	while (*tmp == ' ')
 		tmp++;
-	if (*tmp && ft_isalnum(*tmp))
+	if (*tmp)
 	{
 		new = ft_strdup(tmp);
 		free(*str);

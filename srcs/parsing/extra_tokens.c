@@ -1,5 +1,25 @@
 #include "../../includes/minishell.h"
 
+int	set_fd(t_tokens *tmp)
+{
+	t_tokens *t;
+	t = tmp;
+	while (t)
+	{
+		if (!redirections_tokens(t))
+		{
+			if (!t->next)
+			{
+				printf("where is the file you beautiful bastard?\n");
+				return (0);
+			}
+			t->next->token = e_fd;
+		}
+		t = t->next;
+	}
+	return (1);
+}
+
 int	redirections_char(char *t)
 {
 	if (ft_strcmp(t, ">") == 0)

@@ -48,6 +48,7 @@ typedef struct s_fd
 	int				out;
 	int				out_original;
 	int				weirdoc;
+	int				heredoc_count;
 	int				heredoc_fd;
 	int				append;
 	int				i_out;
@@ -94,6 +95,7 @@ void		check_vars(t_tokens *t);
 int			commands_tokens(t_tokens *t);
 int			cd_parser(t_tokens *t);
 int			echo_parser(t_tokens *t);
+int			set_fd(t_tokens *tmp);
 
 /****************************\
 *			Execute			 *
