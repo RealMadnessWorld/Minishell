@@ -43,7 +43,7 @@ int	throw_error(char *str, int err)
 	{
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": too many arguments\n", 2);
+		ft_putstr_fd(": argument supplied is not valid\n", 2);
 		g_status = 1;
 		return (1);
 	}

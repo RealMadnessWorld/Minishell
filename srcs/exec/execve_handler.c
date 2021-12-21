@@ -79,7 +79,8 @@ void	execve_handler(t_data *d, t_tokens *t)
 		exit(throw_error(t->str, 127));
 	if (its_redir(t))
 	{
-		handle_fd(d, t);
+		if (!handle_fd(d, t))
+			exit(127);
 		trim_redir(x->t);
 		execve(x->path, x->t, x->env);
 	}

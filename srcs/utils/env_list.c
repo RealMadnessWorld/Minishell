@@ -19,16 +19,27 @@ t_envars *add_node(char **line)
 char	**set_line(char *envl)
 {
 	char	**line;
+	char	*str;
 	int		i;
 
-	line = malloc(sizeof(char *) * 3);
+	line = NULL;
 	i = 0;
-	while (envl[i] != '=')
+	while (envl[i] != '=' && envl[i])
 		i++;
-	line[0] = ft_substr(envl, 0, i);
-	i++;
-	line[1] = ft_substr(envl, i, (ft_strlen(envl) - i));
-	return (line);
+	if (envl[i] == '=')
+	{
+		line = malloc(sizeof(char *) * 3);
+		line[0] = ft_substr(envl, 0, i);
+		i++;
+		line[1] = ft_substr(envl, i, (ft_strlen(envl) - i));
+		return (line);
+	}
+	else
+	{
+		line = &str;
+		str = ft_strdup(envl);
+		return (line);
+	}
 }
 
 t_envars	*set_envars_list(char **envp)

@@ -9,6 +9,8 @@ int	handle_fd(t_data *d, t_tokens *t)
 		printf("maybe you have virtual 🐀 in your computer?\n");
 		return (0);
 	}
+	d->fd.weirdoc = 0;
+	d->fd.append = 0;
 	return (1);
 }
 
@@ -52,7 +54,7 @@ int	choose_in(t_data *d)
 		d->fd.in_original = dup(STDIN_FILENO);
 		dup2(d->fd.in, STDIN_FILENO);
 	}
-	return (1);
+	return 1;
 }
 
 void	close_start_fd(t_data *d)
