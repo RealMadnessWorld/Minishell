@@ -74,6 +74,13 @@ void	execve_handler(t_data *d, t_tokens *t)
 {
 	t_exec	*x;
 
+	if (!d->bin_paths)
+	{
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(t->str, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		exit(127);
+	}
 	x = check_cmd(d, t);
 	if (x == NULL)
 		exit(throw_error(t->str, 127));

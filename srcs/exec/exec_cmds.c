@@ -92,6 +92,7 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 				continue ;
 			}
 			g_status = exec_piped_cmd(d, cmd_array[i], i);
+		}
 	}
 	else
 	{
@@ -104,6 +105,7 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 				continue ;
 			}
 			g_status =  exec_piped_cmd(d, cmd_array[i], i);
+		}
 	}
 	unlink(".heredoc");
 }

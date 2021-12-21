@@ -73,9 +73,9 @@ char	**conv_env(t_envars *env)
 		return (0);
 	while (curr)
 	{
-		str[i] = ft_strdup(ft_strjoin_path(curr->key, "=", curr->value));
+		if (curr->value)
+			str[i++] = ft_strdup(ft_strjoin_path(curr->key, "=", curr->value));
 		curr = curr->next;
-		i++;
 	}
 	str[i] = NULL;
 	return (str);
