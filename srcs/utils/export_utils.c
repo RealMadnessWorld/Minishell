@@ -50,7 +50,11 @@ void	print_export(t_envars *t)
 	curr = t;
 	while (curr)
 	{
-		printf("declare -x %s=\"%s\"\n", curr->key, curr->value);
+		printf("declare -x %s", curr->key);
+		if (curr->value)
+			printf("=\"%s\"\n", curr->value);
+		else
+			printf("\n");
 		curr = curr->next;
 	}
 }

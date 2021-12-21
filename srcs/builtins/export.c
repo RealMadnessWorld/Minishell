@@ -35,7 +35,7 @@ int exp_keyvalue(t_envars *lst, char **new)
 	prev = curr;
 	while (curr)
 	{
-		if (!(ft_strcmp(curr->key, new[0])))
+		if (!(ft_strcmp(curr->key, new[0])) && new[1])
 		{
 			if (curr->value)
 				free(curr->value);
@@ -43,6 +43,8 @@ int exp_keyvalue(t_envars *lst, char **new)
 			free(new[0]);
 			return (0);
 		}
+		else if (!(ft_strcmp(curr->key, new[0])) && new[1] == NULL)
+			return (0);
 		prev = curr;
 		curr = curr->next;
 	}
@@ -56,13 +58,10 @@ int	do_export(t_envars *lst, char *to_add)
 
 	if (!to_add)
 		return (empty_export(lst));
-	if (!(ft_isalpha(*lst->key)) || *lst->key != '_')
+	if (!(ft_isalpha(*to_add)) && *to_add != '_')
 		return(throw_error("export", 1));
 	new = set_line(to_add);
-	if (new[1])
-		return (exp_keyvalue(lst, new));
-	env_add_lst(&lst, add_node(new));
-	return(0);
+	return (exp_keyvalue(lst, new));
 }
 
 int	export_func(t_envars *env, t_tokens *t)
