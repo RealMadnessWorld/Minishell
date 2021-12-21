@@ -57,19 +57,3 @@ void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos)
 			perror("close 3");
 	}
 }
-
-int	only_redir(t_data *d, t_tokens *t)
-{
-	int	i;
-
-	i = 0;
-
-	if (t->str[i] == '<' || t->str[i] == '>' ||
-		(t->str[i] == '>' && t->str[i + 1] == '>'))
-	{
-		handle_fd(d, t);
-		return (1);
-	}
-	return (0);
-}
-

@@ -12,13 +12,10 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	data.envars_list = set_envars_list(envp);
 	do_i_have_signal();
-	//falta cuidar da primeira linha do subject - n intrepretar ; ou '\'
 	while (1)
 	{
 		data_init(&data);
-		// ft_putstr_fd("readline\n", 2);
 		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
-		// ft_putstr_fd("out the readline\n", 2);
 		if (*data.cmd.str == ' ' && skip_spaces_get_cmd(&(data.cmd.str)))
 			continue ;
 		if (*data.cmd.str == '\0' && free_on_if(data.cmd.str))
@@ -27,10 +24,7 @@ int	main(int ac, char **av, char **envp)
 		split(data.cmd.str, '|', &data.cmd);
 		token_creater(&data);
 		handle_dollar_sign(&data);
-		parse_envars(data.t, data.envars_list);
-		// printlst(data.t);
 		executor(&data, data.t);
-		// ft_putstr_fd("sai\n", 2);
 		everyone_be_freeee(&data);
 	}
 	free_envars_list(data.envars_list);
@@ -63,7 +57,7 @@ static int	skip_spaces_get_cmd(char **str)
 	new = *str;
 	while (*tmp == ' ')
 		tmp++;
-	if (*tmp && ft_isalnum(*tmp))
+	if (*tmp)
 	{
 		new = ft_strdup(tmp);
 		free(*str);

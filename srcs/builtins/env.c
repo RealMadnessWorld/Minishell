@@ -7,7 +7,8 @@ int	do_env(t_envars *lst)
 
 	while (elist)
 	{
-		printf("%s=%s\n", elist->key, elist->value);
+		if (elist->value)
+			printf("%s=%s\n", elist->key, elist->value);
 		elist = elist->next;
 	}
 	return (0);

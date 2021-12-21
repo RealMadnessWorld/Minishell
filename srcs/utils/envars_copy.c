@@ -1,5 +1,18 @@
 #include "../../includes/minishell.h"
 
+t_envars	*copy_envars(t_envars *t)
+{
+	t_envars *copy;
+
+	copy = NULL;
+	while (t)
+	{
+		env_add_lst(&copy, env_new(t->key, t->value));
+		t = t->next;
+	}
+	return (copy);
+}
+
 t_envars	*env_last(t_envars *t)
 {
 	if (!t)
