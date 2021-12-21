@@ -54,7 +54,15 @@ int	choose_in(t_data *d)
 		d->fd.in_original = dup(STDIN_FILENO);
 		dup2(d->fd.in, STDIN_FILENO);
 	}
-	return 1;
+	if (d->fd.weirdoc == 0)
+	{
+		d->fd.in = open(".heredoc", O_RDONLY);
+		if (d->fd.in == -1)
+			return (0);
+		d->fd.in_original = dup(STDIN_FILENO);
+		dup2(d->fd.in, STDIN_FILENO);
+	}
+	return (1);
 }
 
 void	close_start_fd(t_data *d)

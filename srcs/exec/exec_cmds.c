@@ -27,12 +27,10 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 
 static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 {
-	t_exec	*x;
 	pid_t	pid;
 	int		status;
 	int		ret;
 
-	x = NULL;
 	pid = fork();
 	if (pid == 0)
 	{

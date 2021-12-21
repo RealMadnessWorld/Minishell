@@ -32,28 +32,22 @@ int	do_red_weirdoc(t_data *d, t_tokens *tmp)
 {
 	char	*str;
 
-	d->fd.out_original = dup(STDOUT_FILENO);
-	d->fd.heredoc_fd = open(".heredoc", O_RDWR | O_TRUNC | O_APPEND | O_CREAT, 0777);
+	printf("tmp->next %s\n",tmp->next->str);
+	d->fd.heredoc_fd = open(".tmp.heredoc", O_RDWR | O_CREAT, 0777);
 	if (d->fd.heredoc_fd == -1)
 		return (0);
-	str = readline(">");
-	if (ft_strcmp(tmp->next->str, str) == 0)
-		free(str);
-	else
+	while (1)
 	{
-		while (1)
+		str = readline("> ");
+		write(d->fd.heredoc_fd, str, strlen(str));
+		write(d->fd.heredoc_fd, "\n", 1);
+		if (ft_strcmp(tmp->next->str, str) == 0)
 		{
-			str = readline("> ");
-			write(d->fd.heredoc_fd, str, strlen(str));
-			write(d->fd.heredoc_fd, "\n", 1);
-			if (ft_strcmp(tmp->next->str, str) == 0)
-			{
-				free(str);
-				d->fd.weirdoc = 1;
-				return (1);
-			}
 			free(str);
+			d->fd.weirdoc = 1;
+			return (1);
 		}
+		free(str);
 	}
 	d->fd.weirdoc = 1;
 	close(d->fd.heredoc_fd);
