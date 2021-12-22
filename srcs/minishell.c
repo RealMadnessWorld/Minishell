@@ -47,6 +47,7 @@ static void	data_init(t_data *d)
 	d->fd.weirdoc = 0;
 	d->fd.append = 0;
 	d->fd.heredoc_count = 0;
+	g.child = 0;
 }
 
 static int	skip_spaces_get_cmd(char **str)

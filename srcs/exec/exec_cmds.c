@@ -31,11 +31,12 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 	}
 	if (t->token == e_command)
 	{
-		g_status = do_builtin(d, t);
+		g.g_status = do_builtin(d, t);
 		restart_fd(d);
 	}
 	else
 	{
+		g.child = 1;
 		pid = fork();
 		if (pid == 0)
 			execve_handler(d, t);
@@ -43,10 +44,10 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 		{
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
-       			g_status = WEXITSTATUS(status);
+       			g.g_status = WEXITSTATUS(status);
 		}
 	}
-	return (g_status);
+	return (g.g_status);
 }
 
 static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
@@ -72,8 +73,8 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	waitpid(pid, &status, 0);
 	close_pipes(d->nr_pipes, d->pipes, pipe_pos);
 	if (WIFEXITED(status))
-		g_status = (WEXITSTATUS(status) / 256);
-	return (g_status);
+		g.g_status = (WEXITSTATUS(status) / 256);
+	return (g.g_status);
 }
 
 void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
@@ -91,7 +92,7 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 				restart_fd(d);
 				continue ;
 			}
-			g_status = exec_piped_cmd(d, cmd_array[i], i);
+			g.g_status = exec_piped_cmd(d, cmd_array[i], i);
 		}
 	}
 	else
@@ -104,7 +105,7 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 				restart_fd(d);
 				continue ;
 			}
-			g_status =  exec_piped_cmd(d, cmd_array[i], i);
+			g.g_status =  exec_piped_cmd(d, cmd_array[i], i);
 		}
 	}
 	unlink(".heredoc");

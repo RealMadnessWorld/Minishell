@@ -13,7 +13,8 @@ t_envars *add_node(char **line)
 			else
 				node->value = NULL;
 			node->next = NULL;
-			free(line);
+			while (*line++)
+				free(*line);
 			line = NULL;
 	}
 	return (node);
@@ -41,6 +42,7 @@ char	**set_line(char *envl)
 		line = malloc(sizeof(char *) * 2);
 		line[0] = ft_strdup(envl);
 		line[1] = NULL;
+		free(envl);
 		return (line);
 	}
 }

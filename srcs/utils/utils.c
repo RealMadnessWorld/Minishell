@@ -28,7 +28,7 @@ int	throw_error(char *str, int err)
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": command not found\n", 2);
-		g_status = 127;
+		g.g_status = 127;
 		return (127);
 	}
 	if (err == 255)
@@ -36,7 +36,7 @@ int	throw_error(char *str, int err)
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		g_status = 255;
+		g.g_status = 255;
 		return (255);
 	}
 	if (err == 1)
@@ -44,9 +44,9 @@ int	throw_error(char *str, int err)
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": argument supplied is not valid\n", 2);
-		g_status = 1;
+		g.g_status = 1;
 		return (1);
 	}
-	g_status = 1;
+	g.g_status = 1;
 	return (1);
 }

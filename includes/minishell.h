@@ -18,6 +18,12 @@
 *		    Structs			 *
 \****************************/
 
+typedef struct g_global
+{
+	int				g_status;
+	int				child;
+}			g_g;
+
 typedef struct s_cmd
 {
 	char			**cmdline;
@@ -68,7 +74,7 @@ typedef struct s_data
 	int				**pipes;
 }			t_data;
 
-int	g_status;
+g_g	g;
 
 /****************************\
 *		   Functions		 *
@@ -162,6 +168,7 @@ void		be_free_my_child(t_tokens *lst);
 int			everyone_be_freeee(t_data *d);
 void		free_envars_list(t_envars *env);
 void		free_pipes(t_data *d);
+void		clear_paths(t_data *d);
 
 /****************************\
 *		  	  Env			 *

@@ -63,7 +63,7 @@ void	exit_func(t_data *d, t_tokens *t)
 				exit_nbr = throw_error("exit", 255);
 			else if (t->next->next)
 			{
-				g_status = throw_error("exit", 1);
+				g.g_status = throw_error("exit", 1);
 				return ;
 			}
 			else if ((ft_atoi(t->next->str)) > 255)
@@ -76,4 +76,16 @@ void	exit_func(t_data *d, t_tokens *t)
 	everyone_be_freeee(d);
 	printf(CLR_CYN"Bye daddy! Have a great day! 🖤🖤🖤\n"CLR_RST);
 	exit(exit_nbr);
+}
+
+void	clear_paths(t_data *d)
+{
+	int i;
+
+	i = 0;
+	while (d->bin_paths[i])
+	{
+		free(d->bin_paths[i]);
+		i++;
+	}
 }

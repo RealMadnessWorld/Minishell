@@ -68,7 +68,7 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 	int		j;
 
 	if (!ft_isalnum(str[start + 2]))
-		str_to_fit = ft_itoa(g_status);
+		str_to_fit = ft_itoa(g.g_status);
 	else
 		str_to_fit = find_var(str, start, end, data);
 	i = -1;

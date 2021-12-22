@@ -50,10 +50,10 @@ static int	set_directory(t_envars *env, char *path, int home)
 
 	if (change_dir_update_pwds(env, path))
 		return (0);
-	g_status = 1;
+	g.g_status = 1;
 	if (stat(path, &st) == -1)
 	{
-		g_status = 1;
+		g.g_status = 1;
 		printf("Error: No such file or directory\n");
 	}
 	else if (!(st.st_mode & S_IXUSR))
@@ -62,7 +62,7 @@ static int	set_directory(t_envars *env, char *path, int home)
 		printf("Error: Not a directory\n");
 	if (home)
 		free(path);
-	return (g_status);
+	return (g.g_status);
 }
 
 int	do_cd(t_tokens *tkn_lst, t_envars *env)

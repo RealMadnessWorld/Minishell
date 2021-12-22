@@ -1,5 +1,22 @@
 #include "../../includes/minishell.h"
 
+static int	str_size(const char *str, char c)
+{
+	int	i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			count++;
+		i++;
+	}
+	// printf("%i\n", count);
+	return (count);
+}
+
 int	str_quotes_checker(int i, const char *str, int quotes)
 {
 	if (str[i] == '"' && quotes == 0)
@@ -51,7 +68,7 @@ static int	split_str(const char *str, char c, int x, char **tmp)
 	i = x;
 	j = 0;
 	quotes = 0;
-	*tmp = malloc(sizeof(char) * ft_strlen(str) + 1);
+	*tmp = malloc(sizeof(char) * str_size(str, c) + 1);
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
@@ -75,20 +92,25 @@ void	split(char const *str, char c, t_cmd *d)
 {
 	char	*tmp;
 	int		i;
+	int		x;
 
 	if (!str)
 		return ;
 	i = 0;
-	d->cmdline = (char **)malloc(sizeof(char *) * (split_counter(str, c) * 2));
+	x = (split_counter(str, c) * 2);
+	d->cmdline = (char **)malloc(sizeof(char *) * x);
 	while(str[i])
 	{
 		i = split_str(str, c, i, &tmp);
 		tmp = ft_strtrim(tmp, " ");
 		d->cmdline[d->i] = ft_strdup(tmp);
 		d->i++;
-		d->cmdline[d->i] = ft_strdup("|");
-		d->i++;
+		if (d->i != x - 1)
+		{
+			d->cmdline[d->i] = ft_strdup("|");
+			d->i++;
+		}
 		free(tmp);
 	}
-	d->cmdline[--d->i] = NULL;
+	d->cmdline[d->i] = NULL;
 }
