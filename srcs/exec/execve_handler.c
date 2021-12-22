@@ -67,6 +67,7 @@ static t_exec	*check_cmd(t_data *d, t_tokens *t)
 		free(x->path);
 		i++;
 	}
+	free(x);
 	return (NULL);
 }
 

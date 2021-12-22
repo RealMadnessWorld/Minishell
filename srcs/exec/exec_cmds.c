@@ -45,6 +45,12 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
        			g.g_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+			{
+				printf("entered!\n");
+				g.g_status = (128 + WTERMSIG(status));
+				return (128 + WTERMSIG(status));
+			}
 		}
 	}
 	return (g.g_status);
@@ -74,6 +80,11 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	close_pipes(d->nr_pipes, d->pipes, pipe_pos);
 	if (WIFEXITED(status))
 		g.g_status = (WEXITSTATUS(status) / 256);
+	else if (WIFSIGNALED(status))
+	{
+		printf("entered!\n");
+		return (128 + WTERMSIG(status));
+	}
 	return (g.g_status);
 }
 
@@ -114,10 +125,13 @@ void do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 void	executor(t_data *d, t_tokens *t)
 {
 	int			i;
+	char		*tmp;
 	t_tokens	**cmd_array;
 
 	i = -1;
-	d->bin_paths = ft_split(get_env(d->envars_list, "PATH"), ':');
+	tmp = get_env(d->envars_list, "PATH");
+	d->bin_paths = ft_split(tmp, ':');
+	free(tmp);
 	d->nr_pipes = count_pipes(t);
 	cmd_array = NULL;
 	if (t->token == e_var)

@@ -87,7 +87,6 @@ void	restart_fd(t_data *d)
 	close_start_fd(d);
 	if (d->fd.heredoc_fd != 0)
 	{
-		
 		d->fd.heredoc_fd = 0;
 		dup2(d->fd.in_original, 0);
 	}
