@@ -13,6 +13,14 @@ t_envars *add_node(char **line)
 			else
 				node->value = NULL;
 			node->next = NULL;
+			free(line[0]);
+			line[0] = NULL;
+			free(line[1]);
+			line[1] = NULL;
+			if (line[2])
+				free(line[2]);
+			free(line);
+			line = NULL;
 	}
 	return (node);
 }
@@ -110,10 +118,15 @@ void		set_env(t_envars *env, char *key, char *value)
 			if (curr->value)
 				free(curr->value);
 			curr->value = ft_strdup(value);
+			if (to_add[0])
+				free(to_add[0]);
+			if (to_add[1])
+				free(to_add[1]);
+			free(to_add);
 			to_add = NULL;
 			return ;
 		}
-		if (curr->next == NULL)
+		else if (curr->next == NULL)
 		{
 			curr->next = add_node(to_add);
 			return ;

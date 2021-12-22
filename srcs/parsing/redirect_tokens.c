@@ -29,7 +29,7 @@ int	set_fd_names(t_data *d, t_tokens *t)
 		}
 		tmp = tmp->next;
 	}
-	d->fd.heredoc_count =1;
+	d->fd.heredoc_count = 1;
 	return (1);
 }
 
@@ -55,9 +55,9 @@ int	check_fd_already_redout(t_data *d)
 	if (d->fd.i_out != 0)
 	{
 		d->fd.out = open(d->fd.out_name, O_WRONLY | O_TRUNC | O_CREAT, 0777);
-		if (d->fd.in == -1)
+		if (d->fd.out == -1)
 		{
-			printf("couldn't %s, mate... sorry (not really)\n", d->fd.in_name);
+			printf("couldn't open that file mate... sorry (not really)\n");
 			return (0);
 		}
 		close(d->fd.out);
@@ -87,6 +87,7 @@ void	restart_fd(t_data *d)
 	close_start_fd(d);
 	if (d->fd.heredoc_fd != 0)
 	{
+		// free(d->fd.in_name);
 		d->fd.heredoc_fd = 0;
 		dup2(d->fd.in_original, 0);
 	}

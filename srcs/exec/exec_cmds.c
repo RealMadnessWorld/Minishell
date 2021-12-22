@@ -29,7 +29,7 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 		restart_fd(d);
 		return (1);
 	}
-	if (t->token == e_command)
+	else if (t->token == e_command)
 	{
 		g.g_status = do_builtin(d, t);
 		restart_fd(d);
@@ -77,10 +77,7 @@ static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
 	if (WIFEXITED(status))
 		g.g_status = (WEXITSTATUS(status) / 256);
 	else if (WIFSIGNALED(status))
-	{
-		printf("entered!\n");
 		return (128 + WTERMSIG(status));
-	}
 	return (g.g_status);
 }
 
@@ -146,7 +143,8 @@ void	executor(t_data *d, t_tokens *t)
 		}
 		d->pipes[i] = NULL;
 		do_pipes(cmd_array, d->nr_pipes, d);
-		free_pipes(d);
+		free(cmd_array);
+		cmd_array = NULL;
 	}
 	else
 		exec_cmd(d, t);

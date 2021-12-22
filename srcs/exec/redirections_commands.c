@@ -9,6 +9,9 @@ int	do_red_smaller(t_data *d, t_tokens *tmp)
 		printf("Where is the file you beautiful bastard?\n");
 		return (0);
 	}
+	d->fd.in_original = dup(STDIN_FILENO);
+	if (d->fd.in_name)
+		free(d->fd.in_name);
 	d->fd.in_name = ft_strdup(tmp->next->str);
 	tmp->next->token = e_fd;
 	d->fd.weirdoc = 0;
@@ -24,6 +27,9 @@ int	do_red_bigger(t_data *d, t_tokens *tmp)
 		printf("Where is the file you beautiful bastard?\n");
 		return (0);
 	}
+	d->fd.out_original = dup(STDIN_FILENO);
+	if (d->fd.out_name)
+		free(d->fd.out_name);
 	d->fd.out_name = ft_strdup(tmp->next->str);
 	tmp->next->token = e_fd;
 	d->fd.append = 0;
@@ -34,9 +40,11 @@ int	do_red_weirdoc(t_data *d, t_tokens *tmp)
 {
 	char	*str;
 
-	d->fd.heredoc_fd = open(".tmp.heredoc", O_RDWR | O_CREAT, 0777);
+	d->fd.in_name = ft_strdup(".tmp.heredoc");
+	d->fd.heredoc_fd = open(d->fd.in_name, O_RDWR | O_CREAT, 0777);
 	if (d->fd.heredoc_fd == -1)
 		return (0);
+	d->fd.in_original = dup(STDIN_FILENO);
 	while (1)
 	{
 		str = readline("> ");
@@ -64,6 +72,9 @@ int	do_red_append(t_data *d, t_tokens *tmp)
 		printf("Where is the file you beautiful bastard?\n");
 		return (0);
 	}
+	d->fd.out_original = dup(STDIN_FILENO);
+	if (d->fd.out_name)
+		free(d->fd.out_name);
 	d->fd.out_name = ft_strdup(tmp->next->str);
 	tmp->next->token = e_fd;
 	d->fd.append = 1;

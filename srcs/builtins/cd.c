@@ -29,14 +29,14 @@ static int	change_dir_update_pwds(t_envars *env, char *path)
 	{
 		if (pwd)
 		{
-			set_env(env, "OLDPWD", pwd);
-			free(pwd);
+			set_env(env, ft_strdup("OLDPWD"), pwd);
+			// free(pwd);
 		}
 		pwd = getcwd(NULL, 0);
 		if (pwd)
 		{
-			set_env(env, "PWD", pwd);
-			free(pwd);
+			set_env(env, ft_strdup("PWD"), pwd);
+			// free(pwd);
 		}
 		return (1);
 	}
