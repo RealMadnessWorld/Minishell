@@ -71,9 +71,6 @@ int	do_cd(t_tokens *tkn_lst, t_envars *env)
 	char		*old_pwd;
 
 	home = NULL;
-	// if (tkn_lst->next && tkn_lst->next->next
-	// 	&& tkn_lst->next->next->token != e_pipe)
-	// 	return (printf(CLR_RED"What am I? A multitasker? 👿\n"CLR_RST));
 	if (tkn_lst->next == NULL || tkn_lst->next->str[0] == '\0'
 	|| tkn_lst->next->str[0] == '\n'
 	|| (!(ft_strcmp(tkn_lst->next->str, "~")))

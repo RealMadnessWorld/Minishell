@@ -43,6 +43,7 @@ char	**set_line(char *envl)
 		line[0] = ft_strdup(envl);
 		line[1] = NULL;
 		free(envl);
+		envl = NULL;
 		return (line);
 	}
 }
@@ -111,7 +112,6 @@ void		set_env(t_envars *env, char *key, char *value)
 			if (curr->value)
 				free(curr->value);
 			curr->value = ft_strdup(value);
-			free(to_add);
 			to_add = NULL;
 			return ;
 		}

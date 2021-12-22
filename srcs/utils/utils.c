@@ -2,17 +2,26 @@
 
 void	add(t_tokens *old, char *new)
 {
-	free(old->str);
-	old->str = NULL;
-	old->str = new;
+	if (old && old->str)
+	{
+		free(old->str);
+		old->str = NULL;
+		old->str = new;
+	}
 }
 
 void	delete(t_envars *node)
 {
-		free(node->key);
-		free(node->value);
+	if (node)
+	{
+		if (node->key)
+			free(node->key);
+		if (node->value)
+			free(node->value);
 		free(node);
 		node = NULL;
+	}
+
 }
 
 int	error_zero(char *error)

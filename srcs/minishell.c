@@ -73,6 +73,7 @@ static int	skip_spaces_get_cmd(char **str)
 
 static int	free_on_if(char *str)
 {
-	free(str);
+	if (str)
+		free(str);
 	return (1);
 }

@@ -68,8 +68,16 @@ void	free_envars_list(t_envars *env)
 	{
 		while (curr)
 		{
-			free(curr->key);
-			free(curr->value);
+			if (curr->key)
+			{
+				free(curr->key);
+				curr->key = NULL;
+			}
+			if (curr->value)
+			{
+				free(curr->value);
+				curr->value = NULL;
+			}
 			curr = curr->next;
 		}
 	}
@@ -83,7 +91,10 @@ void free_pipes(t_data *d)
 
 	i = -1;
 	while(++i < d->nr_pipes)
-		free(d->pipes[i]);
+	{
+		if (d->pipes[i])
+			free(d->pipes[i]);
+	}
 	free(d->pipes);
 	d->pipes = NULL;
 }

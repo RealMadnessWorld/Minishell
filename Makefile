@@ -4,7 +4,7 @@ OS			= $(shell uname)
 MAKEFLAGS	+= -s
 
 CPPFLAGS	= -I ~/.brew/opt/readline/include
-CFLAGS		= $(CPPFLAGS) -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		= $(CPPFLAGS) -Wall -Werror -Wextra -g #-fsanitize=address
 
 NAME		= minishell
 
