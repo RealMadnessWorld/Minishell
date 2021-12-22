@@ -46,11 +46,7 @@ static int	exec_cmd(t_data *d, t_tokens *t)
 			if (WIFEXITED(status))
        			g.g_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-			{
-				printf("entered!\n");
 				g.g_status = (128 + WTERMSIG(status));
-				return (128 + WTERMSIG(status));
-			}
 		}
 	}
 	return (g.g_status);

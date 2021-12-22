@@ -67,7 +67,6 @@ void	free_envars_list(t_envars *env)
 			env = env->next;
 		}
 	}
-	// free(env);
 }
 
 void free_pipes(t_data *d)
