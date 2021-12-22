@@ -47,38 +47,52 @@ int	everyone_be_freeee(t_data *d)
 		if (d->cmd.str)
 			free(d->cmd.str);
 	}
+	if (d->nr_pipes > 0)
+	{
+		i = -1;
+		while (++i < d->nr_pipes)
+		{
+			if (d->pipes[i])
+				free(d->pipes[i]);
+		}
+		free(d->pipes);
+		d->pipes = NULL;
+	}
 	return (1);
 }
 
 void	free_envars_list(t_envars *env)
 {
 	t_envars	*curr;
+	t_envars	*last;
 
+	curr = env;
 	if (env)
 	{
-		while (env)
+		while (curr)
 		{
-			curr = env;
-			if (curr->key)
-				free(curr->key);
-			if (curr->value)
-				free(curr->value);
-			free(curr);
-			env = env->next;
+			last = curr;
+			if (last->key)
+				free(last->key);
+			if (last->value)
+				free(last->value);
+			curr = curr->next;
+			free(last);
+			last = NULL;
 		}
 	}
-	// free(env);
+	free(env);
+	env = NULL;
 }
 
-void free_pipes(t_data *d)
-{
-	int	i;
+// void free_pipes(t_data *d, t_tokens **tkn_lst)
+// {
+// 	int			i;
 
-	i = -1;
-	while(++i < d->nr_pipes)
-	{
-		if (d->pipes[i])
-			free(d->pipes[i]);
-	}
-	free(d->pipes);
-}
+// 	i = -1;
+// 	while(++i < d->nr_pipes)
+// 	{
+// 		if (d->pipes[i])
+// 			free(d->pipes[i]);
+// 	}
+// }
