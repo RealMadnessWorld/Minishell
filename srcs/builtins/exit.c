@@ -55,24 +55,28 @@ void	exit_func(t_data *d, t_tokens *t)
 	int exit_nbr;
 
 	exit_nbr = 0;
-	if (t->next)
+	if (d->cmd.str != NULL)
 	{
-		if (t->next->str)
+		if (t->next)
 		{
-			if (not_int((t->next->str)))
-				exit_nbr = throw_error("exit", 255);
-			else if (t->next->next)
+			if (t->next->str)
 			{
-				g.g_status = throw_error("exit", 1);
-				return ;
+
+				if (not_int((t->next->str)))
+					exit_nbr = throw_error("exit", 255);
+				else if (t->next->next)
+				{
+					g.g_status = throw_error("exit", 1);
+					return ;
+				}
+				else if ((ft_atoi(t->next->str)) > 255)
+					exit_nbr = (ft_atoi(t->next->str)) % 255;
+				else
+					exit_nbr = ft_atoi(t->next->str);
 			}
-			else if ((ft_atoi(t->next->str)) > 255)
-				exit_nbr = (ft_atoi(t->next->str)) % 255;
-			else
-				exit_nbr = ft_atoi(t->next->str);
 		}
+		clear_history();
 	}
-	clear_history();
 	everyone_be_freeee(d);
 	printf(CLR_CYN"Bye daddy! Have a great day! 🖤🖤🖤\n"CLR_RST);
 	exit(exit_nbr);
@@ -82,10 +86,8 @@ void	clear_paths(t_data *d)
 {
 	int i;
 
-	i = 0;
-	while (d->bin_paths[i])
-	{
+	i = -1;
+	while (d->bin_paths[++i])
 		free(d->bin_paths[i]);
-		i++;
-	}
+	free(d->bin_paths);
 }

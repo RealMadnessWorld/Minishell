@@ -13,9 +13,6 @@ t_envars *add_node(char **line)
 			else
 				node->value = NULL;
 			node->next = NULL;
-			while (*line++)
-				free(*line);
-			line = NULL;
 	}
 	return (node);
 }
@@ -42,8 +39,6 @@ char	**set_line(char *envl)
 		line = malloc(sizeof(char *) * 2);
 		line[0] = ft_strdup(envl);
 		line[1] = NULL;
-		free(envl);
-		envl = NULL;
 		return (line);
 	}
 }
@@ -69,6 +64,9 @@ t_envars	*set_envars_list(char **envp)
 		curr = add_node(line);
 		prev->next = curr;
 	}
+	// i = -1;
+	// while (line[++i])
+	// 	free(line[i]);
 	return (list);
 }
 
@@ -123,41 +121,3 @@ void		set_env(t_envars *env, char *key, char *value)
 		curr = curr->next;
 	}
 }
-
-// int main(int ac, char **av, char **envp)
-// {
-// 	t_data		*data = malloc(sizeof(t_data));
-// 	t_tokens	*first = malloc(sizeof(t_tokens));
-// 	t_tokens	*second = malloc(sizeof(t_tokens));
-// 	t_tokens	*third = malloc(sizeof(t_tokens));
-// 	t_envars	*curr;
-
-// 	data->envars_list = NULL;
-// 	data->envars_list = set_envars_list(envp);
-// 	curr = data->envars_list;
-// 	first->str = ft_strdup("primeiro=FIRST");
-// 	first->token = e_command;
-// 	second->str = ft_strdup("segundo=SECOND");
-// 	second->token = e_command;
-// 	third->str = ft_strdup("terceiro=THIRD");
-// 	third->token = e_command;
-// 	first->next = second;
-// 	second->next = third;
-// 	third->next = NULL;
-// 	parse_envars(first, data->envars_list);
-// 	while (curr)
-// 	{
-// 		printf("%s", curr->key);
-// 		printf("%s\n", curr->value);
-// 		curr = curr->next;
-// 	}
-// 	curr = data->envars_list;
-// 	while (curr)
-// 	{
-// 		free(curr->key);
-// 		free(curr->value);
-// 		free(curr);
-// 		curr = curr->next;
-// 	}
-// 	return (0);
-// }

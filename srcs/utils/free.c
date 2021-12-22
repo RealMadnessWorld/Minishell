@@ -28,10 +28,8 @@ static void	free_cmdline(t_cmd *cmd)
 			while (cmd->cmdline[++i])
 			{
 				free(cmd->cmdline[i]);
-				cmd->cmdline[i] = NULL;
 			}
 			free(cmd->cmdline);
-			cmd->cmdline = NULL;
 		}
 	}
 }
@@ -41,20 +39,13 @@ int	everyone_be_freeee(t_data *d)
 	int	i;
 
 	i = 0;
-	be_free_my_child(d->t);
-	free_cmdline(&d->cmd);
-	clear_paths(d);
-	if (d->cmd.str)
+	if (d->cmd.str != NULL)
 	{
-		free(d->cmd.str);
-		d->cmd.str = NULL;
-	}
-	if (d->pipes)
-	{
-		while (i < d->nr_pipes)
-			free(d->pipes[i++]);
-		free(d->pipes);
-		d->pipes = NULL;
+		be_free_my_child(d->t);
+		free_cmdline(&d->cmd);
+		clear_paths(d);
+		if (d->cmd.str)
+			free(d->cmd.str);
 	}
 	return (1);
 }
@@ -63,26 +54,20 @@ void	free_envars_list(t_envars *env)
 {
 	t_envars	*curr;
 
-	curr = env;
-	if (curr)
+	if (env)
 	{
-		while (curr)
+		while (env)
 		{
+			curr = env;
 			if (curr->key)
-			{
 				free(curr->key);
-				curr->key = NULL;
-			}
 			if (curr->value)
-			{
 				free(curr->value);
-				curr->value = NULL;
-			}
-			curr = curr->next;
+			free(curr);
+			env = env->next;
 		}
 	}
-	free(env);
-	env = NULL;
+	// free(env);
 }
 
 void free_pipes(t_data *d)
@@ -96,5 +81,4 @@ void free_pipes(t_data *d)
 			free(d->pipes[i]);
 	}
 	free(d->pipes);
-	d->pipes = NULL;
 }

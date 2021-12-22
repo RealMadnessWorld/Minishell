@@ -11,11 +11,13 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	data.envars_list = set_envars_list(envp);
-	do_i_have_signal();
+	// do_i_have_signal();
 	while (1)
 	{
 		data_init(&data);
 		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
+		if (data.cmd.str == NULL)
+			exit_func(&data, data.t);
 		if (*data.cmd.str == ' ' && skip_spaces_get_cmd(&(data.cmd.str)))
 			continue ;
 		if (*data.cmd.str == '\0' && free_on_if(data.cmd.str))
@@ -47,6 +49,7 @@ static void	data_init(t_data *d)
 	d->fd.weirdoc = 0;
 	d->fd.append = 0;
 	d->fd.heredoc_count = 0;
+	d->fd.heredoc_fd = 0;
 	g.child = 0;
 }
 

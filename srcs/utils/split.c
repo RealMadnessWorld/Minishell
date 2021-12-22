@@ -91,6 +91,7 @@ static int	split_str(const char *str, char c, int x, char **tmp)
 void	split(char const *str, char c, t_cmd *d)
 {
 	char	*tmp;
+	char	*also_tmp;
 	int		i;
 	int		x;
 
@@ -102,6 +103,7 @@ void	split(char const *str, char c, t_cmd *d)
 	while(str[i])
 	{
 		i = split_str(str, c, i, &tmp);
+		also_tmp = tmp;
 		tmp = ft_strtrim(tmp, " ");
 		d->cmdline[d->i] = ft_strdup(tmp);
 		d->i++;
@@ -110,6 +112,7 @@ void	split(char const *str, char c, t_cmd *d)
 			d->cmdline[d->i] = ft_strdup("|");
 			d->i++;
 		}
+		free(also_tmp);
 		free(tmp);
 	}
 	d->cmdline[d->i] = NULL;
