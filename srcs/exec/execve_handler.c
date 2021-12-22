@@ -80,16 +80,24 @@ void	execve_handler(t_data *d, t_tokens *t)
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(t->str, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
+		everyone_be_freeee(d);
 		exit(127);
 	}
 	x = check_cmd(d, t);
 	if (x == NULL)
+	{
+		everyone_be_freeee(d);
 		exit(throw_error(t->str, 127));
+	}
 	if (its_redir(t))
 	{
 		if (!handle_fd(d, t))
+		{
+			everyone_be_freeee(d);
 			exit(127);
+		}
 		trim_redir(x->t);
+		everyone_be_freeee(d);
 		execve(x->path, x->t, x->env);
 	}
 	execve(x->path, x->t, x->env);

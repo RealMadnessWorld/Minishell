@@ -150,7 +150,8 @@ void	executor(t_data *d, t_tokens *t)
 		}
 		d->pipes[i] = NULL;
 		do_pipes(cmd_array, d->nr_pipes, d);
-		free_pipes(d);
+		free(cmd_array);
+		cmd_array = NULL;
 	}
 	else
 		exec_cmd(d, t);
