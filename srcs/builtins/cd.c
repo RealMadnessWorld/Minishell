@@ -54,7 +54,9 @@ static int	set_directory(t_envars *env, char *path, int home)
 	if (stat(path, &st) == -1)
 	{
 		g.g_status = 1;
-		printf("Error: No such file or directory\n");
+		ft_putstr_fd("bash: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 	}
 	else if (!(st.st_mode & S_IXUSR))
 		printf("Error: Permission denied\n");

@@ -86,9 +86,9 @@ void	execve_handler(t_data *d, t_tokens *t)
 	x = check_cmd(d, t);
 	if (x == NULL)
 	{
-		g.g_status = throw_error(t->str, 127);
+		throw_error(t->str, 127);
 		everyone_be_freeee(d);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	if (its_redir(t))
 	{

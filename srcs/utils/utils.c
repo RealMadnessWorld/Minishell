@@ -34,7 +34,7 @@ int	throw_error(char *str, int err)
 {
 	if (err == 127)
 	{
-		ft_putstr_fd("bash: 1", 2);
+		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		g.g_status = 127;
