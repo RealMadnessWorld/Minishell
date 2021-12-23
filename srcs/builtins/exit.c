@@ -90,4 +90,5 @@ void	clear_paths(t_data *d)
 	while (d->bin_paths[++i])
 		free(d->bin_paths[i]);
 	free(d->bin_paths);
+	d->bin_paths = NULL;
 }

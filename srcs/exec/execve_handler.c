@@ -71,17 +71,28 @@ static t_exec	*check_cmd(t_data *d, t_tokens *t)
 	return (NULL);
 }
 
+static void	handle_execve_redir(t_data *d, t_tokens *t, t_exec *x)
+{
+	if (!handle_fd(d, t))
+	{
+		everyone_be_freeee(d);
+		exit(127);
+	}
+	trim_redir(x->t);
+	everyone_be_freeee(d);
+	execve(x->path, x->t, x->env);
+}
+
 void	execve_handler(t_data *d, t_tokens *t)
 {
 	t_exec	*x;
 
-	if (!d->bin_paths)
+	if (!d->bin_paths || !(ft_strncmp(t->str, "/bin/ls/", 8)))
 	{
-		ft_putstr_fd("bash: ", 2);
-		ft_putstr_fd(t->str, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		everyone_be_freeee(d);
-		exit(127);
+		print_error(NULL, "No such file or directory\n");
+		if (!d->bin_paths && everyone_be_freeee(d))
+			exit(127);
+		exit(126);
 	}
 	x = check_cmd(d, t);
 	if (x == NULL)
@@ -91,15 +102,6 @@ void	execve_handler(t_data *d, t_tokens *t)
 		exit(127);
 	}
 	if (its_redir(t))
-	{
-		if (!handle_fd(d, t))
-		{
-			everyone_be_freeee(d);
-			exit(127);
-		}
-		trim_redir(x->t);
-		everyone_be_freeee(d);
-		execve(x->path, x->t, x->env);
-	}
+		handle_execve_redir(d, t, x);
 	execve(x->path, x->t, x->env);
 }

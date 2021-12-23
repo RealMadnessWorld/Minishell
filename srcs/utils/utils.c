@@ -30,29 +30,31 @@ int	error_zero(char *error)
 	return (0);
 }
 
+int	print_error(char *str, char *errmsg)
+{
+	ft_putstr_fd("bash: ", 2);
+	if (str)
+		ft_putstr_fd(str, 2);
+	ft_putstr_fd(errmsg, 2);
+	return (1);
+}
 int	throw_error(char *str, int err)
 {
 	if (err == 127)
 	{
-		ft_putstr_fd("bash: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		print_error(str, ": command not found\n");
 		g.g_status = 127;
 		return (127);
 	}
 	if (err == 255)
 	{
-		ft_putstr_fd("bash: 2", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
+		print_error(str, ": numeric argument required\n");
 		g.g_status = 255;
 		return (255);
 	}
 	if (err == 1)
 	{
-		ft_putstr_fd("bash: 3", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": argument supplied is not valid\n", 2);
+		print_error(str, ": argument supplied is not valid\n");
 		g.g_status = 1;
 		return (1);
 	}

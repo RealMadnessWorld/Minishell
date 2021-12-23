@@ -36,6 +36,7 @@ static void	free_cmdline(t_cmd *cmd)
 			cmd ->cmdline = NULL;
 		}
 	}
+	cmd = NULL;
 }
 
 int	everyone_be_freeee(t_data *d)
@@ -47,7 +48,8 @@ int	everyone_be_freeee(t_data *d)
 	{
 		be_free_my_child(d->t);
 		free_cmdline(&d->cmd);
-		clear_paths(d);
+		if (d->bin_paths)
+			clear_paths(d);
 		if (d->cmd.str)
 			free(d->cmd.str);
 		d->cmd.str = NULL;

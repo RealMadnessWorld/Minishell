@@ -49,14 +49,16 @@ static int	set_directory(t_envars *env, char *path, int home)
 	struct stat	st;
 
 	if (change_dir_update_pwds(env, path))
+	{
+		if (home)
+			free(path);
 		return (0);
+	}
 	g.g_status = 1;
 	if (stat(path, &st) == -1)
 	{
 		g.g_status = 1;
-		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		print_error(path, ": No such file or directory\n");
 	}
 	else if (!(st.st_mode & S_IXUSR))
 		printf("Error: Permission denied\n");
@@ -80,14 +82,14 @@ int	do_cd(t_tokens *tkn_lst, t_envars *env)
 	{
 		home = get_env(env, "HOME");
 		if (!home)
-			return (printf("Error: HOME not set\n"));
+			return (print_error(NULL, "Error: HOME not set\n"));
 		return (set_directory(env, home, 1));
 	}
 	if (ft_strcmp(tkn_lst->next->str, "-") == 0)
 	{
 		old_pwd = get_env(env, "OLDPWD");
 		if (!old_pwd)
-			return (printf("Error: OLDPWD not set\n"));
+			return (print_error(NULL, "Error: OLDPWD not set\n"));
 		set_directory(env, old_pwd, 0);
 		free(old_pwd);
 		do_pwd();
