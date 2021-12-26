@@ -41,9 +41,6 @@ static void	free_cmdline(t_cmd *cmd)
 
 int	everyone_be_freeee(t_data *d)
 {
-	int	i;
-
-	i = 0;
 	if (d->cmd.str != NULL)
 	{
 		be_free_my_child(d->t);
