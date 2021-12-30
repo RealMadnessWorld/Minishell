@@ -1,42 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execve_handler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 19:02:53 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 21:31:16 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	its_redir(t_tokens *t)
 {
-	t_tokens *tmp;
+	t_tokens	*tmp;
 
 	tmp = t;
-
 	while (tmp && tmp->token != e_pipe)
 	{
-		if (tmp->token == e_smaller || tmp->token == e_bigger ||
-			tmp->token == e_double_bigger || tmp->token == e_double_smaller)
+		if (tmp->token == e_smaller || tmp->token == e_bigger
+			|| tmp->token == e_double_bigger || tmp->token == e_double_smaller)
 			return (1);
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-static void trim_redir(char **cmd)
+static void	trim_redir(char **cmd)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(cmd[i])
-    {
-        if (*cmd[i] == '<' || *cmd[i] == '>')
-        {
-            while(cmd[i])
-            {
-                free(cmd[i]);
-                cmd[i] = NULL;
-                i++;
-            }
-            free(cmd[i]);
-            cmd[i] = NULL;
-            return ;
-        }
-        i++;
-    }
+	i = 0;
+	while (cmd[i])
+	{
+		if (*cmd[i] == '<' || *cmd[i] == '>')
+		{
+			while (cmd[i])
+			{
+				free(cmd[i]);
+				cmd[i] = NULL;
+				i++;
+			}
+			free(cmd[i]);
+			cmd[i] = NULL;
+			return ;
+		}
+		i++;
+	}
 }
 
 static t_exec	*check_cmd(t_data *d, t_tokens *t)
@@ -47,27 +58,21 @@ static t_exec	*check_cmd(t_data *d, t_tokens *t)
 
 	i = 0;
 	x = malloc(sizeof(t_exec));
+	x->path = t->str;
+	x->env = conv_env(d->envars_list);
+	x->t = conv_tokens(t);
 	if (!(access(t->str, F_OK)))
-	{
-		x->path = t->str;
-		x->env = conv_env(d->envars_list);
-		x->t = conv_tokens(t);
 		return (x);
-	}
 	while (d->bin_paths[i] != NULL)
 	{
 		x->path = ft_strjoin_path(d->bin_paths[i], "/", t->str);
 		invalid = access(x->path, F_OK);
 		if (!invalid)
-		{
-			x->env = conv_env(d->envars_list);
-			x->t = conv_tokens(t);
 			return (x);
-		}
 		free(x->path);
 		i++;
 	}
-	free(x);
+	delete_x(x);
 	return (NULL);
 }
 

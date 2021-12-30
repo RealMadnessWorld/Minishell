@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 16:39:21 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 21:31:03 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -18,18 +30,18 @@
 *		    Structs			 *
 \****************************/
 
-typedef struct g_global
+typedef struct s_global
 {
-	int				g_status;
+	int				status;
 	int				child;
-}			g_g;
+}			t_g;
 
 typedef struct s_cmd
 {
 	char			**cmdline;
 	char			*str;
 	int				i;
-}			t_cmd;
+} t_cmd;
 
 typedef	struct s_envars
 {
@@ -74,7 +86,7 @@ typedef struct s_data
 	int				**pipes;
 }			t_data;
 
-g_g	g;
+t_g	g_g;
 
 /****************************\
 *		   Functions		 *
@@ -106,8 +118,9 @@ int			set_fd(t_tokens *tmp);
 /****************************\
 *			Execute			 *
 \****************************/
-void		executor(t_data *d, t_tokens *t);
 void		execve_handler(t_data *d, t_tokens *t);
+int			exec_cmd(t_data *d, t_tokens *t);
+int			count_pipes(t_tokens *t);
 
 /****************************\
 *		  Commandline		 *
@@ -119,9 +132,11 @@ int			do_builtin(t_data *d, t_tokens *t);
 \****************************/
 void		manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos);
 void		close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos);
-int			count_pipes(t_tokens *t);
 void		pipe_error(char *str);
-int			only_redir(t_data *d, t_tokens *t);
+int			only_redirs(t_tokens *t);
+void		exec_pipe(t_tokens *cmd, t_data *d, int i);
+void		do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d);
+void		ft_pipes(t_data *d, t_tokens *t);
 
 /****************************\
 *		  Redirections		 *
@@ -161,6 +176,7 @@ int			redirections_tokens(t_tokens *t);
 int			throw_error(char *str, int err);
 t_envars	*copy_envars(t_envars *t);
 int			print_error(char *str, char *errmsg);
+void		delete_x(t_exec	*x);
 
 /****************************\
 *		  	 Free			 *
@@ -174,7 +190,6 @@ void		clear_paths(t_data *d);
 /****************************\
 *		  	  Env			 *
 \****************************/
-
 void		env_print(t_data *data);
 void		parse_envars(t_tokens *tkn_lst, t_envars *envars_lst);
 void		add_envar(char *str, t_envars *envars_lst);
@@ -201,8 +216,8 @@ int			do_cd(t_tokens *tkn_lst, t_envars *env);
 *		  	Quotes			 *
 \****************************/
 int			handle_quotes(t_tokens *tkn_lst);
-char		*clean_str(char *str, int quotes, e_token *token);
-char		*allocate(char *str, int quotes, e_token *token);
+char		*clean_str(char *str, int quotes, t_token *token);
+char		*allocate(char *str, int quotes, t_token *token);
 
 /****************************\
 *		  	$$$$$$			 *

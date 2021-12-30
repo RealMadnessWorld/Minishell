@@ -21,7 +21,6 @@ void	delete(t_envars *node)
 		free(node);
 		node = NULL;
 	}
-
 }
 
 int	error_zero(char *error)
@@ -38,26 +37,31 @@ int	print_error(char *str, char *errmsg)
 	ft_putstr_fd(errmsg, 2);
 	return (1);
 }
-int	throw_error(char *str, int err)
+
+void	delete_x(t_exec	*x)
 {
-	if (err == 127)
+	int	i;
+
+	i = 0;
+	while (x->env[i])
 	{
-		print_error(str, ": command not found\n");
-		g.g_status = 127;
-		return (127);
+		free(x->env[i]);
+		x->env[i] = NULL;
+		i++;
 	}
-	if (err == 255)
+	free(x->env[i]);
+	free(x->env);
+	x->env = NULL;
+	i = 0;
+	while (x->t[i])
 	{
-		print_error(str, ": numeric argument required\n");
-		g.g_status = 255;
-		return (255);
+		free(x->t[i]);
+		x->t[i] = NULL;
+		i++;
 	}
-	if (err == 1)
-	{
-		print_error(str, ": argument supplied is not valid\n");
-		g.g_status = 1;
-		return (1);
-	}
-	g.g_status = 1;
-	return (1);
+	free(x->t[i]);
+	free(x->t);
+	x->t = NULL;
+	free(x);
+	x = NULL;
 }

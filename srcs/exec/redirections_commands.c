@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections_commands.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 20:54:54 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 20:54:55 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	do_red_smaller(t_data *d, t_tokens *tmp)
@@ -5,7 +17,7 @@ int	do_red_smaller(t_data *d, t_tokens *tmp)
 	check_fd_already_redin(d);
 	if (!tmp->next)
 	{
-		g.g_status = 258;
+		g_g.status = 258;
 		printf("Where is the file you beautiful bastard?\n");
 		return (0);
 	}
@@ -23,7 +35,7 @@ int	do_red_bigger(t_data *d, t_tokens *tmp)
 	check_fd_already_redout(d);
 	if (!tmp->next)
 	{
-		g.g_status = 258;
+		g_g.status = 258;
 		printf("Where is the file you beautiful bastard?\n");
 		return (0);
 	}
@@ -68,7 +80,7 @@ int	do_red_append(t_data *d, t_tokens *tmp)
 	check_fd_already_append(d);
 	if (!tmp->next)
 	{
-		g.g_status = 258;
+		g_g.status = 258;
 		printf("Where is the file you beautiful bastard?\n");
 		return (0);
 	}

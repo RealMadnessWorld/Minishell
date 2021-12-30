@@ -43,7 +43,7 @@ static int	check_quotes(char *str)
 	return (quote_count);
 }
 
-char	*allocate(char *str, int quotes, e_token *token)
+char	*allocate(char *str, int quotes, t_token *token)
 {
 	char	*newstr;
 
@@ -60,7 +60,7 @@ char	*allocate(char *str, int quotes, e_token *token)
 	return (newstr);
 }
 
-char	*clean_str(char *str, int quotes, e_token *token)
+char	*clean_str(char *str, int quotes, t_token *token)
 {
 	int		i;
 	int		j;

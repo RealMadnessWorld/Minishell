@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 18:19:27 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 18:27:56 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static char	*update_home(t_envars *env, char *path)
@@ -7,7 +19,8 @@ static char	*update_home(t_envars *env, char *path)
 
 	if (!ft_strncmp(path, "~/", 2))
 	{
-		if ((tmp = get_env(env, "HOME")))
+		tmp = get_env(env, "HOME");
+		if (tmp)
 		{
 			tmp2 = ft_substr(path, 1, ft_strlen(path));
 			free(path);
@@ -30,13 +43,11 @@ static int	change_dir_update_pwds(t_envars *env, char *path)
 		if (pwd)
 		{
 			set_env(env, ft_strdup("OLDPWD"), pwd);
-			// free(pwd);
 		}
 		pwd = getcwd(NULL, 0);
 		if (pwd)
 		{
 			set_env(env, ft_strdup("PWD"), pwd);
-			// free(pwd);
 		}
 		return (1);
 	}
@@ -54,10 +65,10 @@ static int	set_directory(t_envars *env, char *path, int home)
 			free(path);
 		return (0);
 	}
-	g.g_status = 1;
+	g_g.status = 1;
 	if (stat(path, &st) == -1)
 	{
-		g.g_status = 1;
+		g_g.status = 1;
 		print_error(path, ": No such file or directory\n");
 	}
 	else if (!(st.st_mode & S_IXUSR))
@@ -66,19 +77,31 @@ static int	set_directory(t_envars *env, char *path, int home)
 		printf("Error: Not a directory\n");
 	if (home)
 		free(path);
-	return (g.g_status);
+	return (g_g.status);
+}
+
+static int	cd_minus(t_envars *env)
+{
+	char		*old_pwd;
+
+	old_pwd = get_env(env, "OLDPWD");
+	if (!old_pwd)
+		return (print_error(NULL, "Error: OLDPWD not set\n"));
+	set_directory(env, old_pwd, 0);
+	free(old_pwd);
+	do_pwd();
+	return (1);
 }
 
 int	do_cd(t_tokens *tkn_lst, t_envars *env)
 {
 	char		*home;
-	char		*old_pwd;
 
 	home = NULL;
 	if (tkn_lst->next == NULL || tkn_lst->next->str[0] == '\0'
-	|| tkn_lst->next->str[0] == '\n'
-	|| (!(ft_strcmp(tkn_lst->next->str, "~")))
-	|| (!(ft_strcmp(tkn_lst->next->str, "--"))))
+		|| tkn_lst->next->str[0] == '\n'
+		|| (!(ft_strcmp(tkn_lst->next->str, "~")))
+		|| (!(ft_strcmp(tkn_lst->next->str, "--"))))
 	{
 		home = get_env(env, "HOME");
 		if (!home)
@@ -86,45 +109,7 @@ int	do_cd(t_tokens *tkn_lst, t_envars *env)
 		return (set_directory(env, home, 1));
 	}
 	if (ft_strcmp(tkn_lst->next->str, "-") == 0)
-	{
-		old_pwd = get_env(env, "OLDPWD");
-		if (!old_pwd)
-			return (print_error(NULL, "Error: OLDPWD not set\n"));
-		set_directory(env, old_pwd, 0);
-		free(old_pwd);
-		do_pwd();
-		return (1);
-	}
+		return (cd_minus(env));
 	tkn_lst->next->str = update_home(env, tkn_lst->next->str);
 	return (set_directory(env, tkn_lst->next->str, 0));
 }
-
-// int main(int ac, char **av, char **envp)
-// {
-// 	t_data		*data;
-// 	int			i = 1;
-// 	t_tokens	*first = malloc(sizeof(t_tokens));
-// 	t_tokens	*second = malloc(sizeof(t_tokens));
-// 	// t_tokens	*third = malloc(sizeof(t_tokens));
-// 	t_tokens	*curr = first;
-
-// 	data = malloc(sizeof(t_data));
-// 	data->envars_list = set_envars_list(envp);
-// 	first->str = ft_strdup("cd");
-// 	second->str = ft_strdup("exit.c");
-// 	// third->str = ft_strdup("test");
-// 	first->next = second;
-// 	second->next = NULL;
-// 	// third->next = NULL;
-
-// 	printf("PWD = %s\n", get_env(data->envars_list, "PWD"));
-// 	printf("OLDPWD = %s\n", get_env(data->envars_list, "OLDPWD"));
-// 	do_cd(first, data->envars_list);
-// 	// do_pwd();
-// 	printf("PWD = %s\n", get_env(data->envars_list, "PWD"));
-// 	printf("OLDPWD = %s\n", get_env(data->envars_list, "OLDPWD"));
-// 	// do_env(data->envars_list);
-// //	printf("11111\t11111\t11111\t11111\t11111\t11111\t11111\t11111\t11111\n");
-
-// 	return (0);
-// }

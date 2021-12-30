@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 18:57:56 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 18:58:31 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	empty_export(t_envars *lst)
@@ -13,7 +25,7 @@ static int	empty_export(t_envars *lst)
 	return (0);
 }
 
-int exp_keyvalue(t_envars *lst, char **new)
+int	exp_keyvalue(t_envars *lst, char **new)
 {
 	t_envars	*curr;
 	t_envars	*prev;
@@ -46,7 +58,7 @@ int	do_export(t_envars *lst, char *to_add)
 	if (!to_add)
 		return (empty_export(lst));
 	if (!(ft_isalpha(*to_add)) && *to_add != '_')
-		return(throw_error("export", 1));
+		return (throw_error("export", 1));
 	new = set_line(to_add);
 	return (exp_keyvalue(lst, new));
 }

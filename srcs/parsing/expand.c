@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 20:55:54 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 21:00:00 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	get_limits(char *str, int i)
@@ -68,7 +80,7 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 	int		j;
 
 	if (!ft_isalnum(str[start + 2]))
-		str_to_fit = ft_itoa(g.g_status);
+		str_to_fit = ft_itoa(g_g.status);
 	else
 		str_to_fit = find_var(str, start, end, data);
 	i = -1;
@@ -110,7 +122,7 @@ int	handle_dollar_sign(t_data *data)
 						add(curr, expand_dollar(data, curr->str, i, (i + 1)));
 					else if (ft_isalnum(curr->str[i + 1]))
 						add(curr, expand_dollar(data, curr->str, i,
-						 get_limits(curr->str, i)));
+								get_limits(curr->str, i)));
 					i = -1;
 				}
 			}
@@ -119,48 +131,3 @@ int	handle_dollar_sign(t_data *data)
 	}
 	return (0);
 }
-
-// int main(int ac, char **av, char **envp)
-// {
-// 	t_data		*data = malloc(sizeof(t_data));
-// 	t_tokens	*first = malloc(sizeof(t_tokens));
-// 	t_tokens	*second = malloc(sizeof(t_tokens));
-// 	t_tokens	*third = malloc(sizeof(t_tokens));
-// 	t_tokens	*curr = first;
-// 	t_envars	*elist;
-// 	int			i = 0;
-
-// 	data->t = first;
-// 	data->envars_list = set_envars_list(envp);
-// 	elist = data->envars_list;
-
-// 	do_export(data->envars_list, "ola=adeus");
-// 	first->str = ft_strdup("principio $ola fim");
-// 	second->str = ft_strdup("$LOGNAM $SHELL $SHLVL cenas");
-// 	third->str = ft_strdup("cenas $SHLVL mais um sem $nada.");
-// 	first->next = second;
-// 	second->next = third;
-// 	third->next = NULL;
-
-// 	handle_dollar_sign(data);
-
-// 	// while (elist)
-// 	// {
-// 	// 	printf("%s%s\n", elist->key, elist->value);
-// 	// 	elist = elist->next;
-// 	// }
-// 	while (curr)
-// 	{
-// 		printf("str\t%d = %s\n", i, curr->str);
-// 		i++;
-// 		curr = curr->next;
-// 	}
-// 	curr = first;
-// 	while (curr)
-// 	{
-// 		free(curr->str);
-// 		free(curr);
-// 		curr = curr->next;
-// 	}
-// 	return (0);
-// }

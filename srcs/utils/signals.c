@@ -3,7 +3,7 @@
 static void	deal_in_child()
 {
 	// g.g_status = 130;
-	if (g.child == 0)
+	if (g_g.child == 0)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
