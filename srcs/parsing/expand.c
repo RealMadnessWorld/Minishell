@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 20:55:54 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 15:30:19 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 19:04:55 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static char	*remove_dollar_install_communism(char *str, int start, int end)
 	return (new);
 }
 
+	//LEAK: falta dar free a este itoa.
 char	*expand_dollar(t_data *data, char *str, int start, int end)
 {
 	char	*str_to_fit;

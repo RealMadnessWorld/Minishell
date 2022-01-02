@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 15:30:51 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 15:30:53 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 16:21:42 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	set_fd(t_tokens *tmp)
 {
-	t_tokens *t;
+	t_tokens	*t;
+
 	t = tmp;
 	while (t)
 	{
@@ -80,18 +81,20 @@ int	echo_parser(t_tokens *t)
 
 int	commands_tokens(t_tokens *t)
 {
-	t_tokens *tmp;
+	t_tokens	*tmp;
+	char		*arsenio;
 
 	tmp = t;
+	arsenio = CLR_RED"What am I? A mind reader? 👿"CLR_RST;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->str, "echo") == 0)
 		{
 			if (tmp->next == NULL)
-				return (error_zero(CLR_RED"What am I? A mind reader? 👿"CLR_RST));
+				return (error_zero(arsenio));
 			tmp = tmp->next;
 			if (!echo_parser(tmp))
-				return (error_zero(CLR_RED"What am I? A mind reader? 👿"CLR_RST));
+				return (error_zero(arsenio));
 		}
 		tmp = tmp->next;
 	}

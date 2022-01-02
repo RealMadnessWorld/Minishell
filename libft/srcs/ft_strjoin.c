@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 20:14:44 by jarsenio          #+#    #+#             */
-/*   Updated: 2021/12/21 18:46:35 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 19:04:02 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin_path(char const *s1, char const *s2, char const *s3)
 
 	i = 0;
 	len = (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3));
-	ptr = (char*)malloc((len + 1) * sizeof(char));
+	ptr = (char *)malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
 	if (!s1)

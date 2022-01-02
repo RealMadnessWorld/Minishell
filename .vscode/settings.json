@@ -31,6 +31,12 @@
 		"streambuf": "c",
 		"tuple": "c",
 		"type_traits": "c",
-		"utility": "c"
+		"utility": "c",
+		"__functional_base": "c",
+		"chrono": "c",
+		"__memory": "c",
+		"limits": "c",
+		"ratio": "c",
+		"system_error": "c"
 	}
 }

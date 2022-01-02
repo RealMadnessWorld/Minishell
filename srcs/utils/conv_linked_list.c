@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   conv_linked_list.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 18:16:28 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 18:41:09 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 t_tokens	**conv_cmds(t_tokens *t, int nr_pipes)
@@ -79,4 +91,19 @@ char	**conv_env(t_envars *env)
 	}
 	str[i] = NULL;
 	return (str);
+}
+
+void	replace_env(t_envars *old, char **new)
+{
+	if (old->value)
+	{
+		free(old->value);
+		old->value = ft_strdup(new[1]);
+		if (new[0])
+			free(new[0]);
+		if (new[1])
+			free(new[1]);
+		free(new);
+		new = NULL;
+	}
 }

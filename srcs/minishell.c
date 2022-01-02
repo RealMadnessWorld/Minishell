@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:02:56 by fmeira            #+#    #+#             */
-/*   Updated: 2021/12/30 20:47:01 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 19:08:54 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	data_init(t_data *d)
 
 static int	skip_spaces_get_cmd(char **str)
 {
-	char 	*tmp;
+	char	*tmp;
 	char	*new;
 
 	tmp = *str;

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_tokens.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 16:38:02 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 16:39:11 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	set_fd_names(t_data *d, t_tokens *t)
 {
-	t_tokens *tmp;
+	t_tokens	*tmp;
 
 	tmp = t;
 	while (tmp && tmp->token != e_pipe)
@@ -14,7 +26,7 @@ int	set_fd_names(t_data *d, t_tokens *t)
 		}
 		else if (tmp->token == e_bigger)
 		{
-			if (!do_red_bigger(d,tmp))
+			if (!do_red_bigger(d, tmp))
 				return (0);
 		}
 		else if (tmp->token == e_double_smaller && d->fd.heredoc_count == 1)
@@ -32,7 +44,6 @@ int	set_fd_names(t_data *d, t_tokens *t)
 	d->fd.heredoc_count = 1;
 	return (1);
 }
-
 
 int	check_fd_already_redin(t_data *d)
 {
@@ -87,7 +98,6 @@ void	restart_fd(t_data *d)
 	close_start_fd(d);
 	if (d->fd.heredoc_fd != 0)
 	{
-		// free(d->fd.in_name);
 		d->fd.heredoc_fd = 0;
 		dup2(d->fd.in_original, 0);
 	}

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:57:56 by fmeira            #+#    #+#             */
-/*   Updated: 2021/12/30 18:58:31 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 18:27:17 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,3 @@ void	parse_envars(t_tokens *tkn_lst, t_envars *envars_lst)
 		curr = curr->next;
 	}
 }
-
-// int main(int ac, char **av, char **envp)
-// {
-// 	int			i = 1;
-// 	t_tokens	*first = malloc(sizeof(t_tokens));
-
-// 	g_data = malloc(sizeof(t_data));
-// 	g_data->envars_list = set_envars_list(envp);
-
-// 	first->str = ft_strdup("testing=working");
-// 	first->token = e_var;
-// 	parse_envars(first, g_data->envars_list);
-// 	do_export(g_data->envars_list, NULL);
-
-// 	return (0);
-// }

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 16:39:21 by fmeira            #+#    #+#             */
-/*   Updated: 2021/12/30 21:31:03 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 18:37:33 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ t_envars	*add_node(char **line);
 char		**set_line(char *envl);
 char		*get_env(t_envars *env, char *str);
 void		set_env(t_envars *env, char *key, char *value);
+void		replace_env(t_envars *old, char **new);
 
 /****************************\
 *		  	  Builtins		 *

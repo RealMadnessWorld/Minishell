@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 16:22:49 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 16:30:46 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	check_end(char *str, char aspas, int *quote_count, int *i)
@@ -105,47 +117,14 @@ int	handle_quotes(t_tokens *tkn_lst)
 			continue ;
 		}
 		else if (quotes == 1)
-			return ((printf("error: open quotes\n")));
+			return ((print_error(curr->str, ": error: open quotes\n")));
 		else if (quotes > 1)
 		{
 			new = clean_str(curr->str, quotes, &curr->token);
 			free(curr->str);
-			curr->str = NULL;
 			curr->str = new;
 		}
 		curr = curr->next;
 	}
 	return (0);
 }
-
-// int main(int ac, char **av)
-// {
-// 	t_tokens	*first = malloc(sizeof(t_tokens));
-// 	t_tokens	*second = malloc(sizeof(t_tokens));
-// 	t_tokens	*third = malloc(sizeof(t_tokens));
-// 	t_tokens	*curr = first;
-// 	int			i = 0;
-
-// 	first->str = ft_strdup("\"ola\'\'\"\'ad\"e\"u\"s\'");
-// 	second->str = ft_strdup("\"\"hey\"\"\"\" I am cool\"\"");
-// 	third->str = ft_strdup("\'testing\"\'whats\"up\"");
-// 	first->next = second;
-// 	second->next = third;
-// 	third->next = NULL;
-// 	handle_quotes(first);
-// 	while (curr)
-// 	{
-// 		printf("str\t%d = %s\n", i, curr->str);
-// 		printf("token\t%d = %d\n", i,  curr->token);
-// 		i++;
-// 		curr = curr->next;
-// 	}
-// 	curr = first;
-// 	while (curr)
-// 	{
-// 		free(curr->str);
-// 		free(curr);
-// 		curr = curr->next;
-// 	}
-// 	return (0);
-// }
