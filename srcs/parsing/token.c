@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 16:39:54 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 16:42:36 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	check_vars(t_tokens *t)
@@ -94,7 +106,6 @@ int	token_creater(t_data *d)
 	char		*str;
 
 	i = 0;
-	j = 0;
 	while (d->cmd.cmdline[i])
 	{
 		j = 0;
@@ -109,10 +120,10 @@ int	token_creater(t_data *d)
 	}
 	check_vars(d->t);
 	if (handle_quotes(d->t))
-		return (1);
+		return (everyone_be_freeee(d));
 	re_check_tokens(d->t);
 	if (!set_fd(d->t))
-		return (0);
+		return (everyone_be_freeee(d));
 	set_fd_names(d, d->t);
 	return (1);
 }

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 18:44:26 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 18:47:32 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	str_size(const char *str, char c)
 {
 	int	i;
-	int count;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -13,7 +25,6 @@ static int	str_size(const char *str, char c)
 			count++;
 		i++;
 	}
-	// printf("%i\n", count);
 	return (count);
 }
 
@@ -63,7 +74,7 @@ static int	split_str(const char *str, char c, int x, char **tmp)
 {
 	static int	i;
 	int			j;
-	int 		quotes;
+	int			quotes;
 
 	i = x;
 	j = 0;
@@ -100,7 +111,7 @@ void	split(char const *str, char c, t_cmd *d)
 	i = 0;
 	x = (split_counter(str, c) * 2);
 	d->cmdline = (char **)malloc(sizeof(char *) * x);
-	while(str[i])
+	while (str[i])
 	{
 		i = split_str(str, c, i, &tmp);
 		also_tmp = tmp;
@@ -108,10 +119,7 @@ void	split(char const *str, char c, t_cmd *d)
 		d->cmdline[d->i] = ft_strdup(tmp);
 		d->i++;
 		if (d->i != x - 1)
-		{
-			d->cmdline[d->i] = ft_strdup("|");
-			d->i++;
-		}
+			d->cmdline[d->i++] = ft_strdup("|");
 		free(also_tmp);
 		free(tmp);
 	}

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 14:50:17 by jarsenio          #+#    #+#             */
-/*   Updated: 2021/12/09 23:48:23 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 19:00:58 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,5 @@ char	*chk_img_path(char *path);
 int		random_num(int lower, int upper);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strjoin_path(char const *s1, char const *s2, char const *s3);
-
 
 #endif

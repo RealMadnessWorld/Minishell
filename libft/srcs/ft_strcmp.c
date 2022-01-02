@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 17:32:59 by fmeira            #+#    #+#             */
-/*   Updated: 2021/11/18 20:03:22 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/02 19:01:49 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,39 +33,3 @@ int	ft_strcmp(char *s1, char *s2)
 	else
 		return (*(unsigned char *)one - *(unsigned char *)two);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// int	ft_strcmp(char *newstr, char *original)
-// {
-// 	int	i;
-// 	int	len;
-
-// 	i = 0;
-// 	len = ft_strlen(original);
-// 	while (i < len)
-// 	{
-// 		if (original[i] != newstr[i])
-// 			return (0);
-// 		i++;
-// 	}
-// 	return (1);
-// }

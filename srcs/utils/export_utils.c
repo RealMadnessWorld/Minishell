@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 18:43:13 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 18:43:56 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	compare_sizes(char *s1, char *s2)
 {
-	int i = 0;
-	int count;
+	int	i;
+	int	count;
 
+	i = 0;
 	if (!s2)
 		return (0);
 	while (s1 && s1[i] == s2[i])
@@ -15,7 +28,7 @@ static int	compare_sizes(char *s1, char *s2)
 	return (count);
 }
 
-int		ordered(t_envars *t)
+int	ordered(t_envars *t)
 {
 	while (t)
 	{
@@ -61,7 +74,7 @@ void	print_export(t_envars *t)
 
 void	order(t_envars *t)
 {
-	t_envars *tmp;
+	t_envars	*tmp;
 
 	tmp = t;
 	while (!ordered(tmp))

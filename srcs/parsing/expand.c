@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 20:55:54 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 19:04:55 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	get_limits(char *str, int i)
@@ -59,24 +71,24 @@ static char	*remove_dollar_install_communism(char *str, int start, int end)
 	return (new);
 }
 
+	//LEAK: falta dar free a este itoa.
 char	*expand_dollar(t_data *data, char *str, int start, int end)
 {
 	char	*str_to_fit;
-	int		len;
 	char	*new;
 	int		i;
 	int		j;
 
-	if (!ft_isalnum(str[start + 2]))
-		str_to_fit = ft_itoa(g.g_status);
+	if (str[start + 1] == '?' && !ft_isalnum(str[start + 2]))
+		str_to_fit = ft_itoa(g_g.status);
 	else
 		str_to_fit = find_var(str, start, end, data);
-	i = -1;
 	j = -1;
 	if (str_to_fit)
 	{
-		len = ((ft_strlen(str) - (end - start)) + ft_strlen(str_to_fit));
-		new = ft_calloc(++len, sizeof(char));
+		i = ((ft_strlen(str) - (end - start)) + ft_strlen(str_to_fit));
+		new = ft_calloc(++i, sizeof(char));
+		i = -1;
 		while (++i < start)
 			new[i] = str[i];
 		while (++j < (int)ft_strlen(str_to_fit))
@@ -84,11 +96,9 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 		j = ++end;
 		while (j < (int)ft_strlen(str))
 			new[i++] = str[j++];
-		new[i] = '\0';
+		return (new);
 	}
-	else
-		new = remove_dollar_install_communism(str, start, end);
-	return (new);
+	return (new = remove_dollar_install_communism(str, start, end));
 }
 
 int	handle_dollar_sign(t_data *data)
@@ -110,8 +120,7 @@ int	handle_dollar_sign(t_data *data)
 						add(curr, expand_dollar(data, curr->str, i, (i + 1)));
 					else if (ft_isalnum(curr->str[i + 1]))
 						add(curr, expand_dollar(data, curr->str, i,
-						 get_limits(curr->str, i)));
-					i = -1;
+								get_limits(curr->str, i)));
 				}
 			}
 		}
@@ -119,48 +128,3 @@ int	handle_dollar_sign(t_data *data)
 	}
 	return (0);
 }
-
-// int main(int ac, char **av, char **envp)
-// {
-// 	t_data		*data = malloc(sizeof(t_data));
-// 	t_tokens	*first = malloc(sizeof(t_tokens));
-// 	t_tokens	*second = malloc(sizeof(t_tokens));
-// 	t_tokens	*third = malloc(sizeof(t_tokens));
-// 	t_tokens	*curr = first;
-// 	t_envars	*elist;
-// 	int			i = 0;
-
-// 	data->t = first;
-// 	data->envars_list = set_envars_list(envp);
-// 	elist = data->envars_list;
-
-// 	do_export(data->envars_list, "ola=adeus");
-// 	first->str = ft_strdup("principio $ola fim");
-// 	second->str = ft_strdup("$LOGNAM $SHELL $SHLVL cenas");
-// 	third->str = ft_strdup("cenas $SHLVL mais um sem $nada.");
-// 	first->next = second;
-// 	second->next = third;
-// 	third->next = NULL;
-
-// 	handle_dollar_sign(data);
-
-// 	// while (elist)
-// 	// {
-// 	// 	printf("%s%s\n", elist->key, elist->value);
-// 	// 	elist = elist->next;
-// 	// }
-// 	while (curr)
-// 	{
-// 		printf("str\t%d = %s\n", i, curr->str);
-// 		i++;
-// 		curr = curr->next;
-// 	}
-// 	curr = first;
-// 	while (curr)
-// 	{
-// 		free(curr->str);
-// 		free(curr);
-// 		curr = curr->next;
-// 	}
-// 	return (0);
-// }

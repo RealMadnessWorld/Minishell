@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 18:28:28 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 18:29:01 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	echo_fun(t_tokens *t)
@@ -13,10 +25,10 @@ int	echo_fun(t_tokens *t)
 			n = true;
 			t = t->next;
 		}
-		while(t)
+		while (t)
 		{
 			if (t->token == e_pipe || !redirections_tokens(t))
-				break;
+				break ;
 			ft_putstr_fd(t->str, 1);
 			if (t->next && t->next->token != e_pipe)
 				write(1, " ", 1);

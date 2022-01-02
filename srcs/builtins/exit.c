@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 18:30:02 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 21:27:58 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static long long	ft_stoi(char *str)
@@ -50,31 +62,48 @@ static int	not_int(char *s)
 	return (0);
 }
 
+int	throw_error(char *str, int err)
+{
+	if (err == 127)
+	{
+		print_error(str, ": command not found\n");
+		g_g.status = 127;
+		return (127);
+	}
+	if (err == 255)
+	{
+		print_error(str, ": numeric argument required\n");
+		g_g.status = 255;
+		return (255);
+	}
+	if (err == 1)
+	{
+		print_error(str, ": argument supplied is not valid\n");
+		g_g.status = 1;
+		return (1);
+	}
+	g_g.status = 1;
+	return (1);
+}
+
 void	exit_func(t_data *d, t_tokens *t)
 {
-	int exit_nbr;
+	int	exit_nbr;
 
 	exit_nbr = 0;
-	if (d->cmd.str != NULL)
+	if (d->cmd.str != NULL && t->next && t->next->str)
 	{
-		if (t->next)
+		if (not_int((t->next->str)))
+			exit_nbr = throw_error("exit", 255);
+		else if (t->next->next)
 		{
-			if (t->next->str)
-			{
-
-				if (not_int((t->next->str)))
-					exit_nbr = throw_error("exit", 255);
-				else if (t->next->next)
-				{
-					g.g_status = throw_error("exit", 1);
-					return ;
-				}
-				else if ((ft_atoi(t->next->str)) > 255)
-					exit_nbr = (ft_atoi(t->next->str)) % 255;
-				else
-					exit_nbr = ft_atoi(t->next->str);
-			}
+			g_g.status = throw_error("exit", 1);
+			return ;
 		}
+		else if ((ft_atoi(t->next->str)) > 255)
+			exit_nbr = (ft_atoi(t->next->str)) % 256;
+		else
+			exit_nbr = ft_atoi(t->next->str);
 		clear_history();
 	}
 	everyone_be_freeee(d);
@@ -84,7 +113,7 @@ void	exit_func(t_data *d, t_tokens *t)
 
 void	clear_paths(t_data *d)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (d->bin_paths[++i])

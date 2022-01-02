@@ -1,19 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 19:02:16 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 19:43:34 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-int	count_pipes(t_tokens *t)
+void	do_pipes(t_tokens **cmd_array, int nr_pipes, t_data *d)
 {
-	t_tokens	*curr;
-	int			i;
+	int	i;
 
-	curr = t;
-	i = 0;
-	while (curr)
+	i = -1;
+	if (nr_pipes == 1)
 	{
-		if (curr->token == e_pipe)
-			i++;
-		curr = curr->next;
+		while (++i <= nr_pipes)
+			exec_pipe(cmd_array[i], d, i);
 	}
-	return (i);
+	else
+	{
+		while (++i < (nr_pipes + 1))
+			exec_pipe(cmd_array[i], d, i);
+	}
+	unlink(".heredoc");
 }
 
 void	manage_input_output(int nr_pipes, int **pipe_fd, int pipe_pos)
@@ -56,4 +70,44 @@ void	close_pipes(int nr_pipes, int **pipe_fd, int pipe_pos)
 		if (close(pipe_fd[pipe_pos - 1][0]) == -1)
 			perror("close 3");
 	}
+}
+
+static int	exec_piped_cmd(t_data *d, t_tokens *t, int pipe_pos)
+{
+	pid_t	pid;
+	int		status;
+	int		ret;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		manage_input_output(d->nr_pipes, d->pipes, pipe_pos);
+		if (t->token == e_command)
+		{
+			ret = do_builtin(d, t);
+			restart_fd(d);
+			exit(ret * 256);
+		}
+		else
+			execve_handler(d, t);
+		exit(1);
+	}
+	waitpid(pid, &status, 0);
+	close_pipes(d->nr_pipes, d->pipes, pipe_pos);
+	if (WIFEXITED(status))
+		g_g.status = (WEXITSTATUS(status) / 256);
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (g_g.status);
+}
+
+void	exec_pipe(t_tokens *cmd, t_data *d, int i)
+{
+	if (only_redirs(cmd))
+	{
+		handle_fd(d, cmd);
+		restart_fd(d);
+		return ;
+	}
+	g_g.status = exec_piped_cmd(d, cmd, i);
 }

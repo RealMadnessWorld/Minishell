@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 17:08:29 by fmeira            #+#    #+#             */
+/*   Updated: 2021/12/30 18:14:42 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TOKENS_H
 # define TOKENS_H
 
 # include "minishell.h"
-# include "structs.h"
 
-typedef enum	s_token
+typedef enum s_token
 {
 	e_command,
 	e_pipe,
@@ -22,12 +33,12 @@ typedef enum	s_token
 	e_cd_path,
 	e_fd,
 	is_nothing
-}			e_token;
+}			t_token;
 
-typedef struct	s_tokens
+typedef struct s_tokens
 {
 	char			*str;
-	e_token			token;
+	t_token			token;
 	struct s_tokens	*next;
 }			t_tokens;
 

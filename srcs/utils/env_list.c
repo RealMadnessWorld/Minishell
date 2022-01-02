@@ -1,26 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_list.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 18:16:42 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 18:37:59 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-t_envars *add_node(char **line)
+t_envars	*add_node(char **line)
 {
-	t_envars *node;
+	t_envars	*node;
 
 	node = (t_envars *)malloc(sizeof(t_envars));
 	if (line)
 	{
-			node->key = ft_strdup(line[0]);
-			if (line[1])
-				node->value = ft_strdup(line[1]);
-			else
-				node->value = NULL;
-			node->next = NULL;
-			free(line[0]);
-			line[0] = NULL;
-			free(line[1]);
-			line[1] = NULL;
-			if (line[2])
-				free(line[2]);
-			free(line);
-			line = NULL;
+		node->key = ft_strdup(line[0]);
+		if (line[1])
+			node->value = ft_strdup(line[1]);
+		else
+			node->value = NULL;
+		node->next = NULL;
+		free(line[0]);
+		line[0] = NULL;
+		free(line[1]);
+		line[1] = NULL;
+		if (line[2])
+			free(line[2]);
+		free(line);
+		line = NULL;
 	}
 	return (node);
 }
@@ -72,13 +84,10 @@ t_envars	*set_envars_list(char **envp)
 		curr = add_node(line);
 		prev->next = curr;
 	}
-	// i = -1;
-	// while (line[++i])
-	// 	free(line[i]);
 	return (list);
 }
 
-char		*get_env(t_envars *env, char *str)
+char	*get_env(t_envars *env, char *str)
 {
 	t_envars	*curr;
 
@@ -99,7 +108,7 @@ char		*get_env(t_envars *env, char *str)
 	return (NULL);
 }
 
-void		set_env(t_envars *env, char *key, char *value)
+void	set_env(t_envars *env, char *key, char *value)
 {
 	t_envars	*curr;
 	char		**to_add;
@@ -115,15 +124,7 @@ void		set_env(t_envars *env, char *key, char *value)
 	{
 		if (ft_strcmp(key, curr->key) == 0)
 		{
-			if (curr->value)
-				free(curr->value);
-			curr->value = ft_strdup(value);
-			if (to_add[0])
-				free(to_add[0]);
-			if (to_add[1])
-				free(to_add[1]);
-			free(to_add);
-			to_add = NULL;
+			replace_env(curr, to_add);
 			return ;
 		}
 		else if (curr->next == NULL)

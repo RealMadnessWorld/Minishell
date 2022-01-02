@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/02 18:44:12 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 18:44:12 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	be_free_my_child(t_tokens *lst)
@@ -61,7 +73,7 @@ int	everyone_be_freeee(t_data *d)
 		free(d->fd.out_name);
 		d->fd.out_name = NULL;
 	}
-	return (1);
+	return (0);
 }
 
 void	free_envars_list(t_envars *env)

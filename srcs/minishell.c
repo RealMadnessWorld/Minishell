@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 19:02:56 by fmeira            #+#    #+#             */
+/*   Updated: 2022/01/02 19:08:54 by fmeira           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static void	data_init(t_data *d);
 static int	skip_spaces_get_cmd(char **str);
 static int	free_on_if(char *str);
+static void	executor(t_data *d, t_tokens *t);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -50,12 +63,12 @@ static void	data_init(t_data *d)
 	d->fd.append = 0;
 	d->fd.heredoc_count = 0;
 	d->fd.heredoc_fd = 0;
-	g.child = 0;
+	g_g.child = 0;
 }
 
 static int	skip_spaces_get_cmd(char **str)
 {
-	char 	*tmp;
+	char	*tmp;
 	char	*new;
 
 	tmp = *str;
@@ -79,4 +92,24 @@ static int	free_on_if(char *str)
 	if (str)
 		free(str);
 	return (1);
+}
+
+static void	executor(t_data *d, t_tokens *t)
+{
+	int			i;
+	char		*tmp;
+
+	i = -1;
+	tmp = get_env(d->envars_list, "PATH");
+	d->bin_paths = ft_split(tmp, ':');
+	free(tmp);
+	d->nr_pipes = count_pipes(t);
+	if (t->token == e_var)
+		do_export(d->envars_list, t->str);
+	else if (!commands_tokens(t))
+		return ;
+	else if (d->nr_pipes > 0)
+		ft_pipes(d, t);
+	else
+		exec_cmd(d, t);
 }
