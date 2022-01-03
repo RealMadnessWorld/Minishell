@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 20:55:54 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 19:04:55 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 00:10:41 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static char	*remove_dollar_install_communism(char *str, int start, int end)
 	return (new);
 }
 
-	//LEAK: falta dar free a este itoa.
 char	*expand_dollar(t_data *data, char *str, int start, int end)
 {
 	char	*str_to_fit;
@@ -80,9 +79,8 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 	int		j;
 
 	if (str[start + 1] == '?' && !ft_isalnum(str[start + 2]))
-		str_to_fit = ft_itoa(g_g.status);
-	else
-		str_to_fit = find_var(str, start, end, data);
+		return (expand_exit_status(str, start, end));
+	str_to_fit = find_var(str, start, end, data);
 	j = -1;
 	if (str_to_fit)
 	{
@@ -98,7 +96,7 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 			new[i++] = str[j++];
 		return (new);
 	}
-	return (new = remove_dollar_install_communism(str, start, end));
+	return (remove_dollar_install_communism(str, start, end));
 }
 
 int	handle_dollar_sign(t_data *data)

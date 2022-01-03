@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:41:43 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 18:42:43 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 00:10:42 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,30 @@ void	env_add_lst(t_envars **t, t_envars *new)
 		return ;
 	}
 	tmp->next = new;
+}
+
+char	*expand_exit_status(char *str, int start, int end)
+{
+	char	*str_to_fit;
+	char	*new;
+	int		i;
+	int		j;
+
+	str_to_fit = ft_itoa(g_g.status);
+	j = -1;
+	i = ((ft_strlen(str) - (end - start)) + ft_strlen(str_to_fit));
+	new = ft_calloc(++i, sizeof(char));
+	i = -1;
+	while (++i < start)
+		new[i] = str[i];
+	while (++j < (int)ft_strlen(str_to_fit))
+		new[i++] = str_to_fit[j];
+	j = ++end;
+	while (j < (int)ft_strlen(str))
+		new[i++] = str[j++];
+	free(str_to_fit);
+	str_to_fit = ft_strdup(new);
+	free(new);
+	new = NULL;
+	return (str_to_fit);
 }

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 16:39:21 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 18:37:33 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 00:03:11 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ typedef struct s_cmd
 	char			**cmdline;
 	char			*str;
 	int				i;
-} t_cmd;
+}			t_cmd;
 
-typedef	struct s_envars
+typedef struct s_envars
 {
 	char			*key;
 	char			*value;
@@ -161,7 +161,7 @@ void		close_start_fd(t_data *d);
 \****************************/
 void		delete(t_envars *node);
 int			error_zero(char *error);
-void		do_i_have_signal();
+void		do_i_have_signal(void);
 char		**conv_tokens(t_tokens *t);
 char		**conv_env(t_envars *t);
 t_tokens	**conv_cmds(t_tokens *t, int nr_pipes);
@@ -226,6 +226,7 @@ char		*allocate(char *str, int quotes, t_token *token);
 int			handle_dollar_sign(t_data *data);
 char		*expand_dollar(t_data *data, char *str, int start, int end);
 char		*find_var(char *str, int start, int end, t_data *data);
+char		*expand_exit_status(char *str, int start, int end);
 
 /****************************\
 *		   Debbuging		 *
