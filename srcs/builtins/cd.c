@@ -6,18 +6,18 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:19:27 by fmeira            #+#    #+#             */
-/*   Updated: 2021/12/30 18:27:56 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:16:09 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*update_home(t_envars *env, char *path)
+char	*update_home(t_envars *env, char *path)
 {
 	char		*tmp;
 	char		*tmp2;
 
-	if (!ft_strncmp(path, "~/", 2))
+	if (!ft_strncmp(path, "~/", 2) || (*path == '~' && (ft_strlen(path) == 1)))
 	{
 		tmp = get_env(env, "HOME");
 		if (tmp)

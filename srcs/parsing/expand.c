@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 20:55:54 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/03 00:10:41 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:16:08 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*expand_dollar(t_data *data, char *str, int start, int end)
 	return (remove_dollar_install_communism(str, start, end));
 }
 
-int	handle_dollar_sign(t_data *data)
+void	handle_dollar_sign(t_data *data)
 {
 	t_tokens	*curr;
 	int			i;
@@ -110,6 +110,8 @@ int	handle_dollar_sign(t_data *data)
 		i = -1;
 		if (curr->token != e_single_quotes)
 		{
+			if (curr->token != e_quotes)
+				curr->str = update_home(data->envars_list, curr->str);
 			while (curr->str[++i])
 			{
 				if (curr->str[i] == '$')
@@ -124,5 +126,5 @@ int	handle_dollar_sign(t_data *data)
 		}
 		curr = curr->next;
 	}
-	return (0);
 }
+

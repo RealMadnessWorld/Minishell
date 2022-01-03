@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 16:39:21 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/03 00:03:11 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:16:01 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int			throw_error(char *str, int err);
 t_envars	*copy_envars(t_envars *t);
 int			print_error(char *str, char *errmsg);
 void		delete_x(t_exec	*x);
+char		*update_home(t_envars *env, char *path);
 
 /****************************\
 *		  	 Free			 *
@@ -223,7 +224,7 @@ char		*allocate(char *str, int quotes, t_token *token);
 /****************************\
 *		  	$$$$$$			 *
 \****************************/
-int			handle_dollar_sign(t_data *data);
+void		handle_dollar_sign(t_data *data);
 char		*expand_dollar(t_data *data, char *str, int start, int end);
 char		*find_var(char *str, int start, int end, t_data *data);
 char		*expand_exit_status(char *str, int start, int end);

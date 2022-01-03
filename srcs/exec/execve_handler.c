@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:02:53 by fmeira            #+#    #+#             */
-/*   Updated: 2021/12/30 21:31:16 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 18:50:35 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,9 @@ static void	handle_execve_redir(t_data *d, t_tokens *t, t_exec *x)
 void	execve_handler(t_data *d, t_tokens *t)
 {
 	t_exec	*x;
+	int		i;
 
+	i = 0;
 	if (!d->bin_paths || !(ft_strncmp(t->str, "/bin/ls/", 8)))
 	{
 		print_error(NULL, "No such file or directory\n");
