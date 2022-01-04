@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 20:55:54 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/03 20:16:08 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:31:40 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,3 @@ void	handle_dollar_sign(t_data *data)
 		curr = curr->next;
 	}
 }
-
