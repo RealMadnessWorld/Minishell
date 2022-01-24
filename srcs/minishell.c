@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		data_init(&data);
-		data.cmd.str = readline(CLR_MGT"💀 What are your orders captain? "CLR_RST);
+		data.cmd.str = readline(CLR_MGT"💀 What be yer orders Cap'n? "CLR_RST);
 		if (data.cmd.str == NULL)
 			exit_func(&data, data.t);
 		if (*data.cmd.str == ' ' && skip_spaces_get_cmd(&(data.cmd.str)))

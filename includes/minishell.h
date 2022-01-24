@@ -114,6 +114,7 @@ int			commands_tokens(t_tokens *t);
 int			cd_parser(t_tokens *t);
 int			echo_parser(t_tokens *t);
 int			set_fd(t_tokens *tmp);
+int			set_tokens(t_data *d, t_tokens	*t);
 
 /****************************\
 *			Execute			 *

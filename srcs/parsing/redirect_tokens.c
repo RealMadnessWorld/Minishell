@@ -19,26 +19,8 @@ int	set_fd_names(t_data *d, t_tokens *t)
 	tmp = t;
 	while (tmp && tmp->token != e_pipe)
 	{
-		if (tmp->token == e_smaller)
-		{
-			if (!do_red_smaller(d, tmp))
-				return (0);
-		}
-		else if (tmp->token == e_bigger)
-		{
-			if (!do_red_bigger(d, tmp))
-				return (0);
-		}
-		else if (tmp->token == e_double_smaller && d->fd.heredoc_count == 1)
-		{
-			if (!do_red_weirdoc(d, tmp))
-				return (0);
-		}
-		else if (tmp->token == e_double_bigger)
-		{
-			if (!do_red_append(d, tmp))
-				return (0);
-		}
+		if (!set_tokens(d, tmp))
+			return (0);
 		tmp = tmp->next;
 	}
 	d->fd.heredoc_count = 1;

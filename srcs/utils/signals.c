@@ -12,14 +12,16 @@
 
 #include "../../includes/minishell.h"
 
-static void	deal_in_child()
+static void	deal_in_child(int sig)
 {
+	sig = 130;
 	if (g_g.child == 0)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_g.status = sig;
 	}
 	return ;
 }
