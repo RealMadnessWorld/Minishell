@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:16:42 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 18:37:59 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:56:18 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 t_envars	*add_node(char **line)
 {
 	t_envars	*node;
+	int			i;
 
+	i = 1;
 	node = (t_envars *)malloc(sizeof(t_envars));
 	if (line)
 	{
@@ -27,12 +29,11 @@ t_envars	*add_node(char **line)
 		node->next = NULL;
 		free(line[0]);
 		line[0] = NULL;
-		free(line[1]);
-		line[1] = NULL;
-		if (line[2])
-			free(line[2]);
-		free(line);
-		line = NULL;
+		while (line[i])
+		{
+			free(line[i]);
+			line[i++] = NULL;
+		}
 	}
 	return (node);
 }
