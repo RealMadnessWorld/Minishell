@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:30:02 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/24 22:16:13 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/24 22:47:34 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	exit_func(t_data *d, t_tokens *t)
 	{
 		if (not_int((t->next->str)))
 			exit_nbr = throw_error("exit", 255);
-		else if (t->next->next)
+		else if (t->next->next && *t->next->next->str != '|')
 		{
 			g_g.status = throw_error("exit", 1);
 			return ;
