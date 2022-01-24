@@ -26,9 +26,15 @@ static void	deal_in_child(int sig)
 	return ;
 }
 
+static void	ignore(int dummy)
+{
+	dummy = g_g.status;
+	g_g.status = dummy;
+}
+
 void	do_i_have_signal(void)
 {
 	signal(SIGINT, &deal_in_child);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, &ignore);
 	return ;
 }
