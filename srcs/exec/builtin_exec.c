@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:59:33 by fmeira            #+#    #+#             */
-/*   Updated: 2021/12/30 19:03:35 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 00:50:02 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,20 @@ int	do_builtin(t_data *d, t_tokens *t)
 	if (ft_strcmp(t->str, "exit") == 0)
 		exit_func(d, t);
 	return (1);
+}
+
+void	free_dbl_str(char **line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		free(line[i]);
+		line[i++] = NULL;
+	}
+	free(line[i]);
+	line[i] = NULL;
+	free(line);
+	line = NULL;
 }

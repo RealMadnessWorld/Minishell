@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:57:56 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 18:27:17 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 00:49:36 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,20 @@
 static int	empty_export(t_envars *lst)
 {
 	t_envars	*copy;
+	t_envars	*last;
 
 	copy = copy_envars(lst);
 	while (!ordered(copy))
 		order(copy);
 	print_export(copy);
-	free(copy);
-	copy = NULL;
+	while (copy)
+	{
+		last = copy;
+		copy = copy->next;
+		if (last)
+			free(last);
+		last = NULL;
+	}
 	return (0);
 }
 
@@ -38,12 +45,15 @@ int	exp_keyvalue(t_envars *lst, char **new)
 		{
 			if (curr->value)
 				free(curr->value);
-			curr->value = new[1];
-			free(new[0]);
+			curr->value = ft_strdup(new[1]);
+			free_dbl_str(new);
 			return (0);
 		}
 		else if (!(ft_strcmp(curr->key, new[0])) && new[1] == NULL)
+		{
+			free_dbl_str(new);
 			return (0);
+		}
 		prev = curr;
 		curr = curr->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 16:39:21 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/03 20:16:01 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 00:47:13 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ t_envars	*copy_envars(t_envars *t);
 int			print_error(char *str, char *errmsg);
 void		delete_x(t_exec	*x);
 char		*update_home(t_envars *env, char *path);
+void		free_dbl_str(char **line);
 
 /****************************\
 *		  	 Free			 *
