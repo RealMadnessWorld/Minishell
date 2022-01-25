@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:59:33 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/25 17:59:44 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:04:02 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void	free_dbl_str(char **line)
 	line = NULL;
 }
 
-
-void handle_plus(t_tokens *t)
+void	handle_plus(t_tokens *t)
 {
 	char	*new;
 

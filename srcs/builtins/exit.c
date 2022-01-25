@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:30:02 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/25 17:52:35 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:03:47 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,6 @@ int	throw_error(char *str, int err)
 	}
 	g_g.status = 1;
 	return (1);
-}
-
-void handle_plus(t_tokens *t)
-{
-	char	*new;
-
-	if (t->next && t->next->str)
-	{
-		if (!not_int(t->next->str + 1) && *t->next->str == '+')
-		{
-			new = ft_strdup(t->next->str + 1);
-			free(t->next->str);
-			t->next->str = new;
-		}
-	}
 }
 
 void	exit_func(t_data *d, t_tokens *t)
