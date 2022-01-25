@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:30:02 by fmeira            #+#    #+#             */
-/*   Updated: 2021/12/30 21:27:58 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:03:47 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,22 @@ static int	not_int(char *s)
 	long long	check_size;
 	long long	max_int;
 
-	i = 0;
-	len = ft_strlen(s);
-	tmp = s;
-	check_size = ft_stoi(tmp);
-	max_int = 2147483647;
-	if (check_size > max_int)
-		return (1);
-	if (s[i] == '-' && ft_isdigit(s[1]))
-		i++;
-	while (i < len)
+	if (s && *s)
 	{
-		if (!(ft_isdigit(s[i++])))
+		i = 0;
+		len = ft_strlen(s);
+		tmp = s;
+		check_size = ft_stoi(tmp);
+		max_int = 2147483647;
+		if (check_size > max_int)
 			return (1);
+		if (s[i] == '-' && ft_isdigit(s[1]))
+			i++;
+		while (i < len)
+		{
+			if (!(ft_isdigit(s[i++])))
+				return (1);
+		}
 	}
 	return (0);
 }
@@ -88,14 +91,15 @@ int	throw_error(char *str, int err)
 
 void	exit_func(t_data *d, t_tokens *t)
 {
-	int	exit_nbr;
+	int		exit_nbr;
 
 	exit_nbr = 0;
-	if (d->cmd.str != NULL && t->next && t->next->str)
+	handle_plus(t);
+	if (d->cmd.str != NULL && t->next && t->next->str && *t->next->str != '|')
 	{
 		if (not_int((t->next->str)))
 			exit_nbr = throw_error("exit", 255);
-		else if (t->next->next)
+		else if (t->next->next && *t->next->next->str != '|')
 		{
 			g_g.status = throw_error("exit", 1);
 			return ;

@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:44:12 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/02 18:44:12 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:00:37 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,11 @@ void	free_envars_list(t_envars *env)
 			if (last->value)
 				free(last->value);
 			curr = curr->next;
-			free(last);
+			if (last)
+				free(last);
 			last = NULL;
 		}
 	}
-	free(env);
-	env = NULL;
 }
 
 void	free_pipes(t_data *d)
