@@ -34,6 +34,7 @@ typedef struct s_global
 {
 	int				status;
 	int				child;
+	int				echo;
 }			t_g;
 
 typedef struct s_cmd

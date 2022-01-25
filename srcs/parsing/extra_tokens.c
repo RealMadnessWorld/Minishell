@@ -82,19 +82,20 @@ int	echo_parser(t_tokens *t)
 int	commands_tokens(t_tokens *t)
 {
 	t_tokens	*tmp;
-	char		*arsenio;
 
 	tmp = t;
-	arsenio = CLR_RED"What am I? A mind reader? 👿"CLR_RST;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->str, "echo") == 0)
 		{
 			if (tmp->next == NULL)
-				return (error_zero(arsenio));
+			{
+				g_g.echo = 1;
+				return (1);
+			}
 			tmp = tmp->next;
 			if (!echo_parser(tmp))
-				return (error_zero(arsenio));
+				return (0);
 		}
 		tmp = tmp->next;
 	}

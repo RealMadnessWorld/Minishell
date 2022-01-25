@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	echo_fun(t_tokens *t)
+static bool	do_the_echo(t_tokens *t)
 {
 	bool	n;
 
@@ -35,6 +35,16 @@ int	echo_fun(t_tokens *t)
 			t = t->next;
 		}
 	}
+	return (n);
+}
+
+int	echo_fun(t_tokens *t)
+{
+	bool	n;
+
+	n = false;
+	if (g_g.echo == 0)
+		n = do_the_echo(t);
 	if (n == false)
 		write(1, "\n", 1);
 	return (0);
