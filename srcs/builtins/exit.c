@@ -37,7 +37,7 @@ static long long	ft_stoi(char *str)
 	return (result);
 }
 
-static int	not_int(char *s)
+int	not_int(char *s)
 {
 	int			i;
 	int			len;

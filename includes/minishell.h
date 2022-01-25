@@ -182,6 +182,7 @@ void		delete_x(t_exec	*x);
 char		*update_home(t_envars *env, char *path);
 void		free_dbl_str(char **line);
 void		handle_plus(t_tokens *t);
+int			not_int(char *s);
 
 /****************************\
 *		  	 Free			 *
