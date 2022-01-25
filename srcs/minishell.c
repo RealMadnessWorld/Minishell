@@ -64,6 +64,7 @@ static void	data_init(t_data *d)
 	d->fd.heredoc_count = 0;
 	d->fd.heredoc_fd = 0;
 	g_g.child = 0;
+	g_g.echo = 0;
 }
 
 static int	skip_spaces_get_cmd(char **str)
