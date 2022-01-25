@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 18:30:02 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/25 18:03:47 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 19:44:11 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static long long	ft_stoi(char *str)
 	return (result);
 }
 
-static int	not_int(char *s)
+int	not_int(char *s)
 {
 	int			i;
 	int			len;

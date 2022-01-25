@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 20:55:54 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/03 20:31:40 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 20:02:35 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	get_limits(char *str, int i)
 	tmp = str;
 	while (tmp[++i])
 	{
-		if (!(ft_isalnum(tmp[i + 1])))
+		if (!(ft_isprint(tmp[i + 1])))
 			return (i);
 	}
 	return (--i);

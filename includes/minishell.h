@@ -6,7 +6,7 @@
 /*   By: fmeira <fmeira@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 16:39:21 by fmeira            #+#    #+#             */
-/*   Updated: 2022/01/25 17:58:40 by fmeira           ###   ########.fr       */
+/*   Updated: 2022/01/25 19:44:09 by fmeira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ void		delete_x(t_exec	*x);
 char		*update_home(t_envars *env, char *path);
 void		free_dbl_str(char **line);
 void		handle_plus(t_tokens *t);
+int			not_int(char *s);
 
 /****************************\
 *		  	 Free			 *
