@@ -1,4 +1,5 @@
 # Minishell
+![42_logo](https://user-images.githubusercontent.com/76601093/194141661-6372bc11-7d3a-4cae-ab18-4ed732cddc9a.jpg)
 
 As beautiful as shell
 
