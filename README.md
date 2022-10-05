@@ -15,7 +15,7 @@ Development team:
 ## Usage
 ### Build Instructions
 
-	$ git clone https://github.com/coderMeira/Minishell/
+	$ git clone git@github.com:RealMadnessWorld/Minishell.git
 	$ cd Minishell
 	$ make
 	$ ./minishell
