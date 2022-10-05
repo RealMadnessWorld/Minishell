@@ -10,12 +10,12 @@ In this very simple version, some of the features of a shell were implemented as
 The main goal is to have a good understanding of processes and learn more about file descriptors.
 
 Development team:
-  - [Fred](https://github.com/coderMeira/Minishell/commits?author=co) - fmeira       
+  - [Fred](https://github.com/coderMeira) - fmeira       
   - [Arsénio](https://github.com/RealMadnessWorld) - jarsenio
 ## Usage
 ### Build Instructions
 
-	$ git clone git@github.com:RealMadnessWorld/Minishell.git
+	$ git clone https://github.com/RealMadnessWorld/Minishell.git
 	$ cd Minishell
 	$ make
 	$ ./minishell
