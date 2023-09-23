@@ -1,18 +1,35 @@
-# Minishell
-![42_logo](https://user-images.githubusercontent.com/76601093/194141661-6372bc11-7d3a-4cae-ab18-4ed732cddc9a.jpg)
+<div align=center>
+  <h1>
+    Minishell
+  </h1>
+<img src="https://github.com/devicons/devicon/blob/master/icons/c/c-plain.svg" title="C" alt="C" width="60" height="60" align="right"/>
 
-As beautiful as shell
+>> As beautiful as shell
+</div>
 
-## Introduction
+---
 
-The aim of the project is to recreate a linux terminal from scratch using C programmming language.
-In this very simple version, some of the features of a shell were implemented as environment variables, pipes and redirections.
+<h2 align=center>
+	Description
+</h2>
+
+The aim of the project is to recreate a linux terminal from scratch using C programmming language.<br>
+In this very simple version, some of the features of a shell were implemented as environment variables, pipes and redirections.<br>
 The main goal is to have a good understanding of processes and learn more about file descriptors.
 
-Development team:
+<h4>
+	Development team:
+</h4>
+  
   - [Fred](https://github.com/coderMeira) - fmeira       
   - [Arsénio](https://github.com/RealMadnessWorld) - jarsenio
-## Usage
+
+---
+
+<h2 align=center>
+	How to run
+</h2>
+
 ### Build Instructions
 
 	$ git clone https://github.com/RealMadnessWorld/Minishell.git
@@ -24,7 +41,7 @@ Development team:
 
 	$ ./minishell
 
-## Functions
+## Features
 
 - Show a prompt when waiting for a new command
 - Navigate through command history using up ```↑``` and down ```↓``` arrows
@@ -42,3 +59,10 @@ Development team:
 - Redirections ```<```, ```>```, ```>>```
 - ```ctrl-C```, ```ctrl-D``` and ```ctrl-\``` signals must be handled
 - ```$?``` it should work like in bash.
+
+---
+
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/76601093/193692098-d4b16956-1dab-40b8-9aae-31b254efc5ee.jpg" width=340> <img src="https://github.com/RealMadnessWorld/Minishell/assets/76601093/df2cfc5d-775e-4f21-9da0-7f010bc29c50">
+
+</div>
